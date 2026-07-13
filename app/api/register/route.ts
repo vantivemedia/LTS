@@ -51,6 +51,14 @@ export async function POST(request: Request) {
         amount,
         status: "pending_payment"
       }); // registrations テーブルがない場合は無視する
+
+      await supabaseServer.from("analytics_events").insert({
+        event_type: "form_submit",
+        page: "/register",
+        label: "register",
+        session_id: "server",
+        metadata: { type },
+      });
     }
 
     // 2. Resend で自動返信メール (Invoice)

@@ -66,6 +66,14 @@ export async function POST(request: Request) {
       message: isPassHolder ? "PASS USAGE" : program === "private" ? null : "DROP-IN",
     });
 
+    await supabase.from("analytics_events").insert({
+      event_type: "form_submit",
+      page: "/book",
+      label: "book_session",
+      session_id: "server",
+      metadata: { program, isPassHolder },
+    });
+
     if (!process.env.RESEND_API_KEY) {
       return NextResponse.json({ success: true });
     }

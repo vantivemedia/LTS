@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 type PackageType = "weekend-1" | "weekend-2" | "both";
 
@@ -361,7 +362,7 @@ export default function CampPage() {
                     <p className="text-[9px] font-black uppercase tracking-widest text-white/80">
                       Register before
                     </p>
-                    <p className="text-xs font-black tabular-nums text-white/80">
+                    <p className="text-xs font-black tabular-nums text-white/80" suppressHydrationWarning>
                       {formatCountdown(timeLeft)}
                     </p>
                   </div>
@@ -380,7 +381,11 @@ export default function CampPage() {
               <button
                 type="button"
                 disabled={p.soldOut}
-                onClick={() => !p.soldOut && setPkg(p.id)}
+                onClick={() => {
+                  if (p.soldOut) return;
+                  setPkg(p.id);
+                  trackEvent("button_click", "/camp", `select_package_${p.id}`);
+                }}
                 className="w-full text-left p-5 rounded-2xl border transition-all disabled:cursor-not-allowed"
                 style={
                   p.soldOut
@@ -429,7 +434,10 @@ export default function CampPage() {
 
             <button
               type="button"
-              onClick={() => setStep(2)}
+              onClick={() => {
+                setStep(2);
+                trackEvent("button_click", "/camp", "camp_continue", { package: pkg });
+              }}
               className="w-full font-black py-5 rounded-2xl flex items-center justify-center gap-2 mt-4 disabled:opacity-30"
               style={{ background: BLUE, color: BG }}
             >
@@ -478,7 +486,7 @@ export default function CampPage() {
                 <p className="text-[9px] font-black uppercase tracking-widest text-white/80">
                   Register before
                 </p>
-                <p className="text-xs font-black tabular-nums text-white/80">
+                <p className="text-xs font-black tabular-nums text-white/80" suppressHydrationWarning>
                   {formatCountdown(timeLeft)}
                 </p>
               </div>

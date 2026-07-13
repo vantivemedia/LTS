@@ -8,6 +8,7 @@ import { Anton, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 // ── SEO ──────────────────────────────────────────────────────
 export const metadata: Metadata = {
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${anton.variable} ${inter.variable}`} suppressHydrationWarning>
       <body className="min-h-screen flex flex-col bg-[#000000] text-white" suppressHydrationWarning>
+        <AnalyticsTracker />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

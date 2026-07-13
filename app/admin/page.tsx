@@ -24,6 +24,9 @@ import {
   TrendingUp,
   Plus,
   Trash2,
+  Eye,
+  MousePointerClick,
+  Send,
 } from "lucide-react";
 
 // ── 管理者パスワード (MVP用) ──────────────────────────────────
@@ -105,7 +108,7 @@ function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
 // ── ダッシュボード ────────────────────────────────────────────
 
 function Dashboard() {
-  const [activeTab, setActiveTab] = useState<"bookings" | "passes" | "camp" | "college" | "schedule">("bookings");
+  const [activeTab, setActiveTab] = useState<"bookings" | "passes" | "camp" | "college" | "schedule" | "analytics">("bookings");
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] pt-24 pb-16">
@@ -158,6 +161,13 @@ function Dashboard() {
             >
               Schedule
             </button>
+            <button
+              onClick={() => setActiveTab("analytics")}
+              className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all whitespace-nowrap ${activeTab === "analytics" ? "bg-[#F97316] text-white shadow-lg" : "text-white/50 hover:text-white"
+                }`}
+            >
+              Analytics
+            </button>
           </div>
         </div>
 
@@ -166,6 +176,7 @@ function Dashboard() {
         {activeTab === "camp" && <CampTab />}
         {activeTab === "college" && <BookingsTab type="college" />}
         {activeTab === "schedule" && <ScheduleTab />}
+        {activeTab === "analytics" && <AnalyticsTab />}
       </div>
     </div>
   );
@@ -1056,6 +1067,159 @@ function PassHoldersTab() {
               </div>
             );
           })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Analytics Tab ────────────────────────────────────────────────
+
+type AnalyticsEvent = {
+  id: string;
+  created_at: string;
+  event_type: "page_view" | "button_click" | "form_submit";
+  page: string;
+  label: string | null;
+  session_id: string;
+};
+
+function AnalyticsTab() {
+  const [events, setEvents] = useState<AnalyticsEvent[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+
+  async function fetchEvents() {
+    setLoading(true);
+    setFetchError(null);
+    try {
+      const res = await fetch(`/api/analytics?password=${ADMIN_PASSWORD}`);
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Failed to load analytics");
+      setEvents(json.data || []);
+    } catch (err: any) {
+      setFetchError(err.message || "Failed to load analytics");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => { fetchEvents(); }, []);
+
+  const stats = useMemo(() => {
+    const pageViews = events.filter((e) => e.event_type === "page_view");
+    const clicks = events.filter((e) => e.event_type === "button_click");
+    const submits = events.filter((e) => e.event_type === "form_submit");
+    const uniqueSessions = new Set(events.map((e) => e.session_id)).size;
+
+    const groupCount = (list: AnalyticsEvent[], key: "page" | "label") => {
+      const counts = new Map<string, number>();
+      list.forEach((e) => {
+        const k = (key === "page" ? e.page : e.label) || "—";
+        counts.set(k, (counts.get(k) || 0) + 1);
+      });
+      return Array.from(counts.entries())
+        .map(([k, count]) => ({ key: k, count }))
+        .sort((a, b) => b.count - a.count);
+    };
+
+    const campViews = pageViews.filter((e) => e.page === "/camp").length;
+    const campContinue = clicks.filter((e) => e.label === "camp_continue").length;
+    const campSubmits = submits.filter((e) => e.label === "camp_registration").length;
+
+    return {
+      totalPageViews: pageViews.length,
+      uniqueSessions,
+      totalClicks: clicks.length,
+      totalSubmits: submits.length,
+      pagesByViews: groupCount(pageViews, "page"),
+      clicksByLabel: groupCount(clicks, "label"),
+      submitsByPage: groupCount(submits, "page"),
+      campFunnel: { campViews, campContinue, campSubmits },
+    };
+  }, [events]);
+
+  if (loading) {
+    return (
+      <div className="py-20 flex justify-center">
+        <span className="w-8 h-8 border-2 border-[#F97316]/30 border-t-[#F97316] rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-2xl font-black uppercase mb-1">Site Analytics</h2>
+          <p className="text-white/40 text-sm">Page views, button clicks, and form submissions across the site.</p>
+        </div>
+        <button onClick={fetchEvents} className="flex items-center gap-2 text-xs font-bold text-white/50 hover:text-white transition-all uppercase px-4 py-2 border border-white/10 rounded-xl hover:border-white/30">
+          <RefreshCw className="w-3 h-3" /> Refresh
+        </button>
+      </div>
+
+      {fetchError && (
+        <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold px-5 py-4 rounded-2xl flex items-center justify-between mb-6">
+          <span>{fetchError}</span>
+          <button onClick={fetchEvents} className="text-xs underline opacity-70 hover:opacity-100">Retry</button>
+        </div>
+      )}
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <StatCard icon={Eye} label="Page Views" value={stats.totalPageViews} color="text-white" bg="bg-white/5" />
+        <StatCard icon={Users} label="Unique Visitors" value={stats.uniqueSessions} color="text-blue-400" bg="bg-blue-400/5" />
+        <StatCard icon={MousePointerClick} label="Button Clicks" value={stats.totalClicks} color="text-yellow-400" bg="bg-yellow-400/5" />
+        <StatCard icon={Send} label="Form Submissions" value={stats.totalSubmits} color="text-green-400" bg="bg-green-400/5" />
+      </div>
+
+      {/* Camp Registration Funnel */}
+      <div className="bg-[#111] border border-white/7 rounded-2xl p-6 mb-8">
+        <h3 className="text-sm font-black uppercase tracking-widest text-white/50 mb-4">Camp Page Funnel</h3>
+        <div className="grid grid-cols-3 gap-4">
+          {[
+            { label: "Page Views", value: stats.campFunnel.campViews },
+            { label: "Clicked Continue", value: stats.campFunnel.campContinue },
+            { label: "Registered", value: stats.campFunnel.campSubmits },
+          ].map((step, i) => (
+            <div key={step.label} className="text-center">
+              <p className="text-3xl font-black">{step.value}</p>
+              <p className="text-[10px] text-white/40 uppercase tracking-widest mt-1">{step.label}</p>
+              {i > 0 && stats.campFunnel.campViews > 0 && (
+                <p className="text-[10px] text-[#F97316] mt-1">
+                  {Math.round((step.value / stats.campFunnel.campViews) * 100)}% of views
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Breakdown Tables */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <BreakdownCard title="Views by Page" rows={stats.pagesByViews} />
+        <BreakdownCard title="Clicks by Button" rows={stats.clicksByLabel} />
+        <BreakdownCard title="Submissions by Form" rows={stats.submitsByPage} />
+      </div>
+    </div>
+  );
+}
+
+function BreakdownCard({ title, rows }: { title: string; rows: { key: string; count: number }[] }) {
+  return (
+    <div className="bg-[#111] border border-white/7 rounded-2xl p-5">
+      <h3 className="text-xs font-black uppercase tracking-widest text-white/40 mb-4">{title}</h3>
+      {rows.length === 0 ? (
+        <p className="text-white/20 text-sm">No data yet</p>
+      ) : (
+        <div className="space-y-2">
+          {rows.slice(0, 10).map((r) => (
+            <div key={r.key} className="flex items-center justify-between text-sm">
+              <span className="text-white/60 truncate pr-3">{r.key}</span>
+              <span className="text-white font-bold shrink-0">{r.count}</span>
+            </div>
+          ))}
         </div>
       )}
     </div>

@@ -40,6 +40,14 @@ export async function POST(request: Request) {
         console.error("DB Error:", dbError);
         // テーブルがまだない場合でもメールは送る
       }
+
+      await supabase.from("analytics_events").insert({
+        event_type: "form_submit",
+        page: "/buy-pass",
+        label: "buy_pass",
+        session_id: "server",
+        metadata: { pass_type },
+      });
     }
 
     // 2. メール送信

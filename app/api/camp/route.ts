@@ -43,6 +43,13 @@ export async function POST(request: Request) {
         dropin_session: dropinSession || null,
         status: "pending_payment",
       });
+      await supabase.from("analytics_events").insert({
+        event_type: "form_submit",
+        page: "/camp",
+        label: "camp_registration",
+        session_id: "server",
+        metadata: { packageType },
+      });
     }
 
     if (process.env.RESEND_API_KEY) {

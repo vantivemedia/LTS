@@ -28,6 +28,14 @@ export async function POST(request: Request) {
         console.error("Supabase Insert Error (College):", sbError);
         throw sbError;
       }
+
+      await supabaseServer.from("analytics_events").insert({
+        event_type: "form_submit",
+        page: "/college-contact",
+        label: "college_inquiry",
+        session_id: "server",
+        metadata: { level },
+      });
     }
 
     // 2. Resend で自動返信
