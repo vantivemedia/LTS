@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ChevronDown } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 
 type PackageType = "weekend-1" | "weekend-2" | "both";
@@ -142,6 +142,7 @@ function formatCountdown(ms: number) {
 
 export default function CampPage() {
   const [step, setStep] = useState<1 | 2>(1);
+  const [scheduleOpen, setScheduleOpen] = useState(false);
   const [pkg, setPkg] = useState<PackageType>("weekend-2");
 
   const [timeLeft, setTimeLeft] = useState(() => Math.max(0, REGISTRATION_DEADLINE - Date.now()));
@@ -285,14 +286,9 @@ export default function CampPage() {
               <br />
               Series
             </h1>
-            <p className="text-sm mb-2 max-w-sm" style={{ color: `${BLUE}99` }}>
+            <p className="text-sm mb-5 max-w-sm" style={{ color: `${BLUE}99` }}>
               4 sessions across 2 weekends.
             </p>
-            <div className="flex gap-4 text-xs font-bold uppercase tracking-wider mb-5" style={{ color: `${BLUE}80` }}>
-              <span>BUILD — the mechanics</span>
-              <span style={{ color: `${BLUE}30` }}>·</span>
-              <span>PERFORM — in game</span>
-            </div>
 
             <div className="flex flex-wrap items-center gap-3">
               <div
@@ -315,34 +311,46 @@ export default function CampPage() {
 
         {/* Schedule */}
         <div className="bg-white rounded-2xl overflow-hidden mb-8 border" style={{ borderColor: `${BLUE}1a` }}>
-          <div className="px-5 py-4 border-b" style={{ borderColor: `${BLUE}1a` }}>
-            <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: `${BLUE}80` }}>Schedule</p>
-          </div>
-          {SESSIONS.map((s, i) => (
-            <div
-              key={s.id}
-              className="px-5 py-4 flex items-center justify-between"
-              style={i < SESSIONS.length - 1 ? { borderBottom: `1px solid ${BLUE}1a` } : undefined}
-            >
-              <div className="flex items-start gap-3">
-                <span
-                  className="mt-0.5 text-[9px] font-black px-2 py-0.5 rounded shrink-0 w-[62px] text-center"
-                  style={
-                    s.type === "BUILD"
-                      ? { background: BLUE, color: BG }
-                      : { background: `${BLUE}1a`, color: `${BLUE}b3` }
-                  }
-                >
-                  {s.type}
-                </span>
-                <div>
-                  <p className="text-sm font-bold tabular-nums" style={{ color: BLUE }}>{s.date}</p>
-                  <p className="text-xs" style={{ color: `${BLUE}80` }}>{s.desc}</p>
+          <button
+            type="button"
+            onClick={() => setScheduleOpen((v) => !v)}
+            className="w-full px-5 py-6 flex items-center justify-between"
+            style={scheduleOpen ? { borderBottom: `1px solid ${BLUE}1a` } : undefined}
+          >
+            <p className="text-sm font-black uppercase tracking-widest" style={{ color: BLUE }}>
+              {scheduleOpen ? "Schedule" : "View Full Schedule"}
+            </p>
+            <ChevronDown
+              className="w-5 h-5 transition-transform"
+              style={{ color: BLUE, transform: scheduleOpen ? "rotate(180deg)" : "none" }}
+            />
+          </button>
+          {scheduleOpen &&
+            SESSIONS.map((s, i) => (
+              <div
+                key={s.id}
+                className="px-5 py-4 flex items-center justify-between"
+                style={i < SESSIONS.length - 1 ? { borderBottom: `1px solid ${BLUE}1a` } : undefined}
+              >
+                <div className="flex items-start gap-3">
+                  <span
+                    className="mt-0.5 text-[9px] font-black px-2 py-0.5 rounded shrink-0 w-[62px] text-center"
+                    style={
+                      s.type === "BUILD"
+                        ? { background: BLUE, color: BG }
+                        : { background: `${BLUE}1a`, color: `${BLUE}b3` }
+                    }
+                  >
+                    {s.type}
+                  </span>
+                  <div>
+                    <p className="text-sm font-bold tabular-nums" style={{ color: BLUE }}>{s.date}</p>
+                    <p className="text-xs" style={{ color: `${BLUE}80` }}>{s.desc}</p>
+                  </div>
                 </div>
+                <span className="text-xs font-bold shrink-0 ml-4 tabular-nums" style={{ color: `${BLUE}80` }}>{s.time}</span>
               </div>
-              <span className="text-xs font-bold shrink-0 ml-4 tabular-nums" style={{ color: `${BLUE}80` }}>{s.time}</span>
-            </div>
-          ))}
+            ))}
         </div>
 
         {step === 1 && (
@@ -355,18 +363,6 @@ export default function CampPage() {
               <div key={p.id}>
               {p.id === "weekend-2" && (
                 <div className="flex flex-wrap items-center gap-2 mb-2">
-                  <div
-                    className="inline-flex items-center gap-2 rounded-full border px-3 py-1"
-                    style={{ background: "rgba(220,38,38,0.5)", borderColor: "rgba(220,38,38,0.5)" }}
-                  >
-                    <p className="text-[9px] font-black uppercase tracking-widest text-white/80">
-                      Register before
-                    </p>
-                    <p className="text-xs font-black tabular-nums text-white/80" suppressHydrationWarning>
-                      {formatCountdown(timeLeft)}
-                    </p>
-                  </div>
-
                   <div className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1" style={{ borderColor: `${BLUE}26` }}>
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75" />
@@ -423,9 +419,19 @@ export default function CampPage() {
                       </p>
                     )}
                     <p className={`text-2xl font-black ${p.soldOut ? "line-through" : ""}`}>{p.price}</p>
-                    <p className="text-[10px]" style={{ color: p.soldOut ? `${BLUE}66` : pkg === p.id ? `${BG}99` : `${BLUE}80` }}>
-                      {p.sessions}
-                    </p>
+                    {p.id === "weekend-2" ? (
+                      <p
+                        className="text-sm font-black tabular-nums"
+                        style={{ color: pkg === p.id ? `${BG}80` : `${BLUE}66` }}
+                        suppressHydrationWarning
+                      >
+                        Ends in {formatCountdown(timeLeft)}
+                      </p>
+                    ) : (
+                      <p className="text-[10px]" style={{ color: p.soldOut ? `${BLUE}66` : pkg === p.id ? `${BG}99` : `${BLUE}80` }}>
+                        {p.sessions}
+                      </p>
+                    )}
                   </div>
                 </div>
               </button>
