@@ -483,10 +483,17 @@ function ScheduleTab() {
           </div>
           <div>
             <label className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-2 block">Program</label>
-            <select value={program} onChange={e => setProgram(e.target.value)} className="w-full bg-black border border-white/5 rounded-xl px-4 py-3 text-white outline-none focus:border-[#F97316]/50 transition-all">
+            <select
+              value={program}
+              onChange={e => {
+                setProgram(e.target.value);
+                if (e.target.value === "pro") setCapacity("2");
+              }}
+              className="w-full bg-black border border-white/5 rounded-xl px-4 py-3 text-white outline-none focus:border-[#F97316]/50 transition-all"
+            >
               <option value="micro-academy">Micro Academy</option>
               <option value="college">LTS College</option>
-              <option value="private">Private Training</option>
+              <option value="pro">LTS PRO</option>
             </select>
           </div>
           <div>

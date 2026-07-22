@@ -77,6 +77,32 @@ const PROGRAMS = [
     ],
   },
   {
+    id: "pro",
+    name: "LTS PRO",
+    tagline: "Private Training",
+    emoji: "⚡",
+    ages: "All Ages",
+    schedule: "3 Summer Windows · 12:00 – 3:30 PM",
+    location: "Vancouver, BC",
+    groupSize: "1 – 2 athletes",
+    price: "$85/session · 5 for $399.99",
+    color: "from-purple-500/20 to-violet-500/10",
+    borderColor: "border-purple-500/20",
+    desc: "Our premium private training experience — individualized development in a focused 1-on-1 or 1-on-2 environment. Sessions are customized to the athlete's position, skill level, and goals.",
+    features: [
+      { icon: Zap, text: "1-on-1 or 1-on-2 personalized coaching" },
+      { icon: Target, text: "Focused on your position & goals" },
+      { icon: Calendar, text: "Flexible summer training windows" },
+      { icon: BarChart3, text: "Game-ready skill development" },
+    ],
+    details: [
+      "Ball handling, shooting & finishing",
+      "Footwork & decision-making training",
+      "Game-application drills & scenarios",
+      "Sessions must be completed by Aug 31, 2026",
+    ],
+  },
+  {
     id: "college",
     name: "LTS College",
     tagline: "College Prep",
@@ -103,18 +129,6 @@ const PROGRAMS = [
     ],
   },
 ];
-
-const PRIVATE = {
-  name: "1-on-1 Private Training",
-  emoji: "⚡",
-  desc: "Personalized sessions tailored to your specific needs. Work on weaknesses, amplify strengths, and accelerate your development with dedicated coaching attention.",
-  features: [
-    "Fully customized training plan",
-    "Flexible scheduling",
-    "Video analysis included",
-    "Progress tracking & goals",
-  ],
-};
 
 // ── ヘルパー ──────────────────────────────────────────────────
 
@@ -254,11 +268,11 @@ export default function ProgramsPage() {
                 {/* CTA */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link
-                    href={program.id === 'college' ? '/college-contact' : '/register'}
+                    href={program.id === 'college' ? '/college-contact' : program.id === 'pro' ? '/pro' : '/register'}
                     className="btn-accent inline-flex items-center justify-center gap-2
                                font-bold px-8 py-3.5 rounded-xl group"
                   >
-                    {program.id === 'college' ? 'INQUIRE NOW' : 'TRAIN NOW'}
+                    {program.id === 'college' ? 'INQUIRE NOW' : program.id === 'pro' ? 'EXPLORE LTS PRO' : 'TRAIN NOW'}
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <span className="text-sm text-white/30 flex items-center">
@@ -268,38 +282,6 @@ export default function ProgramsPage() {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Private Training */}
-        <div className="mt-16 reveal">
-          <div
-            className="bg-[#111] border border-white/7 rounded-3xl p-8 sm:p-10
-                        text-center max-w-3xl mx-auto"
-          >
-            <h2 className="text-3xl font-extrabold mb-3">{PRIVATE.name}</h2>
-            <p className="text-white/50 leading-relaxed mb-6 max-w-lg mx-auto">
-              {PRIVATE.desc}
-            </p>
-            <div className="flex flex-wrap justify-center gap-3 mb-8">
-              {PRIVATE.features.map((f) => (
-                <span
-                  key={f}
-                  className="text-xs font-semibold border border-white/10
-                             text-white/50 rounded-full px-3 py-1.5"
-                >
-                  {f}
-                </span>
-              ))}
-            </div>
-            <Link
-              href="/book?program=private"
-              className="btn-accent inline-flex items-center gap-2
-                         font-bold px-8 py-3.5 rounded-xl group"
-            >
-              Inquire About Private Training
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
         </div>
 
 

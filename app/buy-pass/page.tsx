@@ -5,21 +5,33 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, CheckCircle2 } from "lucide-react";
 
 type PassType = "pass-5" | "pass-10";
+type Program = "academy" | "pro";
 
 const PASSES = [
   {
-    id: "pass-5" as PassType,
-    name: "5-Session Pass",
-    price: "$299",
-    perSession: "$59.80/session",
+    id: "academy",
+    program: "academy" as Program,
+    passType: "pass-5" as PassType,
+    name: "Micro Academy — 5-Session Pass",
+    price: "$299.99",
+    perSession: "$60.00/session",
     desc: "July special — 5 sessions to use across our summer schedule.",
     features: ["5 Sessions Included", "Any 5 of 6 July Dates", "Flexible Scheduling", "Performance Tracking"],
-    highlight: true,
+  },
+  {
+    id: "pro",
+    program: "pro" as Program,
+    passType: "pass-5" as PassType,
+    name: "LTS PRO — 5-Session Pass",
+    price: "$399.99",
+    perSession: "$80.00/session",
+    desc: "5 private training sessions with Coach Paolo, 1-on-1 or 1-on-2.",
+    features: ["5 Sessions Included", "1-on-1 or 1-on-2 Coaching", "Flexible Summer Windows", "Save $25+ vs. Individual Sessions"],
   },
 ];
 
 export default function BuyPassPage() {
-  const [selected, setSelected] = useState<PassType>("pass-5");
+  const [selected, setSelected] = useState<string>("academy");
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -38,7 +50,7 @@ export default function BuyPassPage() {
       const res = await fetch("/api/buy-pass", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, passType: selected }),
+        body: JSON.stringify({ name, email, phone, passType: pass.passType, program: pass.program }),
       });
       if (!res.ok) {
         const d = await res.json();

@@ -79,8 +79,8 @@ export default function MicroAcademyPage() {
             <h2 className="text-3xl font-black uppercase tracking-tight mb-8">Choose Your Pass</h2>
             
             <PackageCard 
-              sessions={5} 
-              price={299} 
+              sessions={5}
+              price={299.99}
               discount="Save 15%" 
               perSession={60} 
               onSelect={() => setShowForm(true)}
@@ -264,7 +264,7 @@ function MicroAcademyForm({ onCancel }: { onCancel: () => void }) {
           <label className="text-[10px] font-black uppercase tracking-widest text-black/40">Pass Type</label>
           <select required className="w-full bg-black/5 border-none rounded-xl px-4 py-4 text-black/60 appearance-none">
             <option value="">Select an option</option>
-            <option value="5">5 Sessions - $299</option>
+            <option value="5">5 Sessions - $299.99</option>
             <option value="10">10 Sessions - $449</option>
           </select>
         </div>

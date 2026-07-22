@@ -28,7 +28,7 @@ export default function RegisterPage() {
     {
       id: "pass-5",
       name: "5-Session Pass",
-      price: "$299",
+      price: "$299.99",
       desc: "Our most flexible option for consistent growth.",
       features: ["5 Sessions Included", "Flexible Scheduling", "Priority Booking", "Performance Tracking"],
       cta: "GET 5-PASS",

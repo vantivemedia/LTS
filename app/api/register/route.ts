@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     }
 
     const priceMap: Record<string, string> = {
-      "pass-5": "$299",
+      "pass-5": "$299.99",
       "pass-10": "$449",
     };
 

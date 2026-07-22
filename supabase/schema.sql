@@ -29,7 +29,7 @@ create table if not exists bookings (
   program        text        not null
                    check (program in (
                      'futures','high','college','private','trial',
-                     'micro-academy','pass-5','pass-10','pass-usage'
+                     'micro-academy','pass-5','pass-10','pass-usage','pro'
                    )),
   preferred_date date,
   preferred_time text,
@@ -39,6 +39,16 @@ create table if not exists bookings (
   status         text        not null default 'pending'
                    check (status in ('pending','confirmed','cancelled'))
 );
+
+-- Re-running this file on a database where `bookings` already exists won't update
+-- the CHECK constraint above (CREATE TABLE IF NOT EXISTS is a no-op there), so
+-- reapply it explicitly to pick up newly added program values (e.g. 'pro').
+alter table bookings drop constraint if exists bookings_program_check;
+alter table bookings add constraint bookings_program_check
+  check (program in (
+    'futures','high','college','private','trial',
+    'micro-academy','pass-5','pass-10','pass-usage','pro'
+  ));
 
 alter table bookings enable row level security;
 
@@ -117,6 +127,11 @@ create table if not exists pass_holders (
   email          text        not null,
   phone          text,
 
+  -- Which program this pass's sessions can be redeemed against.
+  -- Academy passes and PRO passes are priced differently ($60/session vs $80/session)
+  -- and are NOT interchangeable — a pass only deducts against bookings in the same program.
+  program        text        not null default 'academy',
+
   pass_type      text        not null check (pass_type in ('pass-5','pass-10')),
   sessions_total integer     not null,
   sessions_used  integer     not null default 0,
@@ -124,6 +139,13 @@ create table if not exists pass_holders (
   status         text        not null default 'active'
                    check (status in ('active','expired','cancelled'))
 );
+
+-- Add `program` to a database created before this column existed, and reapply
+-- its constraint on re-run (see the bookings table above for why this pattern is needed).
+alter table pass_holders add column if not exists program text not null default 'academy';
+alter table pass_holders drop constraint if exists pass_holders_program_check;
+alter table pass_holders add constraint pass_holders_program_check
+  check (program in ('academy','pro'));
 
 alter table pass_holders enable row level security;
 
@@ -146,8 +168,9 @@ create policy "Public can update pass holders"
   to anon
   using (true);
 
-create index if not exists pass_holders_email_idx  on pass_holders (email);
-create index if not exists pass_holders_status_idx on pass_holders (status);
+create index if not exists pass_holders_email_idx   on pass_holders (email);
+create index if not exists pass_holders_status_idx  on pass_holders (status);
+create index if not exists pass_holders_program_idx on pass_holders (program);
 
 -- ── Classes table ────────────────────────────────────────────
 -- Used by /api/admin/classes and Admin → Schedule tab.

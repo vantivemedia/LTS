@@ -21,49 +21,51 @@ export async function POST(request: Request) {
     );
 
     // ── Pass check via pass_holders table ────────────────────
+    // Passes are scoped per-program — an Academy pass can't cover a PRO session and vice versa,
+    // since they're priced differently ($60/session vs $80/session).
+    const passProgram = program === "pro" ? "pro" : "academy";
     let isPassHolder = false;
 
-    if (program !== "private") {
-      const { data: passes } = await supabase
-        .from("pass_holders")
-        .select("id, sessions_total, sessions_used")
-        .eq("email", email.trim().toLowerCase())
-        .eq("status", "active")
-        .order("created_at", { ascending: true });
+    const { data: passes } = await supabase
+      .from("pass_holders")
+      .select("id, sessions_total, sessions_used")
+      .eq("email", email.trim().toLowerCase())
+      .eq("status", "active")
+      .eq("program", passProgram)
+      .order("created_at", { ascending: true });
 
-      if (passes && passes.length > 0) {
-        // Find first pass with remaining sessions
-        const activePass = passes.find((p) => p.sessions_used < p.sessions_total);
-        if (activePass) {
-          isPassHolder = true;
-          // Increment sessions_used
+    if (passes && passes.length > 0) {
+      // Find first pass with remaining sessions
+      const activePass = passes.find((p) => p.sessions_used < p.sessions_total);
+      if (activePass) {
+        isPassHolder = true;
+        // Increment sessions_used
+        await supabase
+          .from("pass_holders")
+          .update({ sessions_used: activePass.sessions_used + 1 })
+          .eq("id", activePass.id);
+
+        // Auto-expire if fully used
+        if (activePass.sessions_used + 1 >= activePass.sessions_total) {
           await supabase
             .from("pass_holders")
-            .update({ sessions_used: activePass.sessions_used + 1 })
+            .update({ status: "expired" })
             .eq("id", activePass.id);
-
-          // Auto-expire if fully used
-          if (activePass.sessions_used + 1 >= activePass.sessions_total) {
-            await supabase
-              .from("pass_holders")
-              .update({ status: "expired" })
-              .eq("id", activePass.id);
-          }
         }
       }
     }
 
-    const amount = isPassHolder ? "Pre-paid (Pass)" : program === "private" ? "$85" : "$70";
+    const amount = isPassHolder ? "Pre-paid (Pass)" : program === "pro" ? "$85" : "$70";
 
     // ── Save booking ──────────────────────────────────────────
     await supabase.from("bookings").insert({
       name,
       email,
       phone: phone || null,
-      program: program === "private" ? "private" : "micro-academy",
+      program: program === "pro" ? "pro" : "micro-academy",
       preferred_date: preferred_date || null,
       preferred_time: preferred_time || null,
-      message: isPassHolder ? "PASS USAGE" : program === "private" ? null : "DROP-IN",
+      message: isPassHolder ? "PASS USAGE" : program === "pro" ? null : "DROP-IN",
     });
 
     await supabase.from("analytics_events").insert({
@@ -103,7 +105,7 @@ export async function POST(request: Request) {
       : `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
           <p>Hi ${name},</p>
-          <p>Thanks for booking a ${program === "private" ? "1-on-1 Private Training" : "Drop-In"} session with LTS Elite Prep!</p>
+          <p>Thanks for booking a ${program === "pro" ? "LTS PRO" : "Drop-In"} session with LTS Elite Prep!</p>
           <p>To secure your spot, please complete the payment via E-transfer within the next 48 hours.</p>
           <div style="margin:24px 0;padding:20px;background:#f9f9f9;border-radius:12px;border:1px solid #eee;">
             <p style="margin:6px 0;"><strong>Date:</strong> ${dateLabel}</p>
@@ -124,20 +126,20 @@ export async function POST(request: Request) {
         to: email,
         subject: isPassHolder
           ? "Session Booked — LTS Elite Prep"
-          : `Action Required: Payment for your ${program === "private" ? "Private Training" : "Drop-In"} session`,
+          : `Action Required: Payment for your ${program === "pro" ? "LTS PRO" : "Drop-In"} session`,
         html: userHtml,
       }),
       resend.emails.send({
         from: "LTS System <info@ltseliteprep.ca>",
         to: "paolo@ltseliteprep.ca",
-        subject: `New Booking: ${name} — ${isPassHolder ? "Pass Usage" : program === "private" ? "Private" : "Drop-In"}`,
+        subject: `New Booking: ${name} — ${isPassHolder ? "Pass Usage" : program === "pro" ? "LTS PRO" : "Drop-In"}`,
         html: `
           <h2>New Session Booking</h2>
           <p><strong>Athlete:</strong> ${name}</p>
           <p><strong>Parent:</strong> ${parentName || "—"}</p>
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Phone:</strong> ${phone || "—"}</p>
-          <p><strong>Type:</strong> ${isPassHolder ? "Pass Holder (1 session deducted)" : program === "private" ? "Private Training ($85)" : "Drop-In ($70)"}</p>
+          <p><strong>Type:</strong> ${isPassHolder ? "Pass Holder (1 session deducted)" : program === "pro" ? "LTS PRO ($85)" : "Drop-In ($70)"}</p>
           <p><strong>Date:</strong> ${dateLabel}</p>
           <p><strong>Time:</strong> ${preferred_time || "TBD"}</p>
         `,

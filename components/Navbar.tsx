@@ -20,7 +20,7 @@ const NAV_LINKS = [
   { href: "/about", label: "About" },
   { href: "/buy-pass", label: "Buy Pass" },
   { href: "/book", label: "Book" },
-  { href: "/camp", label: "Camp" },
+  { href: "/pro", label: "Pro" },
   { href: "/college-contact", label: "College" },
   { href: "/admin", label: "Admin" },
 ];
@@ -60,7 +60,7 @@ export default function Navbar() {
             alt="LTS Elite Prep" 
             width={180} 
             height={60} 
-            className="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02] brightness-0 invert" 
+            className="h-12 sm:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02] brightness-0 invert"
             priority
           />
         </Link>

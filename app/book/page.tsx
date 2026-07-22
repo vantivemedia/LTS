@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense, useMemo } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import {
   ArrowLeft,
@@ -112,11 +113,14 @@ export default function BookPage() {
   );
 }
 
-type ProgramType = "session" | "private";
+type ProgramType = "session" | "pro";
 
 function BookPageInner() {
-  const [step, setStep] = useState<1 | 2 | 3>(1);
-  const [programType, setProgramType] = useState<ProgramType>("session");
+  const searchParams = useSearchParams();
+  const initialProgram: ProgramType = searchParams.get("program") === "pro" ? "pro" : "session";
+
+  const [step, setStep] = useState<1 | 2 | 3>(initialProgram === "pro" ? 2 : 1);
+  const [programType, setProgramType] = useState<ProgramType>(initialProgram);
   const [classes, setClasses] = useState<any[]>([]);
   const [preferredDate, setPreferredDate] = useState("");
   const [preferredTime, setPreferredTime] = useState("");
@@ -149,8 +153,8 @@ function BookPageInner() {
 
   const filteredClasses = useMemo(() => {
     return classes.filter((c) =>
-      programType === "private"
-        ? c.program === "private"
+      programType === "pro"
+        ? c.program === "pro" || c.program === "private"
         : c.program === "micro-academy" || c.program === "futures" || c.program === "high"
     );
   }, [classes, programType]);
@@ -169,7 +173,7 @@ function BookPageInner() {
           name,
           parentName,
           email,
-          program: programType === "private" ? "private" : "micro-academy",
+          program: programType === "pro" ? "pro" : "micro-academy",
           preferred_date: preferredDate || null,
           preferred_time: preferredTime || null,
         }),
@@ -244,21 +248,21 @@ function BookPageInner() {
             >
               <div>
                 <h3 className="font-black text-xl uppercase text-white mb-1">Buy Pass</h3>
-                <p className="text-sm text-white/40">5-Session $299 · 10-Session $449 · Save per session</p>
+                <p className="text-sm text-white/40">5-Session $299.99 · 10-Session $449 · Save per session</p>
               </div>
               <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
             </Link>
 
-            {/* Private Training */}
+            {/* LTS PRO */}
             <button
               type="button"
-              onClick={() => { setProgramType("private"); setStep(2); }}
+              onClick={() => { setProgramType("pro"); setStep(2); }}
               className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-black text-xl uppercase text-white mb-1">1-on-1 Private Training</h3>
-                  <p className="text-sm text-white/40">$85 per session · Personalized coaching</p>
+                  <h3 className="font-black text-xl uppercase text-white mb-1">LTS PRO</h3>
+                  <p className="text-sm text-white/40">$85/session · Pass holders deducted automatically</p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
               </div>
@@ -279,7 +283,7 @@ function BookPageInner() {
               <ArrowLeft className="w-3 h-3" /> Back
             </button>
             <h1 className="text-4xl font-black mb-2 uppercase tracking-tighter">
-              {programType === "private" ? "Private Training" : "Choose Session"}
+              {programType === "pro" ? "LTS PRO" : "Choose Session"}
             </h1>
             <p className="text-white/40 text-sm">Select a date and session from the schedule below.</p>
           </div>
@@ -375,7 +379,7 @@ function BookPageInner() {
         <div className="bg-white/3 border border-white/8 rounded-2xl p-4 mb-6 flex items-start gap-3">
           <Zap className="w-4 h-4 text-white/40 mt-0.5 shrink-0" />
           <p className="text-xs text-white/40 leading-relaxed">
-            If you have an active session pass, <strong className="text-white/60">enter the same email you used to buy it</strong> — your pass will be detected automatically and 1 session deducted. Otherwise, you'll be billed ${ programType === "private" ? "85" : "70"} as a drop-in.
+            If you have an active session pass, <strong className="text-white/60">enter the same email you used to buy it</strong> — your pass will be detected automatically and 1 session deducted. Otherwise, you'll be billed ${ programType === "pro" ? "85" : "70"} as a drop-in.
           </p>
         </div>
 
