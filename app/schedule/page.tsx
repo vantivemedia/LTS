@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo, Suspense } from "react";
 import { supabase } from "@/lib/supabase";
+import { formatTime } from "@/lib/time";
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Clock, MapPin, Users } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -193,7 +194,7 @@ function ScheduleInner() {
                     <div className="space-y-2">
                       <div className="flex items-center gap-2 text-white/40 text-xs">
                         <Clock className="w-3 h-3" />
-                        <span>{c.start_time.slice(0, 5)} - {c.end_time.slice(0, 5)}</span>
+                        <span>{formatTime(c.start_time)} - {formatTime(c.end_time)}</span>
                       </div>
                       <div className="flex items-center gap-2 text-white/40 text-xs">
                         <MapPin className="w-3 h-3" />

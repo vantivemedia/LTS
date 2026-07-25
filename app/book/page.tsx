@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense, useMemo } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { formatTime } from "@/lib/time";
 import {
   ArrowLeft,
   ArrowRight,
@@ -309,14 +310,14 @@ function BookPageInner() {
                   filteredClasses
                     .sort((a, b) => new Date(a.class_date + "T00:00:00").getTime() - new Date(b.class_date + "T00:00:00").getTime())
                     .map((c) => {
-                      const isSel = preferredDate === c.class_date && preferredTime === `${c.start_time} - ${c.end_time}`;
+                      const isSel = preferredDate === c.class_date && preferredTime === `${formatTime(c.start_time)} - ${formatTime(c.end_time)}`;
                       const d = new Date(c.class_date + "T00:00:00");
                       const dateLabel = d.toLocaleDateString("en-US", { month: "short", day: "numeric", weekday: "short" });
                       return (
                         <button
                           key={c.id}
                           type="button"
-                          onClick={() => { setPreferredDate(c.class_date); setPreferredTime(`${c.start_time} - ${c.end_time}`); }}
+                          onClick={() => { setPreferredDate(c.class_date); setPreferredTime(`${formatTime(c.start_time)} - ${formatTime(c.end_time)}`); }}
                           className={`w-full flex items-center justify-between p-4 rounded-2xl border transition-all
                             ${isSel ? "bg-white text-black border-white" : "bg-[#111] text-white/60 border-white/5 hover:border-white/15"}`}
                         >
@@ -325,7 +326,7 @@ function BookPageInner() {
                             <span className="font-bold text-sm uppercase">{c.title}</span>
                           </div>
                           <span className={`text-xs font-black ${isSel ? "text-black/60" : "text-white/30"}`}>
-                            {c.start_time.slice(0, 5)} – {c.end_time.slice(0, 5)}
+                            {formatTime(c.start_time)} – {formatTime(c.end_time)}
                           </span>
                         </button>
                       );

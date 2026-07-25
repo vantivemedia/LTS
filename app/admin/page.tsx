@@ -7,6 +7,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { supabase, type Booking, type BookingStatus, type ClassSchedule } from "@/lib/supabase";
+import { formatTime } from "@/lib/time";
 import {
   Search,
   Filter,
@@ -546,7 +547,7 @@ function ScheduleTab() {
               <h3 className="font-bold text-lg mb-2 truncate pr-6">{c.title}</h3>
 
               <div className="flex flex-col gap-1.5 mt-4">
-                <DetailRow icon={Clock} label="Time" value={`${c.start_time.slice(0, 5)} - ${c.end_time.slice(0, 5)}`} />
+                <DetailRow icon={Clock} label="Time" value={`${formatTime(c.start_time)} - ${formatTime(c.end_time)}`} />
                 <DetailRow icon={Users} label="Coach" value={c.coach || "TBA"} />
                 <DetailRow icon={TrendingUp} label="Spots" value={`${c.capacity - c.booked_count} available`} />
               </div>
