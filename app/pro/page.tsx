@@ -147,14 +147,10 @@ export default function ProPage() {
           {/* Training Format */}
           <div className="mb-14">
             <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Training Format</p>
-            <div className="grid grid-cols-2 gap-3 mb-6">
-              <div className="bg-[#111] border border-white/5 rounded-2xl p-5 text-center">
-                <p className="text-3xl font-black mb-1">1 : 1</p>
-                <p className="text-xs text-white/30 uppercase tracking-widest font-bold">Coach : Athlete</p>
-              </div>
+            <div className="mb-6">
               <div className="bg-[#111] border border-white/5 rounded-2xl p-5 text-center">
                 <p className="text-3xl font-black mb-1">1 : 2</p>
-                <p className="text-xs text-white/30 uppercase tracking-widest font-bold">Max Group Size</p>
+                <p className="text-xs text-white/30 uppercase tracking-widest font-bold">Coach : Athlete</p>
               </div>
             </div>
             <p className="text-white/40 text-sm mb-4">
