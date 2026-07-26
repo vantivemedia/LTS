@@ -26,6 +26,7 @@ const FOOTER_LINKS = [
   { href: "/about", label: "About" },
   { href: "/micro-academy", label: "TRAIN NOW" },
   { href: "/schedule", label: "Schedule" },
+  { href: "/policies", label: "Policies" },
   { href: "/admin", label: "Admin" },
 ];
 

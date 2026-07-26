@@ -22,6 +22,7 @@ const NAV_LINKS = [
   { href: "/book", label: "Book" },
   { href: "/pro", label: "Pro" },
   { href: "/college-contact", label: "College" },
+  { href: "/policies", label: "Policies" },
   { href: "/admin", label: "Admin" },
 ];
 
