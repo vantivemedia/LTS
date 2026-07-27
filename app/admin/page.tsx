@@ -1090,7 +1090,7 @@ type AnalyticsEvent = {
   page: string;
   label: string | null;
   session_id: string;
-  metadata: { program?: string; [key: string]: unknown } | null;
+  metadata: { program?: string; device?: string; browser?: string; [key: string]: unknown } | null;
 };
 
 function isAcademyProgram(program: string | undefined) {
@@ -1101,6 +1101,7 @@ function AnalyticsTab() {
   const [events, setEvents] = useState<AnalyticsEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const [timeRange, setTimeRange] = useState<"all" | "7d" | "24h">("all");
 
   async function fetchEvents() {
     setLoading(true);
@@ -1130,17 +1131,16 @@ function AnalyticsTab() {
       .sort((a, b) => b.count - a.count);
   };
 
-  const summarize = (list: AnalyticsEvent[]) => {
-    const pageViews = list.filter((e) => e.event_type === "page_view");
-    const clicks = list.filter((e) => e.event_type === "button_click");
-    const submits = list.filter((e) => e.event_type === "form_submit");
-    const uniqueSessions = new Set(list.map((e) => e.session_id)).size;
-    return {
-      totalPageViews: pageViews.length,
-      uniqueSessions,
-      totalClicks: clicks.length,
-      totalSubmits: submits.length,
-    };
+  const groupByMeta = (list: AnalyticsEvent[], field: "device" | "browser") => {
+    const counts = new Map<string, number>();
+    list.forEach((e) => {
+      const k = e.metadata?.[field];
+      if (!k || typeof k !== "string") return;
+      counts.set(k, (counts.get(k) || 0) + 1);
+    });
+    return Array.from(counts.entries())
+      .map(([k, count]) => ({ key: k, count }))
+      .sort((a, b) => b.count - a.count);
   };
 
   const stats = useMemo(() => {
@@ -1152,21 +1152,15 @@ function AnalyticsTab() {
     const proContinue = clicks.filter((e) => e.label === "pro_continue").length;
     const proSubmits = submits.filter((e) => e.label === "pro_inquiry").length;
 
-    const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-    const last7Events = events.filter((e) => new Date(e.created_at).getTime() >= sevenDaysAgo);
-
     const academyBookings = submits.filter((e) => e.label === "book_session" && isAcademyProgram(e.metadata?.program)).length;
     const academyPasses = submits.filter((e) => e.label === "buy_pass" && isAcademyProgram(e.metadata?.program)).length;
     const proBookings = submits.filter((e) => e.label === "book_session" && e.metadata?.program === "pro").length;
     const proPasses = submits.filter((e) => e.label === "buy_pass" && e.metadata?.program === "pro").length;
 
     return {
-      ...summarize(events),
-      pagesByViews: groupCount(pageViews, "page"),
-      clicksByLabel: groupCount(clicks, "label"),
-      submitsByPage: groupCount(submits, "page"),
+      viewsByDevice: groupByMeta(pageViews, "device"),
+      viewsByBrowser: groupByMeta(pageViews, "browser"),
       proFunnel: { proViews, proContinue, proSubmits },
-      last7: summarize(last7Events),
       byProgram: {
         academy: {
           pageViews: pageViews.filter((e) => e.page === "/micro-academy").length,
@@ -1182,6 +1176,26 @@ function AnalyticsTab() {
       },
     };
   }, [events]);
+
+  const filteredBreakdown = useMemo(() => {
+    let list = events;
+    if (timeRange !== "all") {
+      const cutoff = Date.now() - (timeRange === "24h" ? 24 : 7 * 24) * 60 * 60 * 1000;
+      list = events.filter((e) => new Date(e.created_at).getTime() >= cutoff);
+    }
+    const pageViews = list.filter((e) => e.event_type === "page_view");
+    const clicks = list.filter((e) => e.event_type === "button_click");
+    const submits = list.filter((e) => e.event_type === "form_submit");
+
+    return {
+      pagesByViews: groupCount(pageViews, "page"),
+      totalPageViews: pageViews.length,
+      clicksByLabel: groupCount(clicks, "label"),
+      totalClicks: clicks.length,
+      submitsByPage: groupCount(submits, "page"),
+      totalSubmits: submits.length,
+    };
+  }, [events, timeRange]);
 
   if (loading) {
     return (
@@ -1210,22 +1224,36 @@ function AnalyticsTab() {
         </div>
       )}
 
-      {/* Stats Cards (All-Time) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-        <StatCard icon={Eye} label="Page Views" value={stats.totalPageViews} color="text-white" bg="bg-white/5" />
-        <StatCard icon={Users} label="Unique Visitors" value={stats.uniqueSessions} color="text-blue-400" bg="bg-blue-400/5" />
-        <StatCard icon={MousePointerClick} label="Button Clicks" value={stats.totalClicks} color="text-yellow-400" bg="bg-yellow-400/5" />
-        <StatCard icon={Send} label="Form Submissions" value={stats.totalSubmits} color="text-green-400" bg="bg-green-400/5" />
-      </div>
-
-      {/* Stats Cards (Last 7 Days) */}
-      <div className="mb-8">
-        <h3 className="text-sm font-black uppercase tracking-widest text-white/50 mb-4">Last 7 Days</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <StatCard icon={Eye} label="Page Views" value={stats.last7.totalPageViews} color="text-white" bg="bg-white/5" />
-          <StatCard icon={Users} label="Unique Visitors" value={stats.last7.uniqueSessions} color="text-blue-400" bg="bg-blue-400/5" />
-          <StatCard icon={MousePointerClick} label="Button Clicks" value={stats.last7.totalClicks} color="text-yellow-400" bg="bg-yellow-400/5" />
-          <StatCard icon={Send} label="Form Submissions" value={stats.last7.totalSubmits} color="text-green-400" bg="bg-green-400/5" />
+      {/* Activity Breakdown (combined, filterable by time range) */}
+      <div className="bg-[#111] border border-white/7 rounded-2xl p-6 mb-8">
+        <div className="flex items-center justify-between gap-4 flex-wrap mb-6">
+          <h3 className="text-sm font-black uppercase tracking-widest text-white/50">Activity Breakdown</h3>
+          <div className="flex gap-2">
+            {(
+              [
+                { key: "all", label: "All Time" },
+                { key: "7d", label: "Last 7 Days" },
+                { key: "24h", label: "Last 24 Hours" },
+              ] as const
+            ).map((r) => (
+              <button
+                key={r.key}
+                onClick={() => setTimeRange(r.key)}
+                className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all ${
+                  timeRange === r.key
+                    ? "bg-[#F97316] text-white"
+                    : "text-white/50 hover:text-white border border-white/10"
+                }`}
+              >
+                {r.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <BreakdownColumn title="Views by Page" rows={filteredBreakdown.pagesByViews} total={filteredBreakdown.totalPageViews} />
+          <BreakdownColumn title="Clicks by Button" rows={filteredBreakdown.clicksByLabel} total={filteredBreakdown.totalClicks} />
+          <BreakdownColumn title="Submissions by Form" rows={filteredBreakdown.submitsByPage} total={filteredBreakdown.totalSubmits} />
         </div>
       </div>
 
@@ -1286,11 +1314,33 @@ function AnalyticsTab() {
         </div>
       </div>
 
-      {/* Breakdown Tables */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <BreakdownCard title="Views by Page" rows={stats.pagesByViews} />
-        <BreakdownCard title="Clicks by Button" rows={stats.clicksByLabel} />
-        <BreakdownCard title="Submissions by Form" rows={stats.submitsByPage} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <BreakdownCard title="Views by Device" rows={stats.viewsByDevice} />
+        <BreakdownCard title="Views by Browser" rows={stats.viewsByBrowser} />
+      </div>
+    </div>
+  );
+}
+
+function BreakdownColumn({ title, rows, total }: { title: string; rows: { key: string; count: number }[]; total: number }) {
+  return (
+    <div>
+      <h4 className="text-xs font-black uppercase tracking-widest text-white/40 mb-4">{title}</h4>
+      {rows.length === 0 ? (
+        <p className="text-white/20 text-sm">No data yet</p>
+      ) : (
+        <div className="space-y-2">
+          {rows.slice(0, 10).map((r) => (
+            <div key={r.key} className="flex items-center justify-between text-sm">
+              <span className="text-white/60 truncate pr-3">{r.key}</span>
+              <span className="text-white font-bold shrink-0">{r.count}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      <div className="flex items-center justify-between text-sm mt-4 pt-4 border-t border-white/10">
+        <span className="text-white/40 font-bold uppercase text-xs tracking-widest">Total</span>
+        <span className="text-white font-black">{total}</span>
       </div>
     </div>
   );
