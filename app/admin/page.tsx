@@ -1090,7 +1090,12 @@ type AnalyticsEvent = {
   page: string;
   label: string | null;
   session_id: string;
+  metadata: { program?: string; [key: string]: unknown } | null;
 };
+
+function isAcademyProgram(program: string | undefined) {
+  return program === "academy" || program === "micro-academy";
+}
 
 function AnalyticsTab() {
   const [events, setEvents] = useState<AnalyticsEvent[]>([]);
@@ -1114,36 +1119,67 @@ function AnalyticsTab() {
 
   useEffect(() => { fetchEvents(); }, []);
 
-  const stats = useMemo(() => {
-    const pageViews = events.filter((e) => e.event_type === "page_view");
-    const clicks = events.filter((e) => e.event_type === "button_click");
-    const submits = events.filter((e) => e.event_type === "form_submit");
-    const uniqueSessions = new Set(events.map((e) => e.session_id)).size;
+  const groupCount = (list: AnalyticsEvent[], key: "page" | "label") => {
+    const counts = new Map<string, number>();
+    list.forEach((e) => {
+      const k = (key === "page" ? e.page : e.label) || "—";
+      counts.set(k, (counts.get(k) || 0) + 1);
+    });
+    return Array.from(counts.entries())
+      .map(([k, count]) => ({ key: k, count }))
+      .sort((a, b) => b.count - a.count);
+  };
 
-    const groupCount = (list: AnalyticsEvent[], key: "page" | "label") => {
-      const counts = new Map<string, number>();
-      list.forEach((e) => {
-        const k = (key === "page" ? e.page : e.label) || "—";
-        counts.set(k, (counts.get(k) || 0) + 1);
-      });
-      return Array.from(counts.entries())
-        .map(([k, count]) => ({ key: k, count }))
-        .sort((a, b) => b.count - a.count);
-    };
-
-    const campViews = pageViews.filter((e) => e.page === "/camp").length;
-    const campContinue = clicks.filter((e) => e.label === "camp_continue").length;
-    const campSubmits = submits.filter((e) => e.label === "camp_registration").length;
-
+  const summarize = (list: AnalyticsEvent[]) => {
+    const pageViews = list.filter((e) => e.event_type === "page_view");
+    const clicks = list.filter((e) => e.event_type === "button_click");
+    const submits = list.filter((e) => e.event_type === "form_submit");
+    const uniqueSessions = new Set(list.map((e) => e.session_id)).size;
     return {
       totalPageViews: pageViews.length,
       uniqueSessions,
       totalClicks: clicks.length,
       totalSubmits: submits.length,
+    };
+  };
+
+  const stats = useMemo(() => {
+    const pageViews = events.filter((e) => e.event_type === "page_view");
+    const clicks = events.filter((e) => e.event_type === "button_click");
+    const submits = events.filter((e) => e.event_type === "form_submit");
+
+    const proViews = pageViews.filter((e) => e.page === "/pro").length;
+    const proContinue = clicks.filter((e) => e.label === "pro_continue").length;
+    const proSubmits = submits.filter((e) => e.label === "pro_inquiry").length;
+
+    const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    const last7Events = events.filter((e) => new Date(e.created_at).getTime() >= sevenDaysAgo);
+
+    const academyBookings = submits.filter((e) => e.label === "book_session" && isAcademyProgram(e.metadata?.program)).length;
+    const academyPasses = submits.filter((e) => e.label === "buy_pass" && isAcademyProgram(e.metadata?.program)).length;
+    const proBookings = submits.filter((e) => e.label === "book_session" && e.metadata?.program === "pro").length;
+    const proPasses = submits.filter((e) => e.label === "buy_pass" && e.metadata?.program === "pro").length;
+
+    return {
+      ...summarize(events),
       pagesByViews: groupCount(pageViews, "page"),
       clicksByLabel: groupCount(clicks, "label"),
       submitsByPage: groupCount(submits, "page"),
-      campFunnel: { campViews, campContinue, campSubmits },
+      proFunnel: { proViews, proContinue, proSubmits },
+      last7: summarize(last7Events),
+      byProgram: {
+        academy: {
+          pageViews: pageViews.filter((e) => e.page === "/micro-academy").length,
+          bookings: academyBookings,
+          passPurchases: academyPasses,
+        },
+        pro: {
+          pageViews: proViews,
+          bookings: proBookings,
+          passPurchases: proPasses,
+          inquiries: proSubmits,
+        },
+      },
     };
   }, [events]);
 
@@ -1174,7 +1210,7 @@ function AnalyticsTab() {
         </div>
       )}
 
-      {/* Stats Cards */}
+      {/* Stats Cards (All-Time) */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
         <StatCard icon={Eye} label="Page Views" value={stats.totalPageViews} color="text-white" bg="bg-white/5" />
         <StatCard icon={Users} label="Unique Visitors" value={stats.uniqueSessions} color="text-blue-400" bg="bg-blue-400/5" />
@@ -1182,21 +1218,67 @@ function AnalyticsTab() {
         <StatCard icon={Send} label="Form Submissions" value={stats.totalSubmits} color="text-green-400" bg="bg-green-400/5" />
       </div>
 
-      {/* Camp Registration Funnel */}
+      {/* Stats Cards (Last 7 Days) */}
+      <div className="mb-8">
+        <h3 className="text-sm font-black uppercase tracking-widest text-white/50 mb-4">Last 7 Days</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <StatCard icon={Eye} label="Page Views" value={stats.last7.totalPageViews} color="text-white" bg="bg-white/5" />
+          <StatCard icon={Users} label="Unique Visitors" value={stats.last7.uniqueSessions} color="text-blue-400" bg="bg-blue-400/5" />
+          <StatCard icon={MousePointerClick} label="Button Clicks" value={stats.last7.totalClicks} color="text-yellow-400" bg="bg-yellow-400/5" />
+          <StatCard icon={Send} label="Form Submissions" value={stats.last7.totalSubmits} color="text-green-400" bg="bg-green-400/5" />
+        </div>
+      </div>
+
+      {/* Academy vs. PRO Breakdown */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+        <div className="bg-[#111] border border-white/7 rounded-2xl p-6">
+          <h3 className="text-sm font-black uppercase tracking-widest text-white/50 mb-4">Academy</h3>
+          <div className="grid grid-cols-3 gap-4">
+            {[
+              { label: "Page Views", value: stats.byProgram.academy.pageViews },
+              { label: "Bookings", value: stats.byProgram.academy.bookings },
+              { label: "Pass Purchases", value: stats.byProgram.academy.passPurchases },
+            ].map((row) => (
+              <div key={row.label} className="text-center">
+                <p className="text-3xl font-black">{row.value}</p>
+                <p className="text-[10px] text-white/40 uppercase tracking-widest mt-1">{row.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="bg-[#111] border border-white/7 rounded-2xl p-6">
+          <h3 className="text-sm font-black uppercase tracking-widest text-white/50 mb-4">PRO</h3>
+          <div className="grid grid-cols-2 gap-4">
+            {[
+              { label: "Page Views", value: stats.byProgram.pro.pageViews },
+              { label: "Bookings", value: stats.byProgram.pro.bookings },
+              { label: "Pass Purchases", value: stats.byProgram.pro.passPurchases },
+              { label: "Inquiries Sent", value: stats.byProgram.pro.inquiries },
+            ].map((row) => (
+              <div key={row.label} className="text-center">
+                <p className="text-3xl font-black">{row.value}</p>
+                <p className="text-[10px] text-white/40 uppercase tracking-widest mt-1">{row.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* PRO Page Funnel */}
       <div className="bg-[#111] border border-white/7 rounded-2xl p-6 mb-8">
-        <h3 className="text-sm font-black uppercase tracking-widest text-white/50 mb-4">Camp Page Funnel</h3>
+        <h3 className="text-sm font-black uppercase tracking-widest text-white/50 mb-4">PRO Page Funnel</h3>
         <div className="grid grid-cols-3 gap-4">
           {[
-            { label: "Page Views", value: stats.campFunnel.campViews },
-            { label: "Clicked Continue", value: stats.campFunnel.campContinue },
-            { label: "Registered", value: stats.campFunnel.campSubmits },
+            { label: "Page Views", value: stats.proFunnel.proViews },
+            { label: "Clicked Book/Reserve", value: stats.proFunnel.proContinue },
+            { label: "Sent Inquiry", value: stats.proFunnel.proSubmits },
           ].map((step, i) => (
             <div key={step.label} className="text-center">
               <p className="text-3xl font-black">{step.value}</p>
               <p className="text-[10px] text-white/40 uppercase tracking-widest mt-1">{step.label}</p>
-              {i > 0 && stats.campFunnel.campViews > 0 && (
+              {i > 0 && stats.proFunnel.proViews > 0 && (
                 <p className="text-[10px] text-[#F97316] mt-1">
-                  {Math.round((step.value / stats.campFunnel.campViews) * 100)}% of views
+                  {Math.round((step.value / stats.proFunnel.proViews) * 100)}% of views
                 </p>
               )}
             </div>

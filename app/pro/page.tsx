@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 const SKILLS = [
   "Ball Handling",
@@ -130,6 +131,7 @@ export default function ProPage() {
 
               <Link
                 href="/book?program=pro"
+                onClick={() => trackEvent("button_click", "/pro", "pro_continue")}
                 className="inline-flex items-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
               >
                 Book Your Sessions
@@ -198,13 +200,14 @@ export default function ProPage() {
             <p className="text-white/30 text-xs leading-relaxed mb-6">
               All purchased sessions must be completed by August 31, 2026. Limited spots available throughout the summer.
             </p>
-            <a
-              href="#reserve"
+            <Link
+              href="/book?program=pro"
+              onClick={() => trackEvent("button_click", "/pro", "pro_continue")}
               className="inline-flex items-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
             >
               Reserve Your Sessions
               <ArrowRight className="w-4 h-4" />
-            </a>
+            </Link>
           </div>
         </div>
 
