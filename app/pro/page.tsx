@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, MapPin } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 
 const SKILLS = [
@@ -127,7 +127,10 @@ export default function ProPage() {
               <p className="text-white/40 text-lg leading-relaxed max-w-xl mb-2">
                 Our premium <strong className="text-white font-bold">private training</strong> experience — individualized development in a focused environment.
               </p>
-              <p className="text-white/20 text-sm italic mb-8">Train with intention. Train with purpose.</p>
+              <p className="flex items-center gap-1.5 text-white/40 text-sm mb-8">
+                <MapPin className="w-3.5 h-3.5 shrink-0" />
+                The Hoop — 11111 Twigg Pl #1061, Richmond, BC
+              </p>
 
               <Link
                 href="/book?program=pro"

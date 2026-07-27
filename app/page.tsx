@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Users, Trophy, Calendar, Star } from "lucide-react";
+import ProPromoModal from "@/components/ProPromoModal";
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // CONTENT
@@ -209,6 +210,7 @@ export default function Home() {
   useReveal();
   return (
     <>
+      <ProPromoModal />
       <HeroSection />
       <TickerSection />
       <StatsSection />
