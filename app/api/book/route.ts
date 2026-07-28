@@ -89,6 +89,8 @@ export async function POST(request: Request) {
         })
       : "TBD";
 
+    const location = "The Hoop — 11111 Twigg Pl #1061, Richmond, BC";
+
     const userHtml = isPassHolder
       ? `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
@@ -97,6 +99,7 @@ export async function POST(request: Request) {
           <div style="margin:24px 0;padding:20px;background:#f9f9f9;border-radius:12px;border:1px solid #eee;">
             <p style="margin:6px 0;"><strong>Date:</strong> ${dateLabel}</p>
             <p style="margin:6px 0;"><strong>Time:</strong> ${preferred_time || "TBD"}</p>
+            <p style="margin:6px 0;"><strong>Location:</strong> ${location}</p>
           </div>
           <p>See you on the court!</p>
           <p style="margin-top:40px;">Best regards,<br><strong>Paolo</strong><br>LTS Elite Prep Team</p>
@@ -110,6 +113,7 @@ export async function POST(request: Request) {
           <div style="margin:24px 0;padding:20px;background:#f9f9f9;border-radius:12px;border:1px solid #eee;">
             <p style="margin:6px 0;"><strong>Date:</strong> ${dateLabel}</p>
             <p style="margin:6px 0;"><strong>Time:</strong> ${preferred_time || "TBD"}</p>
+            <p style="margin:6px 0;"><strong>Location:</strong> ${location}</p>
             <p style="margin:16px 0 6px;"><strong>E-transfer to:</strong> info@ltseliteprep.ca</p>
             <p style="margin:6px 0;"><strong>Amount:</strong> ${amount}</p>
             <p style="margin:10px 0;font-size:13px;color:#666;"><em>Include your name in the transfer notes.</em></p>
