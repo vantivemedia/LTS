@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check, CheckCircle2 } from "lucide-react";
 
 type PassType = "pass-5" | "pass-10";
@@ -31,7 +32,16 @@ const PASSES = [
 ];
 
 export default function BuyPassPage() {
-  const [selected, setSelected] = useState<string>("academy");
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <BuyPassPageInner />
+    </Suspense>
+  );
+}
+
+function BuyPassPageInner() {
+  const searchParams = useSearchParams();
+  const [selected, setSelected] = useState<string>(searchParams.get("program") === "pro" ? "pro" : "academy");
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

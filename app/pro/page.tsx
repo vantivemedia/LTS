@@ -203,14 +203,24 @@ export default function ProPage() {
             <p className="text-white/30 text-xs leading-relaxed mb-6">
               All purchased sessions must be completed by August 31, 2026. Limited spots available throughout the summer.
             </p>
-            <Link
-              href="/book?program=pro"
-              onClick={() => trackEvent("button_click", "/pro", "pro_continue")}
-              className="inline-flex items-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
-            >
-              Reserve Your Sessions
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link
+                href="/book?program=pro"
+                onClick={() => trackEvent("button_click", "/pro", "pro_continue")}
+                className="flex-1 inline-flex items-center justify-center gap-2 border border-white/15 hover:border-white/30 hover:bg-white/5 text-white font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl transition-all active:scale-95"
+              >
+                Book Single Session
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/buy-pass?program=pro"
+                onClick={() => trackEvent("button_click", "/pro", "pro_continue")}
+                className="flex-1 inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
+              >
+                Buy 5-Session Package
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
         </div>
 

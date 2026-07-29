@@ -254,7 +254,7 @@ function BookPageInner() {
               <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
             </Link>
 
-            {/* LTS PRO */}
+            {/* LTS PRO — drop-in */}
             <button
               type="button"
               onClick={() => { setProgramType("pro"); setStep(2); }}
@@ -268,6 +268,18 @@ function BookPageInner() {
                 <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
               </div>
             </button>
+
+            {/* Buy PRO Package */}
+            <Link
+              href="/buy-pass?program=pro"
+              className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
+            >
+              <div>
+                <h3 className="font-black text-xl uppercase text-white mb-1">Buy PRO Package</h3>
+                <p className="text-sm text-white/40">5-Session $399.99 · Save $25+ vs. individual sessions</p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
+            </Link>
           </div>
         </div>
       </div>
