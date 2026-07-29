@@ -1,24 +1,13 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check, CheckCircle2 } from "lucide-react";
 
 type PassType = "pass-5" | "pass-10";
 type Program = "academy" | "pro";
 
 const PASSES = [
-  {
-    id: "academy",
-    program: "academy" as Program,
-    passType: "pass-5" as PassType,
-    name: "Micro Academy — 5-Session Pass",
-    price: "$299.99",
-    perSession: "$60.00/session",
-    desc: "July special — 5 sessions to use across our summer schedule.",
-    features: ["5 Sessions Included", "Any 5 of 6 July Dates", "Flexible Scheduling", "Performance Tracking"],
-  },
   {
     id: "pro",
     program: "pro" as Program,
@@ -32,16 +21,7 @@ const PASSES = [
 ];
 
 export default function BuyPassPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen bg-black" />}>
-      <BuyPassPageInner />
-    </Suspense>
-  );
-}
-
-function BuyPassPageInner() {
-  const searchParams = useSearchParams();
-  const [selected, setSelected] = useState<string>(searchParams.get("program") === "pro" ? "pro" : "academy");
+  const [selected, setSelected] = useState<string>("pro");
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");
   const [parentName, setParentName] = useState("");

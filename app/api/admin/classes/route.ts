@@ -38,14 +38,17 @@ export async function POST(request: Request) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 
+  const resolvedProgram = program || "futures"; // デフォルトはfutures
+
   const { data, error } = await supabase.from("classes").insert({
     title,
-    program: program || "futures", // デフォルトはfutures
+    program: resolvedProgram,
     class_date,
     start_time,
     end_time,
     coach,
-    capacity: parseInt(capacity),
+    // LTS PRO sessions are always capped at 2 players, regardless of what's submitted.
+    capacity: resolvedProgram === "pro" ? 2 : parseInt(capacity),
   });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

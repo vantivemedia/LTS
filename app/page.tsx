@@ -41,33 +41,18 @@ const TICKER = [
 
 const STATS = [
   { value: "200+", label: "Athletes Trained", icon: Users },
-  { value: "3", label: "Programs", icon: Trophy },
+  { value: "2", label: "Programs", icon: Trophy },
   { value: "5+", label: "Years Running", icon: Calendar },
   { value: "4.9", label: "Rating", icon: Star },
 ];
 
 const PROGRAMS = [
   {
-    id: "micro-academy",
-    name: "Micro Academy",
-    tagline: "Ages 8-18 Development",
-    badge: "Combined Program",
-    featured: true,
-    desc: "The foundation of LTS development. We combine fundamental skill building with high-intensity competitive play for athletes aged 8-18.",
-    features: [
-      "Fundamental & Advanced Skills",
-      "Competitive Small Group Play",
-      "Court IQ & Video Analysis",
-      "Professional Coaching",
-    ],
-    href: "/book",
-    cta: "TRAIN NOW",
-  },
-  {
     id: "pro",
     name: "LTS PRO",
     tagline: "Private 1-on-1 Training",
     badge: "Premium",
+    featured: true,
     desc: "Individualized development in a focused 1-on-1 or 1-on-2 environment. Sessions built around your position, skill level, and goals.",
     features: [
       "1-on-1 or 1-on-2 Coaching",
@@ -425,41 +410,16 @@ function ProgramsSection() {
                 ))}
               </ul>
 
-              {program.id === "micro-academy" ? (
-                <div className="space-y-3 mt-6">
-                  <Link
-                    href="/buy-pass"
-                    className={`block text-center font-black py-4 rounded-xl text-sm transition-all
-                      ${program.featured
-                        ? "bg-black text-white hover:bg-black/90 shadow-xl"
-                        : "bg-white text-black hover:bg-white/90 shadow-xl"
-                      }`}
-                  >
-                    5-DAY PASS ($299.99)
-                  </Link>
-                  <Link
-                    href="/book?program=pass-usage"
-                    className={`block text-center font-bold py-2 rounded-xl text-xs transition-all uppercase tracking-wider
-                      ${program.featured
-                        ? "text-black/50 hover:text-black hover:underline"
-                        : "text-white/40 hover:text-white hover:underline"
-                      }`}
-                  >
-                    Already have a pass? Book here
-                  </Link>
-                </div>
-              ) : (
-                <Link
-                  href={program.href}
-                  className={`block text-center font-black py-4 rounded-xl
-                             text-sm transition-all ${program.featured
-                      ? "bg-black text-white hover:bg-black/90 shadow-xl"
-                      : "border border-white/10 hover:border-white/30 hover:bg-white/5 text-white"
-                    }`}
-                >
-                  {program.cta}
-                </Link>
-              )}
+              <Link
+                href={program.href}
+                className={`block text-center font-black py-4 rounded-xl
+                           text-sm transition-all ${program.featured
+                    ? "bg-black text-white hover:bg-black/90 shadow-xl"
+                    : "border border-white/10 hover:border-white/30 hover:bg-white/5 text-white"
+                  }`}
+              >
+                {program.cta}
+              </Link>
             </div>
           ))}
         </div>

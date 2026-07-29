@@ -515,7 +515,17 @@ function ScheduleTab() {
           </div>
           <div>
             <label className="block text-xs font-bold text-white/50 uppercase tracking-widest mb-2">Capacity</label>
-            <input required type="number" value={capacity} onChange={(e) => setCapacity(e.target.value)} className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#F97316]/50 focus:outline-none" />
+            <input
+              required
+              type="number"
+              value={program === "pro" ? "2" : capacity}
+              onChange={(e) => setCapacity(e.target.value)}
+              disabled={program === "pro"}
+              className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#F97316]/50 focus:outline-none disabled:opacity-50"
+            />
+            {program === "pro" && (
+              <p className="text-[10px] text-white/30 mt-1.5">LTS PRO sessions are capped at 2 players.</p>
+            )}
           </div>
           <div className="sm:col-span-2 pt-2">
             <button type="submit" className="w-full bg-white text-black font-bold py-3.5 rounded-xl hover:bg-[#F97316] hover:text-white transition-all">

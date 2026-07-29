@@ -162,6 +162,13 @@ function BookPageInner() {
 
   const availableDates = useMemo(() => filteredClasses.map((c) => c.class_date), [filteredClasses]);
 
+  const sessionsForDate = useMemo(() => {
+    if (!preferredDate) return [];
+    return filteredClasses
+      .filter((c) => c.class_date === preferredDate)
+      .sort((a, b) => a.start_time.localeCompare(b.start_time));
+  }, [filteredClasses, preferredDate]);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -227,45 +234,18 @@ function BookPageInner() {
           </div>
 
           <div className="space-y-3">
-            {/* Book Session — top, highlighted */}
-            <button
-              type="button"
-              onClick={() => { setProgramType("session"); setStep(2); }}
-              className="w-full text-left p-6 rounded-2xl border bg-white text-black border-white transition-all group"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="font-black text-xl uppercase mb-1">Book Session</h3>
-                  <p className="text-sm text-black/50">Micro Academy · Drop-in $70 · Pass holders deducted automatically</p>
-                </div>
-                <ArrowRight className="w-5 h-5 text-black/40 group-hover:text-black transition-colors" />
-              </div>
-            </button>
-
-            {/* Buy Pass */}
-            <Link
-              href="/buy-pass"
-              className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
-            >
-              <div>
-                <h3 className="font-black text-xl uppercase text-white mb-1">Buy Pass</h3>
-                <p className="text-sm text-white/40">5-Session $299.99 · 10-Session $449 · Save per session</p>
-              </div>
-              <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
-            </Link>
-
             {/* LTS PRO — drop-in */}
             <button
               type="button"
               onClick={() => { setProgramType("pro"); setStep(2); }}
-              className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group"
+              className="w-full text-left p-6 rounded-2xl border bg-white text-black border-white transition-all group"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-black text-xl uppercase text-white mb-1">LTS PRO</h3>
-                  <p className="text-sm text-white/40">$85/session · Pass holders deducted automatically</p>
+                  <h3 className="font-black text-xl uppercase mb-1">LTS PRO</h3>
+                  <p className="text-sm text-black/50">$85/session · Pass holders deducted automatically</p>
                 </div>
-                <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
+                <ArrowRight className="w-5 h-5 text-black/40 group-hover:text-black transition-colors" />
               </div>
             </button>
 
@@ -315,40 +295,40 @@ function BookPageInner() {
 
             <div>
               <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4 block">
-                Sessions
+                {preferredDate
+                  ? `Sessions — ${new Date(preferredDate + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", weekday: "short" })}`
+                  : "Sessions"}
               </label>
-              <div className="space-y-2 max-h-[280px] overflow-y-auto pr-1">
-                {filteredClasses.length > 0 ? (
-                  filteredClasses
-                    .sort((a, b) => new Date(a.class_date + "T00:00:00").getTime() - new Date(b.class_date + "T00:00:00").getTime())
-                    .map((c) => {
-                      const isSel = preferredDate === c.class_date && preferredTime === `${formatTime(c.start_time)} - ${formatTime(c.end_time)}`;
-                      const d = new Date(c.class_date + "T00:00:00");
-                      const dateLabel = d.toLocaleDateString("en-US", { month: "short", day: "numeric", weekday: "short" });
-                      return (
-                        <button
-                          key={c.id}
-                          type="button"
-                          onClick={() => { setPreferredDate(c.class_date); setPreferredTime(`${formatTime(c.start_time)} - ${formatTime(c.end_time)}`); }}
-                          className={`w-full flex items-center justify-between p-4 rounded-2xl border transition-all
-                            ${isSel ? "bg-white text-black border-white" : "bg-[#111] text-white/60 border-white/5 hover:border-white/15"}`}
-                        >
-                          <div className="text-left">
-                            <span className={`text-[10px] font-black uppercase block mb-1 ${isSel ? "opacity-40" : "opacity-40"}`}>{dateLabel}</span>
-                            <span className="font-bold text-sm uppercase">{c.title}</span>
-                          </div>
-                          <span className={`text-xs font-black ${isSel ? "text-black/60" : "text-white/30"}`}>
-                            {formatTime(c.start_time)} – {formatTime(c.end_time)}
-                          </span>
-                        </button>
-                      );
-                    })
-                ) : (
-                  <div className="text-center py-12 border border-dashed border-white/10 rounded-2xl">
-                    <p className="text-white/20 text-xs font-bold uppercase tracking-widest">No upcoming sessions</p>
-                  </div>
-                )}
-              </div>
+              {!preferredDate ? (
+                <div className="text-center py-12 border border-dashed border-white/10 rounded-2xl">
+                  <p className="text-white/20 text-xs font-bold uppercase tracking-widest">Select a date above to see available times</p>
+                </div>
+              ) : sessionsForDate.length > 0 ? (
+                <div className="space-y-2">
+                  {sessionsForDate.map((c) => {
+                    const timeLabel = `${formatTime(c.start_time)} - ${formatTime(c.end_time)}`;
+                    const isSel = preferredTime === timeLabel;
+                    return (
+                      <button
+                        key={c.id}
+                        type="button"
+                        onClick={() => setPreferredTime(timeLabel)}
+                        className={`w-full flex items-center justify-between p-4 rounded-2xl border transition-all
+                          ${isSel ? "bg-white text-black border-white" : "bg-[#111] text-white/60 border-white/5 hover:border-white/15"}`}
+                      >
+                        <span className="font-bold text-sm uppercase">{c.title}</span>
+                        <span className={`text-xs font-black ${isSel ? "text-black/60" : "text-white/30"}`}>
+                          {formatTime(c.start_time)} – {formatTime(c.end_time)}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="text-center py-12 border border-dashed border-white/10 rounded-2xl">
+                  <p className="text-white/20 text-xs font-bold uppercase tracking-widest">No sessions on this date</p>
+                </div>
+              )}
             </div>
 
             <div className="flex gap-3 pt-2">

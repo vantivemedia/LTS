@@ -14,12 +14,9 @@ import {
   Users,
   MapPin,
   Calendar,
-  Dumbbell,
-  Film,
   Brain,
   Target,
   Zap,
-  Shield,
   BarChart3,
   GraduationCap,
 } from "lucide-react";
@@ -50,33 +47,6 @@ function useReveal() {
 
 const PROGRAMS = [
   {
-    id: "micro-academy",
-    name: "Micro Academy",
-    tagline: "Elite Development",
-    emoji: "🔥",
-    ages: "Ages 8 – 18",
-    schedule: "Tue & Thu (High) · Sat (Futures)",
-    location: "Vancouver, BC",
-    groupSize: "8 – 16 athletes",
-    price: "Session Pass Required",
-    color: "from-orange-500/20 to-red-500/10",
-    borderColor: "border-orange-500/20",
-    featured: true,
-    desc: "Our signature developmental environment. We combine fundamental skill building with high-intensity competitive play. Whether you're just starting or looking to dominate high school, the Micro Academy is where growth happens.",
-    features: [
-      { icon: Target, text: "Dribbling, passing & shooting fundamentals" },
-      { icon: Dumbbell, text: "Advanced skill & strength training" },
-      { icon: Film, text: "Video analysis & personalized feedback" },
-      { icon: Users, text: "Small group competitive environment" },
-    ],
-    details: [
-      "Age-appropriate skill progressions",
-      "Positional breakdown sessions",
-      "Regular 1-on-1 attention from coaches",
-      "High-energy scrimmages & court IQ",
-    ],
-  },
-  {
     id: "pro",
     name: "LTS PRO",
     tagline: "Private Training",
@@ -88,6 +58,7 @@ const PROGRAMS = [
     price: "$85/session · 5 for $399.99",
     color: "from-purple-500/20 to-violet-500/10",
     borderColor: "border-purple-500/20",
+    featured: true,
     desc: "Our premium private training experience — individualized development in a focused 1-on-1 or 1-on-2 environment. Sessions are customized to the athlete's position, skill level, and goals.",
     features: [
       { icon: Zap, text: "1-on-1 or 1-on-2 personalized coaching" },
@@ -163,7 +134,7 @@ export default function ProgramsPage() {
             Find Your <span className="text-white">Level</span>
           </h1>
           <p className="text-white/40 text-lg max-w-xl mx-auto">
-            Three programs built for where you are — and where you want to go.
+            Two programs built for where you are — and where you want to go.
             Join the team today.
           </p>
         </div>
@@ -268,11 +239,11 @@ export default function ProgramsPage() {
                 {/* CTA */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link
-                    href={program.id === 'college' ? '/college-contact' : program.id === 'pro' ? '/pro' : '/register'}
+                    href={program.id === 'college' ? '/college-contact' : '/pro'}
                     className="btn-accent inline-flex items-center justify-center gap-2
                                font-bold px-8 py-3.5 rounded-xl group"
                   >
-                    {program.id === 'college' ? 'INQUIRE NOW' : program.id === 'pro' ? 'EXPLORE LTS PRO' : 'TRAIN NOW'}
+                    {program.id === 'college' ? 'INQUIRE NOW' : 'EXPLORE LTS PRO'}
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <span className="text-sm text-white/30 flex items-center">
