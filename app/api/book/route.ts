@@ -6,8 +6,8 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, parentName, email, phone, program, preferred_date, preferred_time } = body;
 
-    if (!name || !email || !program) {
-      return NextResponse.json({ error: "Name, email, and program are required" }, { status: 400 });
+    if (!name || !parentName || !email || !program) {
+      return NextResponse.json({ error: "Name, parent name, email, and program are required" }, { status: 400 });
     }
 
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {

@@ -21,49 +21,28 @@ const WINDOWS = [
   { id: "aug24", range: "August 24–31", time: "12:00 PM – 3:30 PM" },
 ];
 
-type PackageInterest = "single" | "pack5";
-
 export default function ProPage() {
-  const [athleteName, setAthleteName] = useState("");
-  const [ageGrade, setAgeGrade] = useState("");
+  const [name, setName] = useState("");
   const [parentName, setParentName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [details, setDetails] = useState("");
-  const [packageInterest, setPackageInterest] = useState<PackageInterest>("pack5");
-  const [selectedWindows, setSelectedWindows] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
-
-  function toggleWindow(range: string) {
-    setSelectedWindows((prev) =>
-      prev.includes(range) ? prev.filter((w) => w !== range) : [...prev, range]
-    );
-  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/pro-inquiry", {
+      const res = await fetch("/api/buy-pass", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          athleteName,
-          ageGrade,
-          parentName,
-          email,
-          phone,
-          windows: selectedWindows,
-          details,
-          packageInterest,
-        }),
+        body: JSON.stringify({ name, parentName, email, phone, passType: "pass-5", program: "pro" }),
       });
       if (!res.ok) {
         const d = await res.json();
-        throw new Error(d.error || "Failed to send");
+        throw new Error(d.error || "Purchase failed");
       }
       setSubmitted(true);
     } catch (err: any) {
@@ -79,13 +58,21 @@ export default function ProPage() {
           <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-8">
             <Check className="w-10 h-10 text-black" />
           </div>
-          <h2 className="text-4xl font-black mb-4 uppercase">Request Sent</h2>
-          <p className="text-white/40 mb-10 leading-relaxed">
-            Thanks for your interest in LTS PRO. Coach Paolo will follow up shortly to confirm session times and finalize payment.
+          <h2 className="text-4xl font-black mb-4 uppercase">Pass Registered</h2>
+          <p className="text-white/40 mb-4 leading-relaxed">
+            Check your email for payment instructions. Once payment is received, your 5-session package is active and you can start booking.
           </p>
-          <Link href="/" className="inline-block bg-white text-black font-bold px-10 py-4 rounded-2xl">
-            BACK TO HOME
-          </Link>
+          <p className="text-white/30 text-sm mb-10">
+            Use <strong className="text-white/50">/book</strong> to schedule your sessions — we'll automatically detect your pass.
+          </p>
+          <div className="flex gap-3 justify-center">
+            <Link href="/book?program=pro" className="bg-white text-black font-bold px-8 py-4 rounded-2xl">
+              BOOK A SESSION
+            </Link>
+            <Link href="/" className="bg-white/10 text-white font-bold px-8 py-4 rounded-2xl">
+              HOME
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -241,65 +228,40 @@ export default function ProPage() {
         </div>
       </div>
 
-      {/* ── Reservation Form (custom requests — instant booking is the primary path above) ── */}
-      <div id="reserve" className="max-w-4xl mx-auto mt-20 scroll-mt-28">
+      {/* ── Buy Package Form ── */}
+      <div className="max-w-4xl mx-auto mt-20 scroll-mt-28">
         <div className="text-center mb-8">
-          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Need a Custom Time?</p>
-          <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">Send a Request Instead</h2>
+          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Best Value</p>
+          <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">Buy the 5-Session Package</h2>
           <p className="text-white/40 text-sm max-w-md mx-auto">
-            Prefer to book instantly? <Link href="/book?program=pro" className="text-white underline hover:no-underline">Go to instant booking</Link>. Otherwise, send us your preferred dates and Coach Paolo will follow up to confirm details.
+            $399.99 for 5 sessions — save $25+ vs. booking individually. Just need a single session? <Link href="/book?program=pro" className="text-white underline hover:no-underline">Book one instead</Link>.
           </p>
         </div>
 
         <div className="bg-[#111] p-6 sm:p-10 rounded-3xl border border-white/5">
           <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Athlete Name</label>
-                <input
-                  required
-                  type="text"
-                  placeholder="JORDAN SMITH"
-                  value={athleteName}
-                  onChange={(e) => setAthleteName(e.target.value)}
-                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Age / Grade</label>
-                <input
-                  required
-                  type="text"
-                  placeholder="16 / GRADE 11"
-                  value={ageGrade}
-                  onChange={(e) => setAgeGrade(e.target.value)}
-                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
-                />
-              </div>
+            <div>
+              <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Full Name</label>
+              <input
+                required
+                type="text"
+                placeholder="JORDAN SMITH"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
+              />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent/Guardian Name</label>
-                <input
-                  required
-                  type="text"
-                  placeholder="MICHAEL SMITH"
-                  value={parentName}
-                  onChange={(e) => setParentName(e.target.value)}
-                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
-                />
-              </div>
-              <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Phone (Optional)</label>
-                <input
-                  type="tel"
-                  placeholder="604-000-0000"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
-                />
-              </div>
+            <div>
+              <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Name</label>
+              <input
+                required
+                type="text"
+                placeholder="MICHAEL SMITH"
+                value={parentName}
+                onChange={(e) => setParentName(e.target.value)}
+                className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
+              />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -315,48 +277,15 @@ export default function ProPage() {
                 />
               </div>
               <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Interested In</label>
-                <select
-                  value={packageInterest}
-                  onChange={(e) => setPackageInterest(e.target.value as PackageInterest)}
-                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors appearance-none"
-                >
-                  <option value="pack5">5-Session Package — $399.99</option>
-                  <option value="single">Single Session — $85.00</option>
-                </select>
+                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Phone (Optional)</label>
+                <input
+                  type="tel"
+                  placeholder="604-000-0000"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                />
               </div>
-            </div>
-
-            <div>
-              <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-3 block">Preferred Training Windows</label>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-2">
-                {WINDOWS.map((w) => {
-                  const label = `${w.range} (${w.time})`;
-                  const active = selectedWindows.includes(label);
-                  return (
-                    <label key={w.id} className="flex items-center gap-2.5 text-sm cursor-pointer py-1">
-                      <input
-                        type="checkbox"
-                        checked={active}
-                        onChange={() => toggleWindow(label)}
-                        className="w-4 h-4 rounded accent-white shrink-0"
-                      />
-                      <span className={`font-bold ${active ? "text-white" : "text-white/50"}`}>{w.range}</span>
-                    </label>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div>
-              <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Preferred Dates &amp; Times (Optional)</label>
-              <textarea
-                rows={3}
-                placeholder="ANY SPECIFIC DAYS/TIMES WITHIN THE WINDOWS ABOVE..."
-                value={details}
-                onChange={(e) => setDetails(e.target.value)}
-                className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors resize-none"
-              />
             </div>
 
             {error && (
@@ -367,15 +296,15 @@ export default function ProPage() {
 
             <button
               type="submit"
-              disabled={!athleteName || !ageGrade || !parentName || !email || loading}
+              disabled={!name || !parentName || !email || loading}
               className="w-full bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30 mt-2"
             >
-              {loading ? "SENDING..." : "SEND RESERVATION REQUEST"}
+              {loading ? "PROCESSING..." : "REGISTER — $399.99"}
               {!loading && <ArrowRight className="w-5 h-5" />}
             </button>
 
             <p className="text-center text-xs text-white/20 pt-1">
-              No payment required now — Coach Paolo will follow up to confirm session times, then payment. We typically respond within 24–48 hours.
+              You'll receive an e-transfer invoice by email. Your package activates once payment is confirmed.
             </p>
           </form>
         </div>

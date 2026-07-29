@@ -4,11 +4,11 @@ import { createClient } from "@supabase/supabase-js";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, phone, passType, pass_type: body_pass_type } = body;
+    const { name, parentName, email, phone, passType, pass_type: body_pass_type } = body;
     const pass_type = passType || body_pass_type;
     const program: "academy" | "pro" = body.program === "pro" ? "pro" : "academy";
 
-    if (!name || !email || !pass_type) {
+    if (!name || !parentName || !email || !pass_type) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
@@ -110,6 +110,7 @@ export async function POST(request: Request) {
         <h2>New Pass Purchase 🏀</h2>
         <table style="border-collapse:collapse;">
           <tr><td style="padding:6px 12px;color:#666;">Name</td><td style="padding:6px 12px;font-weight:bold;">${name}</td></tr>
+          <tr><td style="padding:6px 12px;color:#666;">Parent</td><td style="padding:6px 12px;">${parentName}</td></tr>
           <tr><td style="padding:6px 12px;color:#666;">Email</td><td style="padding:6px 12px;">${email}</td></tr>
           <tr><td style="padding:6px 12px;color:#666;">Phone</td><td style="padding:6px 12px;">${phone || "—"}</td></tr>
           <tr><td style="padding:6px 12px;color:#666;">Pass</td><td style="padding:6px 12px;">${label}</td></tr>

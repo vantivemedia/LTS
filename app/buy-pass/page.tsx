@@ -44,6 +44,7 @@ function BuyPassPageInner() {
   const [selected, setSelected] = useState<string>(searchParams.get("program") === "pro" ? "pro" : "academy");
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");
+  const [parentName, setParentName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
@@ -60,7 +61,7 @@ function BuyPassPageInner() {
       const res = await fetch("/api/buy-pass", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, passType: pass.passType, program: pass.program }),
+        body: JSON.stringify({ name, parentName, email, phone, passType: pass.passType, program: pass.program }),
       });
       if (!res.ok) {
         const d = await res.json();
@@ -196,6 +197,17 @@ function BuyPassPageInner() {
                 />
               </div>
               <div>
+                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Name</label>
+                <input
+                  required
+                  type="text"
+                  placeholder="MICHAEL SMITH"
+                  value={parentName}
+                  onChange={(e) => setParentName(e.target.value)}
+                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                />
+              </div>
+              <div>
                 <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Email Address</label>
                 <input
                   required
@@ -225,7 +237,7 @@ function BuyPassPageInner() {
 
               <button
                 type="submit"
-                disabled={!name || !email || loading}
+                disabled={!name || !parentName || !email || loading}
                 className="w-full bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30 mt-2"
               >
                 {loading ? "PROCESSING..." : `REGISTER — ${pass.price}`}
