@@ -34,7 +34,7 @@ function useReveal() {
 const STORY = {
   title: "Our Story",
   paragraphs: [
-    "LTS Elite Prep started in 2020 with a simple idea: every young basketball player in Vancouver deserves access to quality coaching — not just the ones who can afford expensive academies.",
+    "LTS ELITE PREP started in 2020 with a simple idea: every young basketball player in Vancouver deserves access to quality coaching — not just the ones who can afford expensive academies.",
     "Founded by Paolo Labrador, LTS grew from weekend sessions at a local gym to one of Vancouver's most dedicated basketball development programs. We're not the biggest — but we're the most invested in every single athlete who walks through our doors.",
     "Our name says it all: Elite Prep. We prepare athletes not just for the next game, but for the next level — whether that's making the school team, earning a college scholarship, or simply falling in love with the sport.",
   ],

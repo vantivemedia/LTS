@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     const { data, error } = await resend.emails.send({
-      from: from || "LTS Elite Prep <info@ltseliteprep.ca>",
+      from: from || "LTS ELITE PREP <info@ltseliteprep.ca>",
       to: Array.isArray(to) ? to : [to],
       subject: subject,
       html: html,

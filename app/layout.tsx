@@ -12,12 +12,12 @@ import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 // ── SEO ──────────────────────────────────────────────────────
 export const metadata: Metadata = {
-  title: "LTS Elite Prep | Basketball Development in Vancouver",
+  title: "LTS ELITE PREP | Basketball Development in Vancouver",
   description:
     "Vancouver's premium basketball development program. Programs for ages 8–22 — Micro Academy and College. Book your session today!",
-  keywords: "basketball training, Vancouver, youth basketball, college prep, LTS Elite Prep",
+  keywords: "basketball training, Vancouver, youth basketball, college prep, LTS ELITE PREP",
   openGraph: {
-    title: "LTS Elite Prep | Basketball Development",
+    title: "LTS ELITE PREP | Basketball Development",
     description: "Train with coaches who've been there. Book your session today.",
     type: "website",
     locale: "en_CA",

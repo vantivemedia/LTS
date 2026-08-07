@@ -132,7 +132,7 @@ function ScheduleInner() {
           <Link href="/" className="flex items-center gap-3 group">
             <Image 
               src="/logo/logo1.png" 
-              alt="LTS Elite Prep" 
+              alt="LTS ELITE PREP" 
               width={180} 
               height={60} 
               className="h-10 sm:h-12 w-auto object-contain brightness-0 invert" 

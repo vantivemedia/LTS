@@ -58,7 +58,7 @@ export default function Navbar() {
               className="flex items-center gap-2.5 group">
           <Image 
             src="/logo/logo1.png" 
-            alt="LTS Elite Prep" 
+            alt="LTS ELITE PREP" 
             width={180} 
             height={60} 
             className="h-12 sm:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02] brightness-0 invert"

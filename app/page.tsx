@@ -230,7 +230,7 @@ function HeroSection() {
       {/* 背景写真 */}
       <Image
         src="/images/DSC00881.jpg"
-        alt="Basketball training at LTS Elite Prep"
+        alt="Basketball training at LTS ELITE PREP"
         fill
         priority
         className="object-cover opacity-30"
@@ -439,14 +439,14 @@ function PactSection() {
             <div className="mb-6">
               <Image
                 src="/logo/logo1.png"
-                alt="LTS Elite Prep Logo"
+                alt="LTS ELITE PREP Logo"
                 width={180}
                 height={60}
                 className="h-12 w-auto object-contain brightness-0 invert"
               />
             </div>
             <p className="text-white/50 text-lg leading-relaxed mb-4">
-              Every athlete at LTS Elite Prep makes a personal commitment — a
+              Every athlete at LTS ELITE PREP makes a personal commitment — a
               PACT to their own development.
             </p>
             <p className="text-white/40 text-base leading-relaxed mb-8">

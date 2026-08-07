@@ -45,7 +45,7 @@ export async function POST(request: Request) {
         const resend = new Resend(process.env.RESEND_API_KEY);
 
         const { error: userError } = await resend.emails.send({
-          from: "LTS Elite Prep <info@ltseliteprep.ca>",
+          from: "LTS ELITE PREP <info@ltseliteprep.ca>",
           to: email,
           subject: "We received your LTS College Inquiry",
           html: `
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
                 <strong>Your message:</strong><br>${message || "No additional message provided."}
               </div>
               <p>Best regards,</p>
-              <p><strong>Paolo</strong><br>LTS Elite Prep Team</p>
+              <p><strong>Paolo</strong><br>LTS ELITE PREP Team</p>
             </div>
           `,
         });

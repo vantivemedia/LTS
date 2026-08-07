@@ -55,7 +55,7 @@ export async function POST(request: Request) {
         const resend = new Resend(process.env.RESEND_API_KEY);
 
         await resend.emails.send({
-          from: "LTS Elite Prep <info@ltseliteprep.ca>",
+          from: "LTS ELITE PREP <info@ltseliteprep.ca>",
           to: email,
           subject: "We received your LTS PRO reservation request",
           html: `
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
               <p>Thanks for your interest in <strong>LTS PRO</strong> — our private training program for ${athleteName}.</p>
               <div style="margin:20px 0;padding:15px;background:#f5f5f5;border-radius:10px;font-size:14px;color:#444;white-space:pre-line;">${messageBody}</div>
               <p>Coach Paolo will follow up with you shortly to confirm session times and finalize payment.</p>
-              <p style="margin-top:32px;">Best regards,<br/><strong>Paolo</strong><br/>LTS Elite Prep Team</p>
+              <p style="margin-top:32px;">Best regards,<br/><strong>Paolo</strong><br/>LTS ELITE PREP Team</p>
             </div>
           `,
         });

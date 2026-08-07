@@ -71,16 +71,16 @@ export async function POST(request: Request) {
 
     // ユーザーへのインボイスメール
     await resend.emails.send({
-      from: "LTS Elite Prep <info@ltseliteprep.ca>",
+      from: "LTS ELITE PREP <info@ltseliteprep.ca>",
       to: email,
-      subject: `Action Required: Complete your ${label} purchase — LTS Elite Prep`,
+      subject: `Action Required: Complete your ${label} purchase — LTS ELITE PREP`,
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
           <h2 style="font-size:24px;font-weight:900;text-transform:uppercase;margin-bottom:4px;">
             ${label} 🏀
           </h2>
           <p>Hi ${name},</p>
-          <p>Thank you for registering with LTS Elite Prep! To activate your pass, please complete the payment via E-transfer within the next 48 hours.</p>
+          <p>Thank you for registering with LTS ELITE PREP! To activate your pass, please complete the payment via E-transfer within the next 48 hours.</p>
 
           <div style="margin:30px 0;padding:25px;background:#f9f9f9;border-radius:16px;border:1px solid #eee;">
             <h3 style="margin-top:0;font-size:14px;text-transform:uppercase;letter-spacing:0.08em;color:#888;">Payment Details</h3>
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
           <p>Once we receive your payment, your pass will be activated and you can start booking sessions. We look forward to seeing you on the court!</p>
 
           <p style="margin-top:40px;">Best regards,</p>
-          <p><strong>Paolo</strong><br>LTS Elite Prep Team</p>
+          <p><strong>Paolo</strong><br>LTS ELITE PREP Team</p>
         </div>
       `,
     });

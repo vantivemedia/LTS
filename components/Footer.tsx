@@ -44,7 +44,7 @@ export default function Footer() {
             >
               <Image 
                 src="/logo/logo1.png" 
-                alt="LTS Elite Prep" 
+                alt="LTS ELITE PREP" 
                 width={240} 
                 height={80} 
                 className="h-14 sm:h-20 w-auto object-contain opacity-80 group-hover:opacity-100 transition-opacity" 
@@ -113,7 +113,7 @@ export default function Footer() {
                      text-xs text-white/20"
         >
           <p>
-            © {new Date().getFullYear()} LTS Elite Prep. All rights reserved.
+            © {new Date().getFullYear()} LTS ELITE PREP. All rights reserved.
           </p>
           <p>Built with ❤️ in Vancouver</p>
         </div>

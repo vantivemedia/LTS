@@ -102,13 +102,13 @@ export async function POST(request: Request) {
             <p style="margin:6px 0;"><strong>Location:</strong> ${location}</p>
           </div>
           <p>See you on the court!</p>
-          <p style="margin-top:40px;">Best regards,<br><strong>Paolo</strong><br>LTS Elite Prep Team</p>
+          <p style="margin-top:40px;">Best regards,<br><strong>Paolo</strong><br>LTS ELITE PREP Team</p>
         </div>
       `
       : `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
           <p>Hi ${name},</p>
-          <p>Thanks for booking a ${program === "pro" ? "LTS PRO" : "Drop-In"} session with LTS Elite Prep!</p>
+          <p>Thanks for booking a ${program === "pro" ? "LTS PRO" : "Drop-In"} session with LTS ELITE PREP!</p>
           <p>To secure your spot, please complete the payment via E-transfer within the next 48 hours.</p>
           <div style="margin:24px 0;padding:20px;background:#f9f9f9;border-radius:12px;border:1px solid #eee;">
             <p style="margin:6px 0;"><strong>Date:</strong> ${dateLabel}</p>
@@ -120,16 +120,16 @@ export async function POST(request: Request) {
           </div>
           <p style="color:#d93025;font-weight:bold;">Payment must be received within 48 hours to hold your spot.</p>
           <p>💡 <strong>Want to save?</strong> Purchase a session pass at <a href="https://ltseliteprep.ca/buy-pass">ltseliteprep.ca/buy-pass</a> for better per-session rates.</p>
-          <p style="margin-top:40px;">Best regards,<br><strong>Paolo</strong><br>LTS Elite Prep Team</p>
+          <p style="margin-top:40px;">Best regards,<br><strong>Paolo</strong><br>LTS ELITE PREP Team</p>
         </div>
       `;
 
     await Promise.all([
       resend.emails.send({
-        from: "LTS Elite Prep <info@ltseliteprep.ca>",
+        from: "LTS ELITE PREP <info@ltseliteprep.ca>",
         to: email,
         subject: isPassHolder
-          ? "Session Booked — LTS Elite Prep"
+          ? "Session Booked — LTS ELITE PREP"
           : `Action Required: Payment for your ${program === "pro" ? "LTS PRO" : "Drop-In"} session`,
         html: userHtml,
       }),
