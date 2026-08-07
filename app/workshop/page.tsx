@@ -49,8 +49,9 @@ function WorkshopDescription() {
       </p>
 
       <p className="text-sm leading-relaxed" style={{ color: `${BLUE}99` }}>
-        Athletes will build core mechanics — footwork, ball handling, finishing, and shooting — then apply
-        them immediately through competitive small-sided games and game-like scenarios.
+        <strong className="font-black" style={{ color: BLUE }}>LTS ELITE PREP</strong> leads shooting mechanics, while our guest specialist builds
+        speed and explosiveness — sprint mechanics, vertical jump, and change of direction — using proven
+        performance training methods. Athletes leave faster, more explosive, and more athletic.
       </p>
 
       <div>
