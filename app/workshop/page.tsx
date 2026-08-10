@@ -15,24 +15,6 @@ const WORKSHOP_HIGHLIGHTS = [
   "A clear blueprint for continued development",
 ];
 
-type SessionId = "aug12" | "aug27";
-
-const SESSIONS: { id: SessionId; date: string; dateShort: string; trainer: string; trainerTitle?: string }[] = [
-  {
-    id: "aug12",
-    date: "Wednesday, August 12",
-    dateShort: "Aug 12",
-    trainer: "Prime Motion Athletics",
-  },
-  {
-    id: "aug27",
-    date: "Thursday, August 27",
-    dateShort: "Aug 27",
-    trainer: "Devin Thandi",
-    trainerTitle: "Certified Kinesiologist",
-  },
-];
-
 // Blueprint grid background as inline SVG data URL
 const GRID_BG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M 80 0 L 0 0 0 80' fill='none' stroke='rgba(7,60,141,0.10)' stroke-width='1'/%3E%3C/svg%3E")`;
 const GRID_BG_LARGE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cpath d='M 400 0 L 0 0 0 400' fill='none' stroke='rgba(7,60,141,0.16)' stroke-width='1'/%3E%3C/svg%3E")`;
@@ -43,15 +25,14 @@ function WorkshopDescription() {
       <p className="text-sm leading-relaxed" style={{ color: `${BLUE}99` }}>
         <strong className="font-black" style={{ color: BLUE }}>The Blueprint Workshop</strong> is a one-day intensive for players who want to take their
         game to the next level through intentional skill development and high-level competition —
-        run by <strong className="font-black" style={{ color: BLUE }}>LTS ELITE PREP</strong>. Two sessions this August, each featuring a different specialist:
-        <strong className="font-black" style={{ color: BLUE }}> Prime Motion Athletics</strong> on August 12, and{" "}
-        <strong className="font-black" style={{ color: BLUE }}>Devin Thandi</strong>, a certified kinesiologist, on August 27.
+        run by <strong className="font-black" style={{ color: BLUE }}>LTS ELITE PREP</strong> in partnership with{" "}
+        <strong className="font-black" style={{ color: BLUE }}>Prime Motion Athletics</strong>.
       </p>
 
       <p className="text-sm leading-relaxed" style={{ color: `${BLUE}99` }}>
-        <strong className="font-black" style={{ color: BLUE }}>LTS ELITE PREP</strong> leads shooting mechanics, while our guest specialist builds
-        speed and explosiveness — sprint mechanics, vertical jump, and change of direction — using proven
-        performance training methods. Athletes leave faster, more explosive, and more athletic.
+        <strong className="font-black" style={{ color: BLUE }}>LTS ELITE PREP</strong> leads shooting mechanics, while{" "}
+        <strong className="font-black" style={{ color: BLUE }}>Prime Motion Athletics</strong> builds speed and explosiveness — sprint mechanics,
+        acceleration, vertical jump, and movement efficiency — using proven performance training methods.
       </p>
 
       <div>
@@ -72,15 +53,12 @@ function WorkshopDescription() {
 }
 
 export default function WorkshopPage() {
-  const [session, setSession] = useState<SessionId>("aug12");
   const [athleteName, setAthleteName] = useState("");
   const [parentName, setParentName] = useState("");
   const [parentEmail, setParentEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
-
-  const selectedSession = SESSIONS.find((s) => s.id === session)!;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -90,16 +68,7 @@ export default function WorkshopPage() {
       const res = await fetch("/api/workshop", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          athleteName,
-          parentName,
-          parentEmail,
-          sessionId: selectedSession.id,
-          sessionDate: selectedSession.date,
-          trainer: selectedSession.trainerTitle
-            ? `${selectedSession.trainer} (${selectedSession.trainerTitle})`
-            : selectedSession.trainer,
-        }),
+        body: JSON.stringify({ athleteName, parentName, parentEmail }),
       });
       if (!res.ok) {
         const d = await res.json();
@@ -127,8 +96,7 @@ export default function WorkshopPage() {
             Registration Sent
           </h2>
           <p className="mb-10 leading-relaxed" style={{ color: `${BLUE}99` }}>
-            We've received your registration for the {selectedSession.date} Blueprint Workshop with {selectedSession.trainer}.
-            Check the parent's email for payment instructions.
+            We've received your registration for the Blueprint Workshop. Check the parent's email for payment instructions.
           </p>
           <Link href="/" className="font-bold px-10 py-4 rounded-2xl" style={{ background: BLUE, color: BG }}>
             BACK TO HOME
@@ -193,7 +161,7 @@ export default function WorkshopPage() {
             </Link>
 
             <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-3" style={{ color: `${BLUE}80` }}>
-              August 2026 · Two Sessions
+              August 12, 2026 · Featuring Prime Motion Athletics
             </p>
             <h1
               className="text-6xl sm:text-7xl mb-3 uppercase tracking-tighter leading-none"
@@ -204,11 +172,10 @@ export default function WorkshopPage() {
               Workshop
             </h1>
             <p className="text-sm mb-5 max-w-sm" style={{ color: `${BLUE}99` }}>
-              One day. One session. Built to elevate your game. Featuring Prime Motion Athletics on August 12,
-              and kinesiologist Devin Thandi on August 27th.
+              One day. One session. Built to elevate your game.
             </p>
 
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3 mb-6">
               <div
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border"
                 style={{ background: `${BLUE}0d`, borderColor: `${BLUE}26` }}
@@ -217,6 +184,15 @@ export default function WorkshopPage() {
                 <p className="text-xs font-bold" style={{ color: BLUE }}>The Hoop · 11111 Twigg Pl #1061, Richmond, BC</p>
               </div>
             </div>
+
+            <a
+              href="#register"
+              className="lg:hidden inline-flex items-center gap-2 font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl transition-all active:scale-95"
+              style={{ background: BLUE, color: BG }}
+            >
+              Register Now
+              <ArrowRight className="w-4 h-4" />
+            </a>
 
             <div className="hidden lg:block mt-8">
               <WorkshopDescription />
@@ -227,41 +203,32 @@ export default function WorkshopPage() {
         {/* ── Right: Details + Registration ─────────────────── */}
         <div className="max-w-xl mt-16 lg:mt-0">
 
-          {/* Choose Your Session */}
-          <div className="mb-8">
-            <p className="text-[10px] font-black uppercase tracking-widest mb-3" style={{ color: `${BLUE}80` }}>
-              Choose Your Session
-            </p>
-            <div className="space-y-3">
-              {SESSIONS.map((s) => (
-                <button
-                  key={s.id}
-                  type="button"
-                  onClick={() => {
-                    setSession(s.id);
-                    trackEvent("button_click", "/workshop", `select_session_${s.id}`);
-                  }}
-                  className="w-full text-left p-5 rounded-2xl border transition-all"
-                  style={
-                    session === s.id
-                      ? { background: BLUE, color: BG, borderColor: BLUE }
-                      : { background: "#ffffff", color: BLUE, borderColor: `${BLUE}1a` }
-                  }
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-black uppercase">{s.date}</h3>
-                        {session === s.id && <Check className="w-4 h-4" />}
-                      </div>
-                      <p className="text-xs" style={{ color: session === s.id ? `${BG}bf` : `${BLUE}99` }}>
-                        Featuring {s.trainer}{s.trainerTitle ? `, ${s.trainerTitle}` : ""}
-                      </p>
-                    </div>
-                    <p className="text-2xl font-black shrink-0 ml-4">$79.99</p>
-                  </div>
-                </button>
-              ))}
+          <div className="lg:hidden mb-8">
+            <WorkshopDescription />
+          </div>
+
+          <div id="register" className="bg-white rounded-2xl overflow-hidden mb-8 border" style={{ borderColor: `${BLUE}1a`, scrollMarginTop: "8rem" }}>
+            <div className="px-5 py-6 flex items-center justify-between" style={{ borderBottom: `1px solid ${BLUE}1a` }}>
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-widest mb-1" style={{ color: `${BLUE}80` }}>
+                  Date &amp; Time
+                </p>
+                <p className="text-sm font-bold" style={{ color: BLUE }}>Wednesday, August 12</p>
+                <p className="text-xs" style={{ color: `${BLUE}80` }}>12:00 PM – 3:00 PM</p>
+              </div>
+              <div className="text-right">
+                <p className="text-[10px] font-black uppercase tracking-widest mb-1" style={{ color: `${BLUE}80` }}>
+                  Price
+                </p>
+                <p className="text-2xl font-black" style={{ color: BLUE }}>$79.99</p>
+                <p className="text-xs" style={{ color: `${BLUE}80` }}>per athlete</p>
+              </div>
+            </div>
+            <div className="px-5 py-4">
+              <p className="text-[10px] font-black uppercase tracking-widest mb-1" style={{ color: `${BLUE}80` }}>
+                Location
+              </p>
+              <p className="text-sm font-bold" style={{ color: BLUE }}>The Hoop — 11111 Twigg Pl #1061, Richmond, BC</p>
             </div>
           </div>
 
@@ -308,10 +275,6 @@ export default function WorkshopPage() {
                 Payment instructions sent to parent's email. Your spot is held for 48 hours.
               </p>
             </form>
-
-            <div className="lg:hidden pt-8">
-              <WorkshopDescription />
-            </div>
           </div>
         </div>
       </div>
