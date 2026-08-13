@@ -15,6 +15,28 @@ const WORKSHOP_HIGHLIGHTS = [
   "A clear blueprint for continued development",
 ];
 
+const TRAINERS = [
+  {
+    name: "Kaden Hruska",
+    title: "SFU MBB Assistant Coach",
+    focus: "Skill Development for the Modern Game",
+    desc: "Scoring off advantages and advantage creation — reading and attacking the way the modern college game demands.",
+    points: ["Ball Screen Reads & Techniques", "Off-Ball Advantage Creation", "College-Level Foundations"],
+  },
+  {
+    name: "Devin Thandi",
+    title: "UBC MPT Student",
+    focus: "Kinesiology & Movement Focus",
+    desc: "Building explosive, resilient basketball players by prioritizing movement quality over raw weight.",
+    points: [
+      "Injury Resilience & Landing Mechanics",
+      "Leg Power & Speed",
+      "Core Stability & Contact Balance",
+      "Basketball-Specific Conditioning",
+    ],
+  },
+];
+
 // Blueprint grid background as inline SVG data URL
 const GRID_BG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M 80 0 L 0 0 0 80' fill='none' stroke='rgba(7,60,141,0.10)' stroke-width='1'/%3E%3C/svg%3E")`;
 const GRID_BG_LARGE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cpath d='M 400 0 L 0 0 0 400' fill='none' stroke='rgba(7,60,141,0.16)' stroke-width='1'/%3E%3C/svg%3E")`;
@@ -25,15 +47,28 @@ function WorkshopDescription() {
       <p className="text-sm leading-relaxed" style={{ color: `${BLUE}99` }}>
         <strong className="font-black" style={{ color: BLUE }}>The Blueprint Workshop</strong> is a one-day intensive for players who want to take their
         game to the next level through intentional skill development and high-level competition —
-        run by <strong className="font-black" style={{ color: BLUE }}>LTS ELITE PREP</strong> in partnership with{" "}
-        <strong className="font-black" style={{ color: BLUE }}>Prime Motion Athletics</strong>.
+        run by <strong className="font-black" style={{ color: BLUE }}>LTS ELITE PREP</strong>, featuring{" "}
+        <strong className="font-black" style={{ color: BLUE }}>Kaden Hruska</strong> and{" "}
+        <strong className="font-black" style={{ color: BLUE }}>Devin Thandi</strong>.
       </p>
 
-      <p className="text-sm leading-relaxed" style={{ color: `${BLUE}99` }}>
-        <strong className="font-black" style={{ color: BLUE }}>LTS ELITE PREP</strong> leads shooting mechanics, while{" "}
-        <strong className="font-black" style={{ color: BLUE }}>Prime Motion Athletics</strong> builds speed and explosiveness — sprint mechanics,
-        acceleration, vertical jump, and movement efficiency — using proven performance training methods.
-      </p>
+      <div className="space-y-4">
+        {TRAINERS.map((t) => (
+          <div key={t.name} className="rounded-2xl border p-5" style={{ borderColor: `${BLUE}1a`, background: `${BLUE}08` }}>
+            <h3 className="font-black uppercase text-sm mb-1" style={{ color: BLUE }}>{t.name}</h3>
+            <p className="text-xs font-bold mb-2" style={{ color: `${BLUE}99` }}>{t.title} · {t.focus}</p>
+            <p className="text-xs leading-relaxed mb-3" style={{ color: `${BLUE}99` }}>{t.desc}</p>
+            <ul className="space-y-1">
+              {t.points.map((p) => (
+                <li key={p} className="flex items-start gap-2 text-xs" style={{ color: `${BLUE}99` }}>
+                  <Check className="w-3.5 h-3.5 mt-0.5 shrink-0" style={{ color: BLUE }} />
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
 
       <div>
         <p className="text-xs font-black uppercase tracking-widest mb-2" style={{ color: BLUE }}>
@@ -161,7 +196,7 @@ export default function WorkshopPage() {
             </Link>
 
             <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-3" style={{ color: `${BLUE}80` }}>
-              August 12, 2026 · Featuring Prime Motion Athletics
+              August 27, 2026 · Featuring Kaden Hruska &amp; Devin Thandi
             </p>
             <h1
               className="text-6xl sm:text-7xl mb-3 uppercase tracking-tighter leading-none"
@@ -213,7 +248,7 @@ export default function WorkshopPage() {
                 <p className="text-[10px] font-black uppercase tracking-widest mb-1" style={{ color: `${BLUE}80` }}>
                   Date &amp; Time
                 </p>
-                <p className="text-sm font-bold" style={{ color: BLUE }}>Wednesday, August 12</p>
+                <p className="text-sm font-bold" style={{ color: BLUE }}>Thursday, August 27</p>
                 <p className="text-xs" style={{ color: `${BLUE}80` }}>12:00 PM – 3:00 PM</p>
               </div>
               <div className="text-right">
@@ -279,37 +314,20 @@ export default function WorkshopPage() {
         </div>
       </div>
 
-      {/* ── Program videos ──────────────────────────────────── */}
+      {/* ── Program video ──────────────────────────────────── */}
       <div className="max-w-6xl mx-auto px-5 pb-24">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-widest mb-3" style={{ color: `${BLUE}80` }}>
-              See LTS Elite Prep in Action
-            </p>
-            <div className="rounded-2xl overflow-hidden border" style={{ borderColor: `${BLUE}1a` }}>
-              <video
-                src="https://5ojyea0xbkq67l1r.public.blob.vercel-storage.com/videos/langston-pro.mp4"
-                controls
-                preload="none"
-                playsInline
-                className="w-full aspect-video bg-black"
-              />
-            </div>
-          </div>
-
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-widest mb-3" style={{ color: `${BLUE}80` }}>
-              See Prime Motion Athletics in Action
-            </p>
-            <div className="rounded-2xl overflow-hidden border" style={{ borderColor: `${BLUE}1a` }}>
-              <video
-                src="https://5ojyea0xbkq67l1r.public.blob.vercel-storage.com/videos/prime-motion-athletics.mp4"
-                controls
-                preload="none"
-                playsInline
-                className="w-full aspect-video bg-black"
-              />
-            </div>
+        <div className="max-w-2xl">
+          <p className="text-[10px] font-black uppercase tracking-widest mb-3" style={{ color: `${BLUE}80` }}>
+            See LTS Elite Prep in Action
+          </p>
+          <div className="rounded-2xl overflow-hidden border" style={{ borderColor: `${BLUE}1a` }}>
+            <video
+              src="https://5ojyea0xbkq67l1r.public.blob.vercel-storage.com/videos/langston-pro.mp4"
+              controls
+              preload="none"
+              playsInline
+              className="w-full aspect-video bg-black"
+            />
           </div>
         </div>
       </div>

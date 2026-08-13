@@ -19,7 +19,7 @@ export async function POST(request: Request) {
         athlete_name: athleteName,
         parent_name: parentName,
         parent_email: parentEmail,
-        camp_id: "blueprint-workshop-aug12",
+        camp_id: "blueprint-workshop-aug27",
         camp_name: "Blueprint Workshop",
         amount: "$79.99",
         package_type: "workshop",
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
               <div style="background:#000;padding:28px 32px;border-radius:16px 16px 0 0;">
                 <p style="color:#fff;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 8px;">LTS ELITE PREP</p>
                 <h1 style="color:#fff;font-size:28px;font-weight:900;margin:0;text-transform:uppercase;letter-spacing:-0.02em;">Blueprint Workshop</h1>
-                <p style="color:rgba(255,255,255,0.5);font-size:12px;margin:6px 0 0;">Featuring Prime Motion Athletics</p>
+                <p style="color:rgba(255,255,255,0.5);font-size:12px;margin:6px 0 0;">Featuring Kaden Hruska & Devin Thandi</p>
               </div>
 
               <div style="background:#f9f9f9;padding:28px 32px;">
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
                   <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#999;margin:0 0 12px;">Registration Summary</p>
                   <table style="width:100%;border-collapse:collapse;font-size:14px;">
                     <tr><td style="padding:6px 0;color:#666;">Athlete</td><td style="padding:6px 0;font-weight:700;">${athleteName}</td></tr>
-                    <tr><td style="padding:6px 0;color:#666;">Date</td><td style="padding:6px 0;font-weight:700;">Wednesday, August 12, 2026</td></tr>
+                    <tr><td style="padding:6px 0;color:#666;">Date</td><td style="padding:6px 0;font-weight:700;">Thursday, August 27, 2026</td></tr>
                     <tr><td style="padding:6px 0;color:#666;">Time</td><td style="padding:6px 0;font-weight:700;">12:00 PM – 3:00 PM</td></tr>
                     <tr><td style="padding:6px 0;color:#666;">Location</td><td style="padding:6px 0;font-weight:700;">The Hoop — 11111 Twigg Pl #1061, Richmond, BC</td></tr>
                     <tr><td style="padding:6px 0;color:#666;">Amount Due</td><td style="padding:6px 0;font-size:20px;font-weight:900;">$79.99</td></tr>
@@ -82,7 +82,7 @@ export async function POST(request: Request) {
               </div>
 
               <div style="background:#f0f0f0;padding:16px 32px;border-radius:0 0 16px 16px;text-align:center;">
-                <p style="font-size:11px;color:#999;margin:0;">Blueprint Workshop · August 12, 2026 · Featuring Prime Motion Athletics</p>
+                <p style="font-size:11px;color:#999;margin:0;">Blueprint Workshop · August 27, 2026 · Featuring Kaden Hruska & Devin Thandi</p>
               </div>
             </div>
           `,
@@ -99,7 +99,7 @@ export async function POST(request: Request) {
               <tr><td style="padding:6px 16px 6px 0;color:#666;">Athlete</td><td style="padding:6px 0;font-weight:700;">${athleteName}</td></tr>
               <tr><td style="padding:6px 16px 6px 0;color:#666;">Parent</td><td style="padding:6px 0;">${parentName}</td></tr>
               <tr><td style="padding:6px 16px 6px 0;color:#666;">Email</td><td style="padding:6px 0;">${parentEmail}</td></tr>
-              <tr><td style="padding:6px 16px 6px 0;color:#666;">Date</td><td style="padding:6px 0;">August 12, 2026 · 12:00–3:00 PM</td></tr>
+              <tr><td style="padding:6px 16px 6px 0;color:#666;">Date</td><td style="padding:6px 0;">August 27, 2026 · 12:00–3:00 PM</td></tr>
               <tr><td style="padding:6px 16px 6px 0;color:#666;">Amount</td><td style="padding:6px 0;font-size:18px;font-weight:900;">$79.99</td></tr>
             </table>
           `,
