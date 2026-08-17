@@ -57,9 +57,7 @@ export default async function OpengraphImage() {
             fontFamily: "Vanguard CF",
           }}
         >
-          <div style={{ display: "flex" }}>
-            You<span style={{ fontFamily: "sans-serif" }}>&apos;</span>ve Been
-          </div>
+          <div style={{ display: "flex" }}>You Have Been</div>
           <div style={{ display: "flex" }}>Selected</div>
         </div>
 
