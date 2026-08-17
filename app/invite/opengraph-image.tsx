@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -6,7 +8,9 @@ export const contentType = "image/png";
 const BLUE = "#073c8d";
 const BG = "#e8e5e4";
 
-export default function OpengraphImage() {
+export default async function OpengraphImage() {
+  const fontData = await readFile(path.join(process.cwd(), "public/fonts/vanguardcf-heavyoblique.otf"));
+
   return new ImageResponse(
     (
       <div
@@ -45,15 +49,17 @@ export default function OpengraphImage() {
             flexDirection: "column",
             alignItems: "center",
             color: BLUE,
-            fontSize: 108,
-            fontWeight: 900,
+            fontSize: 116,
             letterSpacing: -3,
             lineHeight: 0.95,
             textTransform: "uppercase",
             textAlign: "center",
+            fontFamily: "Vanguard CF",
           }}
         >
-          <div style={{ display: "flex" }}>You&apos;ve Been</div>
+          <div style={{ display: "flex" }}>
+            You<span style={{ fontFamily: "sans-serif" }}>&apos;</span>ve Been
+          </div>
           <div style={{ display: "flex" }}>Selected</div>
         </div>
 
@@ -70,6 +76,16 @@ export default function OpengraphImage() {
         </div>
       </div>
     ),
-    { ...size }
+    {
+      ...size,
+      fonts: [
+        {
+          name: "Vanguard CF",
+          data: fontData,
+          style: "normal",
+          weight: 400,
+        },
+      ],
+    }
   );
 }
