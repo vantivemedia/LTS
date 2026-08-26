@@ -47,30 +47,30 @@ function useReveal() {
 
 const PROGRAMS = [
   {
-    id: "pro",
-    name: "LTS PRO",
-    tagline: "Private Training",
+    id: "fall-academy",
+    name: "LTS Fall Academy",
+    tagline: "Phase 1",
     emoji: "⚡",
     ages: "All Ages",
-    schedule: "3 Summer Windows · 12:00 – 3:30 PM",
+    schedule: "Sept 11 – Oct 3 · 13 Sessions",
     location: "Vancouver, BC",
-    groupSize: "1 – 2 athletes",
-    price: "$85/session · 5 for $399.99",
+    groupSize: "Small Group",
+    price: "$55/session · Full Phase 1 for $499",
     color: "from-purple-500/20 to-violet-500/10",
     borderColor: "border-purple-500/20",
     featured: true,
-    desc: "Our premium private training experience — individualized development in a focused 1-on-1 or 1-on-2 environment. Sessions are customized to the athlete's position, skill level, and goals.",
+    desc: "13 training opportunities and 19.5 hours of development — a flexible format built around busy school, team, and family schedules. Choose the package and dates that work for you.",
     features: [
-      { icon: Zap, text: "1-on-1 or 1-on-2 personalized coaching" },
-      { icon: Target, text: "Focused on your position & goals" },
-      { icon: Calendar, text: "Flexible summer training windows" },
-      { icon: BarChart3, text: "Game-ready skill development" },
+      { icon: Zap, text: "Skill development & shooting mechanics" },
+      { icon: Target, text: "Footwork & decision-making" },
+      { icon: Calendar, text: "Flexible fall training schedule" },
+      { icon: BarChart3, text: "Live play & competitive application" },
     ],
     details: [
-      "Ball handling, shooting & finishing",
-      "Footwork & decision-making training",
-      "Game-application drills & scenarios",
-      "Sessions must be completed by Aug 31, 2026",
+      "Build → Load → Apply → Test progression",
+      "Drop-in, 5, 10, or full Phase 1 access",
+      "Bridge into new-facility LTS Academy programming",
+      "Spots are limited",
     ],
   },
   {
@@ -239,11 +239,11 @@ export default function ProgramsPage() {
                 {/* CTA */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link
-                    href={program.id === 'college' ? '/college-contact' : '/pro'}
+                    href={program.id === 'college' ? '/college-contact' : '/fall-programming'}
                     className="btn-accent inline-flex items-center justify-center gap-2
                                font-bold px-8 py-3.5 rounded-xl group"
                   >
-                    {program.id === 'college' ? 'INQUIRE NOW' : 'EXPLORE LTS PRO'}
+                    {program.id === 'college' ? 'INQUIRE NOW' : 'EXPLORE FALL ACADEMY'}
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <span className="text-sm text-white/30 flex items-center">

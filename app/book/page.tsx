@@ -114,13 +114,15 @@ export default function BookPage() {
   );
 }
 
-type ProgramType = "session" | "pro";
+type ProgramType = "session" | "pro" | "fall-academy";
 
 function BookPageInner() {
   const searchParams = useSearchParams();
-  const initialProgram: ProgramType = searchParams.get("program") === "pro" ? "pro" : "session";
+  const requestedProgram = searchParams.get("program");
+  const initialProgram: ProgramType =
+    requestedProgram === "pro" ? "pro" : requestedProgram === "fall-academy" ? "fall-academy" : "session";
 
-  const [step, setStep] = useState<1 | 2 | 3>(initialProgram === "pro" ? 2 : 1);
+  const [step, setStep] = useState<1 | 2 | 3>(initialProgram === "session" ? 1 : 2);
   const [programType, setProgramType] = useState<ProgramType>(initialProgram);
   const [classes, setClasses] = useState<any[]>([]);
   const [preferredDate, setPreferredDate] = useState("");
@@ -153,11 +155,11 @@ function BookPageInner() {
   }, []);
 
   const filteredClasses = useMemo(() => {
-    return classes.filter((c) =>
-      programType === "pro"
-        ? c.program === "pro" || c.program === "private"
-        : c.program === "micro-academy" || c.program === "futures" || c.program === "high"
-    );
+    return classes.filter((c) => {
+      if (programType === "pro") return c.program === "pro" || c.program === "private";
+      if (programType === "fall-academy") return c.program === "fall-academy";
+      return c.program === "micro-academy" || c.program === "futures" || c.program === "high";
+    });
   }, [classes, programType]);
 
   const availableDates = useMemo(() => filteredClasses.map((c) => c.class_date), [filteredClasses]);
@@ -181,7 +183,7 @@ function BookPageInner() {
           name,
           parentName,
           email,
-          program: programType === "pro" ? "pro" : "micro-academy",
+          program: programType === "pro" ? "pro" : programType === "fall-academy" ? "fall-academy" : "micro-academy",
           preferred_date: preferredDate || null,
           preferred_time: preferredTime || null,
         }),
@@ -234,19 +236,44 @@ function BookPageInner() {
           </div>
 
           <div className="space-y-3">
-            {/* LTS PRO — drop-in */}
+            {/* Fall Academy — drop-in */}
             <button
               type="button"
-              onClick={() => { setProgramType("pro"); setStep(2); }}
+              onClick={() => { setProgramType("fall-academy"); setStep(2); }}
               className="w-full text-left p-6 rounded-2xl border bg-white text-black border-white transition-all group"
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-black text-xl uppercase mb-1">LTS PRO</h3>
-                  <p className="text-sm text-black/50">$85/session · Pass holders deducted automatically</p>
+                  <h3 className="font-black text-xl uppercase mb-1">Fall Academy</h3>
+                  <p className="text-sm text-black/50">$55/session · Phase 1 · Pass holders deducted automatically</p>
                 </div>
                 <ArrowRight className="w-5 h-5 text-black/40 group-hover:text-black transition-colors" />
               </div>
+            </button>
+
+            {/* Buy Fall Academy Package */}
+            <Link
+              href="/buy-pass?program=fall-academy"
+              className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
+            >
+              <div>
+                <h3 className="font-black text-xl uppercase text-white mb-1">Buy Fall Academy Package</h3>
+                <p className="text-sm text-white/40">5, 10, or Full Phase 1 access — from $249</p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
+            </Link>
+
+            {/* LTS PRO — drop-in */}
+            <button
+              type="button"
+              onClick={() => { setProgramType("pro"); setStep(2); }}
+              className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
+            >
+              <div>
+                <h3 className="font-black text-xl uppercase text-white mb-1">LTS PRO</h3>
+                <p className="text-sm text-white/40">$85/session · Pass holders deducted automatically</p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
             </button>
 
             {/* Buy PRO Package */}
@@ -276,7 +303,7 @@ function BookPageInner() {
               <ArrowLeft className="w-3 h-3" /> Back
             </button>
             <h1 className="text-4xl font-black mb-2 uppercase tracking-tighter">
-              {programType === "pro" ? "LTS PRO" : "Choose Session"}
+              {programType === "pro" ? "LTS PRO" : programType === "fall-academy" ? "Fall Academy" : "Choose Session"}
             </h1>
             <p className="text-white/40 text-sm">Select a date and session from the schedule below.</p>
           </div>
@@ -372,7 +399,7 @@ function BookPageInner() {
         <div className="bg-white/3 border border-white/8 rounded-2xl p-4 mb-6 flex items-start gap-3">
           <Zap className="w-4 h-4 text-white/40 mt-0.5 shrink-0" />
           <p className="text-xs text-white/40 leading-relaxed">
-            If you have an active session pass, <strong className="text-white/60">enter the same email you used to buy it</strong> — your pass will be detected automatically and 1 session deducted. Otherwise, you'll be billed ${ programType === "pro" ? "85" : "70"} as a drop-in.
+            If you have an active session pass, <strong className="text-white/60">enter the same email you used to buy it</strong> — your pass will be detected automatically and 1 session deducted. Otherwise, you'll be billed ${ programType === "pro" ? "85" : programType === "fall-academy" ? "55" : "70"} as a drop-in.
           </p>
         </div>
 

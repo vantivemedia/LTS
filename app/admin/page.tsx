@@ -495,6 +495,7 @@ function ScheduleTab() {
               <option value="micro-academy">Micro Academy</option>
               <option value="college">LTS College</option>
               <option value="pro">LTS PRO</option>
+              <option value="fall-academy">Fall Academy</option>
             </select>
           </div>
           <div>
@@ -643,9 +644,11 @@ function BookingCard({
         <div className="flex-1 min-w-0">
           <p className="font-bold text-base truncate">{booking.name}</p>
           <p className="text-xs text-white/30 capitalize mt-0.5">
-            {booking.program === "trial" ? "Free Trial" : 
+            {booking.program === "trial" ? "Free Trial" :
              booking.program === "pass-5" ? "5-Session Pass" :
              booking.program === "pass-10" ? "10-Session Pass" :
+             booking.program === "pass-13" ? "Full Phase 1 Pass" :
+             booking.program === "fall-academy" ? "Fall Academy" :
              `LTS ${booking.program}`}
           </p>
         </div>
@@ -1042,7 +1045,7 @@ function PassHoldersTab() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {passHolders.map(holder => {
             const remaining = holder.sessions_total - holder.sessions_used;
-            const passLabel = holder.pass_type === "pass-5" ? "5-Session Pass" : "10-Session Pass";
+            const passLabel = holder.pass_type === "pass-5" ? "5-Session Pass" : holder.pass_type === "pass-10" ? "10-Session Pass" : "Full Phase 1 Pass";
             return (
               <div key={holder.id} className="bg-[#111] p-6 rounded-2xl border border-white/10 flex flex-col justify-between">
                 <div className="mb-4">

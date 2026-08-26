@@ -5,10 +5,10 @@ import Link from "next/link";
 import { ArrowRight, X } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 
-const SEEN_KEY = "lts_pro_promo_seen";
+const SEEN_KEY = "lts_fall_promo_seen";
 const SHOW_DELAY_MS = 2000;
 
-export default function ProPromoModal() {
+export default function FallPromoModal() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function ProPromoModal() {
     const timer = setTimeout(() => {
       sessionStorage.setItem(SEEN_KEY, "1");
       setOpen(true);
-      trackEvent("button_click", "/", "pro_promo_shown");
+      trackEvent("button_click", "/", "fall_promo_shown");
     }, SHOW_DELAY_MS);
 
     return () => clearTimeout(timer);
@@ -52,36 +52,37 @@ export default function ProPromoModal() {
         </button>
 
         <span className="inline-flex items-center gap-2 text-xs font-black tracking-widest uppercase border border-white/10 text-white/50 rounded-full px-3.5 py-1.5 mb-5">
-          Limited Summer Spots
+          Phase 1 · Sept 11 – Oct 3
         </span>
 
         <h2
           className="text-4xl sm:text-5xl uppercase tracking-tighter leading-none mb-4"
           style={{ fontFamily: '"Vanguard CF Heavy Oblique", sans-serif' }}
         >
-          LTS <span className="text-white">PRO</span>
+          Fall <span className="text-white">Academy</span>
         </h2>
 
         <p className="text-white/50 leading-relaxed mb-6">
-          Private 1-on-1 (or 1-on-2) training built around your athlete&rsquo;s position, skill level, and goals — coached by Paolo Labrador.
+          13 training opportunities, 19.5 hours of development — a flexible format built around busy school,
+          team, and family schedules.
         </p>
 
         <div className="flex items-center gap-3 mb-8 text-sm">
-          <span className="font-black text-white">$85/session</span>
+          <span className="font-black text-white">$55/session</span>
           <span className="text-white/20">·</span>
-          <span className="font-black text-white">5 for $399.99</span>
+          <span className="font-black text-white">Full Phase 1 for $499</span>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
-            href="/pro"
+            href="/fall-programming"
             onClick={() => {
-              trackEvent("button_click", "/", "pro_promo_click");
+              trackEvent("button_click", "/", "fall_promo_click");
               setOpen(false);
             }}
             className="flex-1 inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
           >
-            Explore LTS PRO
+            Explore Fall Academy
             <ArrowRight className="w-4 h-4" />
           </Link>
           <button

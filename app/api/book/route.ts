@@ -21,9 +21,9 @@ export async function POST(request: Request) {
     );
 
     // ── Pass check via pass_holders table ────────────────────
-    // Passes are scoped per-program — an Academy pass can't cover a PRO session and vice versa,
-    // since they're priced differently ($60/session vs $80/session).
-    const passProgram = program === "pro" ? "pro" : "academy";
+    // Passes are scoped per-program — an Academy pass can't cover a PRO or Fall Academy
+    // session and vice versa, since each program is priced differently.
+    const passProgram = program === "pro" ? "pro" : program === "fall-academy" ? "fall-academy" : "academy";
     let isPassHolder = false;
 
     const { data: passes } = await supabase
@@ -55,17 +55,17 @@ export async function POST(request: Request) {
       }
     }
 
-    const amount = isPassHolder ? "Pre-paid (Pass)" : program === "pro" ? "$85" : "$70";
+    const amount = isPassHolder ? "Pre-paid (Pass)" : program === "pro" ? "$85" : program === "fall-academy" ? "$55" : "$70";
 
     // ── Save booking ──────────────────────────────────────────
     await supabase.from("bookings").insert({
       name,
       email,
       phone: phone || null,
-      program: program === "pro" ? "pro" : "micro-academy",
+      program: program === "pro" ? "pro" : program === "fall-academy" ? "fall-academy" : "micro-academy",
       preferred_date: preferred_date || null,
       preferred_time: preferred_time || null,
-      message: isPassHolder ? "PASS USAGE" : program === "pro" ? null : "DROP-IN",
+      message: isPassHolder ? "PASS USAGE" : program === "pro" || program === "fall-academy" ? null : "DROP-IN",
     });
 
     await supabase.from("analytics_events").insert({
@@ -91,6 +91,8 @@ export async function POST(request: Request) {
 
     const location = "The Hoop — 11111 Twigg Pl #1061, Richmond, BC";
 
+    const programLabel = program === "pro" ? "LTS PRO" : program === "fall-academy" ? "Fall Academy" : "Drop-In";
+
     const userHtml = isPassHolder
       ? `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
@@ -108,7 +110,7 @@ export async function POST(request: Request) {
       : `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
           <p>Hi ${name},</p>
-          <p>Thanks for booking a ${program === "pro" ? "LTS PRO" : "Drop-In"} session with LTS ELITE PREP!</p>
+          <p>Thanks for booking a ${programLabel} session with LTS ELITE PREP!</p>
           <p>To secure your spot, please complete the payment via E-transfer within the next 48 hours.</p>
           <div style="margin:24px 0;padding:20px;background:#f9f9f9;border-radius:12px;border:1px solid #eee;">
             <p style="margin:6px 0;"><strong>Date:</strong> ${dateLabel}</p>
@@ -130,20 +132,20 @@ export async function POST(request: Request) {
         to: email,
         subject: isPassHolder
           ? "Session Booked — LTS ELITE PREP"
-          : `Action Required: Payment for your ${program === "pro" ? "LTS PRO" : "Drop-In"} session`,
+          : `Action Required: Payment for your ${programLabel} session`,
         html: userHtml,
       }),
       resend.emails.send({
         from: "LTS System <info@ltseliteprep.ca>",
         to: "paolo@ltseliteprep.ca",
-        subject: `New Booking: ${name} — ${isPassHolder ? "Pass Usage" : program === "pro" ? "LTS PRO" : "Drop-In"}`,
+        subject: `New Booking: ${name} — ${isPassHolder ? "Pass Usage" : programLabel}`,
         html: `
           <h2>New Session Booking</h2>
           <p><strong>Athlete:</strong> ${name}</p>
           <p><strong>Parent:</strong> ${parentName || "—"}</p>
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Phone:</strong> ${phone || "—"}</p>
-          <p><strong>Type:</strong> ${isPassHolder ? "Pass Holder (1 session deducted)" : program === "pro" ? "LTS PRO ($85)" : "Drop-In ($70)"}</p>
+          <p><strong>Type:</strong> ${isPassHolder ? "Pass Holder (1 session deducted)" : `${programLabel} (${amount})`}</p>
           <p><strong>Date:</strong> ${dateLabel}</p>
           <p><strong>Time:</strong> ${preferred_time || "TBD"}</p>
         `,

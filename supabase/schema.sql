@@ -29,7 +29,8 @@ create table if not exists bookings (
   program        text        not null
                    check (program in (
                      'futures','high','college','private','trial',
-                     'micro-academy','pass-5','pass-10','pass-usage','pro'
+                     'micro-academy','pass-5','pass-10','pass-13','pass-usage','pro',
+                     'fall-academy'
                    )),
   preferred_date date,
   preferred_time text,
@@ -47,7 +48,8 @@ alter table bookings drop constraint if exists bookings_program_check;
 alter table bookings add constraint bookings_program_check
   check (program in (
     'futures','high','college','private','trial',
-    'micro-academy','pass-5','pass-10','pass-usage','pro'
+    'micro-academy','pass-5','pass-10','pass-13','pass-usage','pro',
+    'fall-academy'
   ));
 
 alter table bookings enable row level security;
@@ -128,11 +130,11 @@ create table if not exists pass_holders (
   phone          text,
 
   -- Which program this pass's sessions can be redeemed against.
-  -- Academy passes and PRO passes are priced differently ($60/session vs $80/session)
-  -- and are NOT interchangeable — a pass only deducts against bookings in the same program.
+  -- Academy, PRO, and Fall Academy passes are priced differently and are NOT
+  -- interchangeable — a pass only deducts against bookings in the same program.
   program        text        not null default 'academy',
 
-  pass_type      text        not null check (pass_type in ('pass-5','pass-10')),
+  pass_type      text        not null check (pass_type in ('pass-5','pass-10','pass-13')),
   sessions_total integer     not null,
   sessions_used  integer     not null default 0,
 
@@ -145,7 +147,11 @@ create table if not exists pass_holders (
 alter table pass_holders add column if not exists program text not null default 'academy';
 alter table pass_holders drop constraint if exists pass_holders_program_check;
 alter table pass_holders add constraint pass_holders_program_check
-  check (program in ('academy','pro'));
+  check (program in ('academy','pro','fall-academy'));
+
+alter table pass_holders drop constraint if exists pass_holders_pass_type_check;
+alter table pass_holders add constraint pass_holders_pass_type_check
+  check (pass_type in ('pass-5','pass-10','pass-13'));
 
 alter table pass_holders enable row level security;
 

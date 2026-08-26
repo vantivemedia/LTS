@@ -1,13 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check, CheckCircle2 } from "lucide-react";
 
-type PassType = "pass-5" | "pass-10";
-type Program = "academy" | "pro";
+type PassType = "pass-5" | "pass-10" | "pass-13";
+type Program = "academy" | "pro" | "fall-academy";
 
 const PASSES = [
+  {
+    id: "fall-5",
+    program: "fall-academy" as Program,
+    passType: "pass-5" as PassType,
+    name: "Fall Academy — 5-Session Pass",
+    price: "$249",
+    perSession: "$49.80/session",
+    desc: "Choose any 5 Phase 1 sessions (Sept 11 – Oct 3).",
+    features: ["5 Sessions Included", "Choose Any Phase 1 Dates", "Build → Load → Apply → Test", "Save vs. Drop-In Rate"],
+  },
+  {
+    id: "fall-10",
+    program: "fall-academy" as Program,
+    passType: "pass-10" as PassType,
+    name: "Fall Academy — 10-Session Pass",
+    price: "$449",
+    perSession: "$44.90/session",
+    desc: "Choose any 10 Phase 1 sessions (Sept 11 – Oct 3).",
+    features: ["10 Sessions Included", "Choose Any Phase 1 Dates", "Build → Load → Apply → Test", "Save vs. Drop-In Rate"],
+  },
+  {
+    id: "fall-13",
+    program: "fall-academy" as Program,
+    passType: "pass-13" as PassType,
+    name: "Fall Academy — Full Phase 1 Access",
+    price: "$499",
+    perSession: "$38.38/session",
+    desc: "Access all 13 training opportunities in Phase 1.",
+    features: ["All 13 Sessions Included", "19.5 Hours of Development", "Bridge into New-Facility Programming", "Best Value"],
+  },
   {
     id: "pro",
     program: "pro" as Program,
@@ -21,6 +52,15 @@ const PASSES = [
 ];
 
 export default function BuyPassPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <BuyPassPageInner />
+    </Suspense>
+  );
+}
+
+function BuyPassPageInner() {
+  const searchParams = useSearchParams();
   const [selected, setSelected] = useState<string>("pro");
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");
@@ -30,6 +70,12 @@ export default function BuyPassPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const requested = searchParams.get("program");
+    if (requested === "fall-academy") setSelected("fall-13");
+    else if (requested === "pro") setSelected("pro");
+  }, [searchParams]);
 
   const pass = PASSES.find((p) => p.id === selected)!;
 

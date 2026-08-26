@@ -14,14 +14,14 @@ import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Users, Trophy, Calendar, Star } from "lucide-react";
-import ProPromoModal from "@/components/ProPromoModal";
+import FallPromoModal from "@/components/FallPromoModal";
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // CONTENT
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 const HERO = {
-  badge: "MICRO-ACADEMY SESSIONS NOW OPEN",
+  badge: "FALL ACADEMY PHASE 1 · SEPT 11 – OCT 3",
   heading: ["TRAIN.", "LEARN.", "COMPETE."],
   subtext:
     "Small groups. High intent. Flexibility. The premium basketball experience in Vancouver. Register for a pass, pay later.",
@@ -48,20 +48,20 @@ const STATS = [
 
 const PROGRAMS = [
   {
-    id: "pro",
-    name: "LTS PRO",
-    tagline: "Private 1-on-1 Training",
-    badge: "Premium",
+    id: "fall-academy",
+    name: "LTS Fall Academy",
+    tagline: "Phase 1 · Sept 11 – Oct 3",
+    badge: "Now Open",
     featured: true,
-    desc: "Individualized development in a focused 1-on-1 or 1-on-2 environment. Sessions built around your position, skill level, and goals.",
+    desc: "13 training opportunities and 19.5 hours of development — a flexible format built around busy school, team, and family schedules.",
     features: [
-      "1-on-1 or 1-on-2 Coaching",
-      "Ball Handling, Shooting & Finishing",
-      "Flexible Summer Windows",
-      "$85/Session or 5 for $399.99",
+      "Skill Development, Shooting & Finishing",
+      "Footwork & Decision-Making",
+      "Live Play & Competitive Application",
+      "$55/Session or Full Phase 1 for $499",
     ],
-    href: "/pro",
-    cta: "EXPLORE LTS PRO",
+    href: "/fall-programming",
+    cta: "EXPLORE FALL ACADEMY",
   },
   {
     id: "college",
@@ -195,7 +195,7 @@ export default function Home() {
   useReveal();
   return (
     <>
-      <ProPromoModal />
+      <FallPromoModal />
       <HeroSection />
       <TickerSection />
       <StatsSection />
