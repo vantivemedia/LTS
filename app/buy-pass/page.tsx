@@ -6,8 +6,10 @@ import { useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check, CheckCircle2 } from "lucide-react";
 
 type PassType = "pass-5" | "pass-10" | "pass-13";
-type Program = "academy" | "pro" | "fall-academy";
+type Program = "academy" | "fall-academy";
 
+// LTS PRO pass registration has been retired — existing PRO pass holders can
+// still book/redeem sessions at /book, but new PRO passes are no longer sold.
 const PASSES = [
   {
     id: "fall-5",
@@ -39,16 +41,6 @@ const PASSES = [
     desc: "Access all 13 training opportunities in Phase 1.",
     features: ["All 13 Sessions Included", "19.5 Hours of Development", "Bridge into New-Facility Programming", "Best Value"],
   },
-  {
-    id: "pro",
-    program: "pro" as Program,
-    passType: "pass-5" as PassType,
-    name: "LTS PRO — 5-Session Pass",
-    price: "$399.99",
-    perSession: "$80.00/session",
-    desc: "5 private training sessions with Coach Paolo, 1-on-1 or 1-on-2.",
-    features: ["5 Sessions Included", "1-on-1 or 1-on-2 Coaching", "Flexible Summer Windows", "Save $25+ vs. Individual Sessions"],
-  },
 ];
 
 export default function BuyPassPage() {
@@ -61,7 +53,7 @@ export default function BuyPassPage() {
 
 function BuyPassPageInner() {
   const searchParams = useSearchParams();
-  const [selected, setSelected] = useState<string>("pro");
+  const [selected, setSelected] = useState<string>("fall-13");
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");
   const [parentName, setParentName] = useState("");
@@ -74,7 +66,6 @@ function BuyPassPageInner() {
   useEffect(() => {
     const requested = searchParams.get("program");
     if (requested === "fall-academy") setSelected("fall-13");
-    else if (requested === "pro") setSelected("pro");
   }, [searchParams]);
 
   const pass = PASSES.find((p) => p.id === selected)!;
