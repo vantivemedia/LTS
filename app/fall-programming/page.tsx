@@ -13,7 +13,7 @@ const SCHEDULE = {
     { date: "Sept 16", time: "6:00 – 7:30 PM" },
     { date: "Sept 18", time: "6:30 – 8:00 PM" },
     { date: "Sept 19", time: "4:00 – 5:30 PM" },
-    { date: "Sept 20", time: "7:00 – 8:30 PM" },
+    { date: "Sept 20", time: "6:00 – 7:30 PM" },
     { date: "Sept 25", time: "6:30 – 8:00 PM" },
     { date: "Sept 26", time: "4:00 – 5:30 PM" },
     { date: "Sept 27", time: "12:00 – 1:30 PM" },
