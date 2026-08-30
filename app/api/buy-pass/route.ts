@@ -6,20 +6,19 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, parentName, email, phone, passType, pass_type: body_pass_type } = body;
     const pass_type = passType || body_pass_type;
-    const program: "academy" | "fall-academy" = body.program === "fall-academy" ? "fall-academy" : "academy";
+    const program: "academy" | "pro" | "fall-academy" =
+      body.program === "pro" ? "pro" : body.program === "fall-academy" ? "fall-academy" : "academy";
 
     if (!name || !parentName || !email || !pass_type) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // LTS PRO pass registration has been retired site-wide — new PRO passes can no
-    // longer be purchased (existing PRO pass holders can still book/redeem sessions).
-    if (body.program === "pro") {
-      return NextResponse.json({ error: "LTS PRO pass registration is no longer available" }, { status: 400 });
-    }
-
     if (pass_type !== "pass-5" && pass_type !== "pass-10" && pass_type !== "pass-13") {
       return NextResponse.json({ error: "Invalid pass type" }, { status: 400 });
+    }
+
+    if (program === "pro" && pass_type !== "pass-5") {
+      return NextResponse.json({ error: "LTS PRO only offers the 5-Session Package" }, { status: 400 });
     }
 
     if (program === "academy" && pass_type === "pass-13") {
@@ -29,7 +28,9 @@ export async function POST(request: Request) {
     const sessions_total = pass_type === "pass-5" ? 5 : pass_type === "pass-10" ? 10 : 13;
 
     const amount =
-      program === "fall-academy"
+      program === "pro"
+        ? "$399.99"
+        : program === "fall-academy"
         ? pass_type === "pass-5"
           ? "$249"
           : pass_type === "pass-10"
@@ -40,7 +41,9 @@ export async function POST(request: Request) {
         : "$449";
 
     const label =
-      program === "fall-academy"
+      program === "pro"
+        ? "LTS PRO — 5-Session Pass"
+        : program === "fall-academy"
         ? pass_type === "pass-5"
           ? "Fall Academy — 5-Session Pass"
           : pass_type === "pass-10"
