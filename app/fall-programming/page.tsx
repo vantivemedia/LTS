@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Mail } from "lucide-react";
+import { ArrowLeft, ArrowRight, Mail, MapPin } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 
 const SCHEDULE = {
@@ -90,9 +90,13 @@ export default function FallProgrammingPage() {
             13 training opportunities. 19.5 hours of development. A flexible format built around busy school,
             team, and family schedules.
           </p>
-          <p className="text-white/30 text-sm max-w-2xl mb-8">
+          <p className="text-white/30 text-sm max-w-2xl mb-2">
             You do not need to attend every session — choose the package that fits your schedule, and pick the
             dates that work best for you.
+          </p>
+          <p className="flex items-center gap-1.5 text-white/40 text-sm mb-8">
+            <MapPin className="w-3.5 h-3.5 shrink-0" />
+            The Hoop — 11111 Twigg Pl #1061, Richmond, BC
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3">
