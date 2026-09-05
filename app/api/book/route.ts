@@ -4,10 +4,13 @@ import { createClient } from "@supabase/supabase-js";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, parentName, email, phone, program, preferred_date, preferred_time } = body;
+    const { name, parentName, email, phone, school, grade, program, preferred_date, preferred_time } = body;
 
-    if (!name || !parentName || !email || !program) {
-      return NextResponse.json({ error: "Name, parent name, email, and program are required" }, { status: 400 });
+    if (!name || !parentName || !email || !phone || !school || !grade || !program) {
+      return NextResponse.json(
+        { error: "Name, parent name, parent phone, email, school, grade, and program are required" },
+        { status: 400 }
+      );
     }
 
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
@@ -58,15 +61,23 @@ export async function POST(request: Request) {
     const amount = isPassHolder ? "Pre-paid (Pass)" : program === "pro" ? "$85" : program === "fall-academy" ? "$55" : "$70";
 
     // ── Save booking ──────────────────────────────────────────
-    await supabase.from("bookings").insert({
+    const { error: bookingError } = await supabase.from("bookings").insert({
       name,
       email,
-      phone: phone || null,
+      phone,
+      parent_name: parentName,
+      school,
+      grade,
       program: program === "pro" ? "pro" : program === "fall-academy" ? "fall-academy" : "micro-academy",
       preferred_date: preferred_date || null,
       preferred_time: preferred_time || null,
       message: isPassHolder ? "PASS USAGE" : program === "pro" || program === "fall-academy" ? null : "DROP-IN",
     });
+
+    if (bookingError) {
+      console.error("Booking insert error:", bookingError);
+      return NextResponse.json({ error: "Failed to save booking. Please try again or email info@ltseliteprep.ca." }, { status: 500 });
+    }
 
     await supabase.from("analytics_events").insert({
       event_type: "form_submit",
@@ -142,9 +153,11 @@ export async function POST(request: Request) {
         html: `
           <h2>New Session Booking</h2>
           <p><strong>Athlete:</strong> ${name}</p>
-          <p><strong>Parent:</strong> ${parentName || "—"}</p>
+          <p><strong>School:</strong> ${school}</p>
+          <p><strong>Grade:</strong> ${grade}</p>
+          <p><strong>Parent:</strong> ${parentName}</p>
+          <p><strong>Parent Phone:</strong> ${phone}</p>
           <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone:</strong> ${phone || "—"}</p>
           <p><strong>Type:</strong> ${isPassHolder ? "Pass Holder (1 session deducted)" : `${programLabel} (${amount})`}</p>
           <p><strong>Date:</strong> ${dateLabel}</p>
           <p><strong>Time:</strong> ${preferred_time || "TBD"}</p>

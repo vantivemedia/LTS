@@ -28,6 +28,7 @@ import {
   Eye,
   MousePointerClick,
   Send,
+  GraduationCap,
 } from "lucide-react";
 
 // ── 管理者パスワード (MVP用) ──────────────────────────────────
@@ -673,9 +674,12 @@ function BookingCard({
             <DetailRow icon={Mail} label="Email" value={booking.email} />
             <DetailRow
               icon={Phone}
-              label="Phone"
+              label="Parent Phone"
               value={booking.phone || "—"}
             />
+            <DetailRow icon={Users} label="Parent" value={booking.parent_name || "—"} />
+            <DetailRow icon={GraduationCap} label="School" value={booking.school || "—"} />
+            <DetailRow icon={GraduationCap} label="Grade" value={booking.grade || "—"} />
             <DetailRow
               icon={Calendar}
               label="Date / Session"
@@ -1058,7 +1062,12 @@ function PassHoldersTab() {
                   </p>
                   {holder.phone && (
                     <p className="text-white/30 text-xs mt-1 flex items-center gap-2">
-                      <Phone className="w-3 h-3 shrink-0" /> {holder.phone}
+                      <Phone className="w-3 h-3 shrink-0" /> {holder.phone} {holder.parent_name ? `(${holder.parent_name})` : ""}
+                    </p>
+                  )}
+                  {(holder.school || holder.grade) && (
+                    <p className="text-white/30 text-xs mt-1 flex items-center gap-2">
+                      <GraduationCap className="w-3 h-3 shrink-0" /> {[holder.school, holder.grade].filter(Boolean).join(" · ")}
                     </p>
                   )}
                 </div>

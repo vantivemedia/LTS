@@ -42,7 +42,10 @@ export interface Booking {
   created_at:     string;            // 予約が送られた日時（自動）
   name:           string;            // お客さんの名前
   email:          string;            // メールアドレス
-  phone:          string | null;     // 電話番号（任意）
+  phone:          string | null;     // 電話番号（保護者の電話番号・必須）
+  parent_name:    string | null;     // 保護者の名前
+  school:         string | null;     // 学校名
+  grade:          string | null;     // 学年
   program:        "micro-academy" | "futures" | "high" | "college" | "private" | "trial" | "pass-5" | "pass-10" | "pass-13" | "pass-usage" | "pro" | "fall-academy"; // プログラム
   preferred_date: string | null;     // 希望日（例: "2026-05-10"）
   preferred_time: string | null;     // 希望時間帯（例: "Morning (9am–12pm)"）
@@ -59,6 +62,9 @@ export interface PassHolder {
   name:            string;
   email:           string;
   phone:           string | null;
+  parent_name:     string | null;
+  school:          string | null;
+  grade:           string | null;
   pass_type:       "pass-5" | "pass-10" | "pass-13";
   sessions_total:  number;
   sessions_used:   number;

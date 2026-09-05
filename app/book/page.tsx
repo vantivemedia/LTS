@@ -130,6 +130,9 @@ function BookPageInner() {
   const [name, setName] = useState("");
   const [parentName, setParentName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [school, setSchool] = useState("");
+  const [grade, setGrade] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -183,6 +186,9 @@ function BookPageInner() {
           name,
           parentName,
           email,
+          phone,
+          school,
+          grade,
           program: programType === "pro" ? "pro" : programType === "fall-academy" ? "fall-academy" : "micro-academy",
           preferred_date: preferredDate || null,
           preferred_time: preferredTime || null,
@@ -415,6 +421,30 @@ function BookPageInner() {
               className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
             />
           </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">School</label>
+              <input
+                required
+                type="text"
+                placeholder="RICHMOND SECONDARY"
+                value={school}
+                onChange={(e) => setSchool(e.target.value)}
+                className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+              />
+            </div>
+            <div>
+              <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Grade</label>
+              <input
+                required
+                type="text"
+                placeholder="GRADE 10"
+                value={grade}
+                onChange={(e) => setGrade(e.target.value)}
+                className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+              />
+            </div>
+          </div>
           <div>
             <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Name</label>
             <input
@@ -423,6 +453,17 @@ function BookPageInner() {
               placeholder="MICHAEL SMITH"
               value={parentName}
               onChange={(e) => setParentName(e.target.value)}
+              className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+            />
+          </div>
+          <div>
+            <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Phone Number</label>
+            <input
+              required
+              type="tel"
+              placeholder="604-000-0000"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
             />
           </div>
@@ -450,7 +491,7 @@ function BookPageInner() {
             </button>
             <button
               type="submit"
-              disabled={!name || !parentName || !email || loading}
+              disabled={!name || !parentName || !email || !phone || !school || !grade || loading}
               className="flex-1 bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30"
             >
               {loading ? "BOOKING..." : "CONFIRM BOOKING"}

@@ -24,6 +24,9 @@ create table if not exists bookings (
   name           text        not null,
   email          text        not null,
   phone          text,
+  parent_name    text,
+  school         text,
+  grade          text,
 
   -- Session preferences
   program        text        not null
@@ -40,6 +43,12 @@ create table if not exists bookings (
   status         text        not null default 'pending'
                    check (status in ('pending','confirmed','cancelled'))
 );
+
+-- Add columns to a database created before they existed (see the note above
+-- about CREATE TABLE IF NOT EXISTS being a no-op on an existing table).
+alter table bookings add column if not exists parent_name text;
+alter table bookings add column if not exists school text;
+alter table bookings add column if not exists grade text;
 
 -- Re-running this file on a database where `bookings` already exists won't update
 -- the CHECK constraint above (CREATE TABLE IF NOT EXISTS is a no-op there), so
@@ -128,6 +137,9 @@ create table if not exists pass_holders (
   name           text        not null,
   email          text        not null,
   phone          text,
+  parent_name    text,
+  school         text,
+  grade          text,
 
   -- Which program this pass's sessions can be redeemed against.
   -- Academy, PRO, and Fall Academy passes are priced differently and are NOT
@@ -145,6 +157,9 @@ create table if not exists pass_holders (
 -- Add `program` to a database created before this column existed, and reapply
 -- its constraint on re-run (see the bookings table above for why this pattern is needed).
 alter table pass_holders add column if not exists program text not null default 'academy';
+alter table pass_holders add column if not exists parent_name text;
+alter table pass_holders add column if not exists school text;
+alter table pass_holders add column if not exists grade text;
 alter table pass_holders drop constraint if exists pass_holders_program_check;
 alter table pass_holders add constraint pass_holders_program_check
   check (program in ('academy','pro','fall-academy'));

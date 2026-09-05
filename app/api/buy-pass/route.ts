@@ -4,12 +4,12 @@ import { createClient } from "@supabase/supabase-js";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, parentName, email, phone, passType, pass_type: body_pass_type } = body;
+    const { name, parentName, email, phone, school, grade, passType, pass_type: body_pass_type } = body;
     const pass_type = passType || body_pass_type;
     const program: "academy" | "pro" | "fall-academy" =
       body.program === "pro" ? "pro" : body.program === "fall-academy" ? "fall-academy" : "academy";
 
-    if (!name || !parentName || !email || !pass_type) {
+    if (!name || !parentName || !email || !phone || !school || !grade || !pass_type) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
@@ -63,7 +63,10 @@ export async function POST(request: Request) {
       const { error: dbError } = await supabase.from("pass_holders").insert({
         name,
         email: email.trim().toLowerCase(),
-        phone: phone || null,
+        phone,
+        parent_name: parentName,
+        school,
+        grade,
         program,
         pass_type,
         sessions_total,
@@ -73,7 +76,7 @@ export async function POST(request: Request) {
 
       if (dbError) {
         console.error("DB Error:", dbError);
-        // テーブルがまだない場合でもメールは送る
+        return NextResponse.json({ error: "Failed to save pass registration. Please try again or email info@ltseliteprep.ca." }, { status: 500 });
       }
 
       await supabase.from("analytics_events").insert({
@@ -134,9 +137,11 @@ export async function POST(request: Request) {
         <h2>New Pass Purchase 🏀</h2>
         <table style="border-collapse:collapse;">
           <tr><td style="padding:6px 12px;color:#666;">Name</td><td style="padding:6px 12px;font-weight:bold;">${name}</td></tr>
+          <tr><td style="padding:6px 12px;color:#666;">School</td><td style="padding:6px 12px;">${school}</td></tr>
+          <tr><td style="padding:6px 12px;color:#666;">Grade</td><td style="padding:6px 12px;">${grade}</td></tr>
           <tr><td style="padding:6px 12px;color:#666;">Parent</td><td style="padding:6px 12px;">${parentName}</td></tr>
+          <tr><td style="padding:6px 12px;color:#666;">Parent Phone</td><td style="padding:6px 12px;">${phone}</td></tr>
           <tr><td style="padding:6px 12px;color:#666;">Email</td><td style="padding:6px 12px;">${email}</td></tr>
-          <tr><td style="padding:6px 12px;color:#666;">Phone</td><td style="padding:6px 12px;">${phone || "—"}</td></tr>
           <tr><td style="padding:6px 12px;color:#666;">Pass</td><td style="padding:6px 12px;">${label}</td></tr>
           <tr><td style="padding:6px 12px;color:#666;">Amount</td><td style="padding:6px 12px;font-weight:bold;">${amount}</td></tr>
         </table>

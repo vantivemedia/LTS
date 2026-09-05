@@ -26,6 +26,8 @@ export default function ProPage() {
   const [parentName, setParentName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [school, setSchool] = useState("");
+  const [grade, setGrade] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -38,7 +40,7 @@ export default function ProPage() {
       const res = await fetch("/api/buy-pass", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, parentName, email, phone, passType: "pass-5", program: "pro" }),
+        body: JSON.stringify({ name, parentName, email, phone, school, grade, passType: "pass-5", program: "pro" }),
       });
       if (!res.ok) {
         const d = await res.json();
@@ -252,6 +254,31 @@ export default function ProPage() {
               />
             </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">School</label>
+                <input
+                  required
+                  type="text"
+                  placeholder="RICHMOND SECONDARY"
+                  value={school}
+                  onChange={(e) => setSchool(e.target.value)}
+                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                />
+              </div>
+              <div>
+                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Grade</label>
+                <input
+                  required
+                  type="text"
+                  placeholder="GRADE 10"
+                  value={grade}
+                  onChange={(e) => setGrade(e.target.value)}
+                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                />
+              </div>
+            </div>
+
             <div>
               <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Name</label>
               <input
@@ -277,8 +304,9 @@ export default function ProPage() {
                 />
               </div>
               <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Phone (Optional)</label>
+                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Phone Number</label>
                 <input
+                  required
                   type="tel"
                   placeholder="604-000-0000"
                   value={phone}
@@ -296,7 +324,7 @@ export default function ProPage() {
 
             <button
               type="submit"
-              disabled={!name || !parentName || !email || loading}
+              disabled={!name || !parentName || !email || !phone || !school || !grade || loading}
               className="w-full bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30 mt-2"
             >
               {loading ? "PROCESSING..." : "REGISTER — $399.99"}

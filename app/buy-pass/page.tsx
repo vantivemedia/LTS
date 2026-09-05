@@ -67,6 +67,8 @@ function BuyPassPageInner() {
   const [parentName, setParentName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [school, setSchool] = useState("");
+  const [grade, setGrade] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -87,7 +89,7 @@ function BuyPassPageInner() {
       const res = await fetch("/api/buy-pass", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, parentName, email, phone, passType: pass.passType, program: pass.program }),
+        body: JSON.stringify({ name, parentName, email, phone, school, grade, passType: pass.passType, program: pass.program }),
       });
       if (!res.ok) {
         const d = await res.json();
@@ -222,6 +224,30 @@ function BuyPassPageInner() {
                   className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                 />
               </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">School</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="RICHMOND SECONDARY"
+                    value={school}
+                    onChange={(e) => setSchool(e.target.value)}
+                    className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Grade</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="GRADE 10"
+                    value={grade}
+                    onChange={(e) => setGrade(e.target.value)}
+                    className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  />
+                </div>
+              </div>
               <div>
                 <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Name</label>
                 <input
@@ -230,6 +256,17 @@ function BuyPassPageInner() {
                   placeholder="MICHAEL SMITH"
                   value={parentName}
                   onChange={(e) => setParentName(e.target.value)}
+                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                />
+              </div>
+              <div>
+                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Phone Number</label>
+                <input
+                  required
+                  type="tel"
+                  placeholder="604-000-0000"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                 />
               </div>
@@ -244,16 +281,6 @@ function BuyPassPageInner() {
                   className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                 />
               </div>
-              <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Phone (Optional)</label>
-                <input
-                  type="tel"
-                  placeholder="604-000-0000"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
-                />
-              </div>
 
               {error && (
                 <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold p-4 rounded-xl text-center">
@@ -263,7 +290,7 @@ function BuyPassPageInner() {
 
               <button
                 type="submit"
-                disabled={!name || !parentName || !email || loading}
+                disabled={!name || !parentName || !email || !phone || !school || !grade || loading}
                 className="w-full bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30 mt-2"
               >
                 {loading ? "PROCESSING..." : `REGISTER — ${pass.price}`}
