@@ -136,8 +136,8 @@ export default function PopUpCampPage() {
             <div className="flex items-start gap-3">
               <Clock className="w-4 h-4 text-white/40 mt-0.5 shrink-0" />
               <div>
-                <p className="font-bold text-white text-sm">12:30 PM – 3:00 PM</p>
-                <p className="text-white/30 text-xs">Choose either 12:30–1:45 or 2:00–3:15</p>
+                <p className="font-bold text-white text-sm">2 Sessions</p>
+                <p className="text-white/30 text-xs">12:30 – 1:45 PM or 2:00 – 3:15 PM</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
