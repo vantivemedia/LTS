@@ -103,7 +103,7 @@ export default function PopUpCampPage() {
                 className="text-6xl sm:text-7xl mb-4 uppercase tracking-tighter leading-none"
                 style={{ fontFamily: '"Vanguard CF Heavy Oblique", sans-serif' }}
               >
-                Pop Up
+                Free Pop Up
                 <br />
                 <span className="text-white/20">Camp</span>
               </h1>
