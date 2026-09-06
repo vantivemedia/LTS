@@ -95,16 +95,30 @@ create table if not exists camp_registrations (
   athlete_name   text        not null,
   parent_name    text        not null,
   parent_email   text        not null,
+  parent_phone   text,
+  school         text,
+  age            text,
+  grade          text,
 
   camp_id        text,
   camp_name      text,
   amount         text,   -- stored as a display string, e.g. "$249.99"
-  package_type   text,   -- 'weekend-1' | 'weekend-2' | 'both' | 'dropin'
+  package_type   text,   -- 'weekend-1' | 'weekend-2' | 'both' | 'dropin' | 'pop-up-camp'
   dropin_session text,
 
   status         text        not null default 'pending_payment'
-                   check (status in ('pending_payment','paid','cancelled'))
+                   check (status in ('pending_payment','paid','cancelled','confirmed'))
 );
+
+-- Add columns to a database created before they existed.
+alter table camp_registrations add column if not exists parent_phone text;
+alter table camp_registrations add column if not exists school text;
+alter table camp_registrations add column if not exists age text;
+alter table camp_registrations add column if not exists grade text;
+
+alter table camp_registrations drop constraint if exists camp_registrations_status_check;
+alter table camp_registrations add constraint camp_registrations_status_check
+  check (status in ('pending_payment','paid','cancelled','confirmed'));
 
 alter table camp_registrations enable row level security;
 

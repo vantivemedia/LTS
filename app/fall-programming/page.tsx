@@ -116,6 +116,17 @@ export default function FallProgrammingPage() {
               Buy a Package
             </Link>
           </div>
+
+          <Link
+            href="/pop-up-camp"
+            onClick={() => trackEvent("button_click", "/fall-programming", "fall_pop_up_camp_click")}
+            className="mt-6 flex items-center justify-between gap-3 bg-white/3 border border-white/8 rounded-2xl px-5 py-4 hover:border-white/20 transition-all group"
+          >
+            <p className="text-sm text-white/50">
+              Not sure Fall Academy is right for you? <span className="text-white font-bold">Try it free at our HS Pop-Up Camp</span> — Sept 7.
+            </p>
+            <ArrowRight className="w-4 h-4 text-white/30 group-hover:text-white transition-colors shrink-0" />
+          </Link>
         </div>
 
         {/* Schedule */}

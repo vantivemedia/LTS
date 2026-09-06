@@ -810,6 +810,7 @@ const PACKAGE_LABELS: Record<string, string> = {
   "weekend-2": "Weekend 2 (Jul 18+19)",
   "both": "Both Weekends",
   "dropin": "Drop-in",
+  "pop-up-camp": "Free Pop-Up Camp",
 };
 
 const SESSION_LABELS: Record<string, string> = {
@@ -817,6 +818,8 @@ const SESSION_LABELS: Record<string, string> = {
   jul12: "Jul 12 PERFORM",
   jul18: "Jul 18 BUILD",
   jul19: "Jul 19 PERFORM",
+  "session-1": "Sept 7 · 12:30–1:45 PM",
+  "session-2": "Sept 7 · 2:00–3:15 PM",
 };
 
 function CampTab() {
@@ -930,13 +933,21 @@ function CampTab() {
                     <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40">
                       <span className="flex items-center gap-1"><Users className="w-3 h-3" /> Parent: {r.parent_name || "—"}</span>
                       <span className="flex items-center gap-1"><Mail className="w-3 h-3" /> {r.parent_email || "—"}</span>
+                      {r.parent_phone && (
+                        <span className="flex items-center gap-1"><Phone className="w-3 h-3" /> {r.parent_phone}</span>
+                      )}
                       <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {date}</span>
                     </div>
+                    {(r.school || r.age || r.grade) && (
+                      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40 mt-1">
+                        <span className="flex items-center gap-1"><GraduationCap className="w-3 h-3" /> {[r.school, r.age && `Age ${r.age}`, r.grade].filter(Boolean).join(" · ")}</span>
+                      </div>
+                    )}
                   </div>
                   <div className="text-right shrink-0">
                     <p className="text-xl font-black text-white">{r.amount || "—"}</p>
                     <p className={`text-[10px] uppercase font-bold mt-0.5 ${
-                      r.status === "paid" ? "text-green-400" :
+                      r.status === "paid" || r.status === "confirmed" ? "text-green-400" :
                       r.status === "cancelled" ? "text-red-400" :
                       "text-yellow-400"
                     }`}>
