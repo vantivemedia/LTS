@@ -15,6 +15,23 @@ import {
   Zap,
 } from "lucide-react";
 
+// Session focus, by date, for Fall Academy Phase 1 — mirrors the schedule on /fall-programming.
+const FALL_ACADEMY_FOCUS: Record<string, string> = {
+  "2026-09-11": "Handle + Pace",
+  "2026-09-12": "Finishing School",
+  "2026-09-13": "Shot Making",
+  "2026-09-14": "Creating Separation",
+  "2026-09-16": "Paint Decisions",
+  "2026-09-18": "Finishing Through Contact",
+  "2026-09-19": "Shooting Off Movement",
+  "2026-09-20": "Change of Direction",
+  "2026-09-25": "Closeout Attacks",
+  "2026-09-26": "Pick & Roll Reads",
+  "2026-09-27": "Transition Offense",
+  "2026-10-02": "Scoring Under Pressure",
+  "2026-10-03": "Complete Player",
+};
+
 // ── Calendar ─────────────────────────────────────────────────
 
 function Calendar({
@@ -351,18 +368,33 @@ function BookPageInner() {
                   {sessionsForDate.map((c) => {
                     const timeLabel = `${formatTime(c.start_time)} - ${formatTime(c.end_time)}`;
                     const isSel = preferredTime === timeLabel;
+                    const focus = c.program === "fall-academy" ? FALL_ACADEMY_FOCUS[c.class_date] : null;
                     return (
                       <button
                         key={c.id}
                         type="button"
                         onClick={() => setPreferredTime(timeLabel)}
-                        className={`w-full flex items-center justify-between p-4 rounded-2xl border transition-all
+                        className={`w-full text-left p-4 rounded-2xl border transition-all
                           ${isSel ? "bg-white text-black border-white" : "bg-[#111] text-white/60 border-white/5 hover:border-white/15"}`}
                       >
-                        <span className="font-bold text-sm uppercase">{c.title}</span>
-                        <span className={`text-xs font-black ${isSel ? "text-black/60" : "text-white/30"}`}>
-                          {formatTime(c.start_time)} – {formatTime(c.end_time)}
-                        </span>
+                        {focus ? (
+                          <>
+                            <div className="flex items-center justify-between mb-1">
+                              <span className={`text-xs font-black uppercase tracking-wide ${isSel ? "text-black/50" : "text-white/30"}`}>{c.title}</span>
+                              <span className={`text-xs font-bold ${isSel ? "text-black/50" : "text-white/30"}`}>
+                                {formatTime(c.start_time)} – {formatTime(c.end_time)}
+                              </span>
+                            </div>
+                            <p className={`font-bold text-base leading-snug ${isSel ? "text-black" : "text-white"}`}>{focus}</p>
+                          </>
+                        ) : (
+                          <div className="flex items-center justify-between">
+                            <span className="font-bold text-sm uppercase">{c.title}</span>
+                            <span className={`text-xs font-black ${isSel ? "text-black/60" : "text-white/30"}`}>
+                              {formatTime(c.start_time)} – {formatTime(c.end_time)}
+                            </span>
+                          </div>
+                        )}
                       </button>
                     );
                   })}
