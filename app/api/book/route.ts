@@ -4,13 +4,21 @@ import { createClient } from "@supabase/supabase-js";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, parentName, email, phone, school, grade, program, preferred_date, preferred_time } = body;
+    const { claimedHasPass, name, parentName, email, phone, school, grade, program, preferred_date, preferred_time } = body;
 
     if (!email || !program) {
       return NextResponse.json({ error: "Email and program are required" }, { status: 400 });
     }
 
-    // Individual session booking only requires email — everything else is optional.
+    // Pass holders only need to provide email (matched against pass_holders below).
+    // Everyone else is booking a paid drop-in and needs the full contact info.
+    if (!claimedHasPass && (!name || !parentName || !phone || !school || !grade)) {
+      return NextResponse.json(
+        { error: "Name, parent name, parent phone, school, and grade are required for drop-in bookings" },
+        { status: 400 }
+      );
+    }
+
     const displayName = name || "Guest";
 
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
@@ -56,6 +64,18 @@ export async function POST(request: Request) {
             .eq("id", activePass.id);
         }
       }
+    }
+
+    // They said they had a pass but none was found for that email/program — don't book
+    // a drop-in without the fuller info drop-ins require, send them back to fill it in.
+    if (claimedHasPass && !isPassHolder) {
+      return NextResponse.json(
+        {
+          error: "We couldn't find an active pass for that email. Please fill in the rest of your info to book as a drop-in.",
+          code: "NO_PASS_FOUND",
+        },
+        { status: 404 }
+      );
     }
 
     const amount = isPassHolder ? "Pre-paid (Pass)" : program === "pro" ? "$85" : program === "fall-academy" ? "$55" : "$70";

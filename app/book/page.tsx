@@ -127,7 +127,13 @@ function BookPageInner() {
   const [classes, setClasses] = useState<any[]>([]);
   const [preferredDate, setPreferredDate] = useState("");
   const [preferredTime, setPreferredTime] = useState("");
+  const [hasPass, setHasPass] = useState<boolean | null>(null);
+  const [name, setName] = useState("");
+  const [parentName, setParentName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [school, setSchool] = useState("");
+  const [grade, setGrade] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -178,7 +184,13 @@ function BookPageInner() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          claimedHasPass: hasPass,
+          name,
+          parentName,
           email,
+          phone,
+          school,
+          grade,
           program: programType === "pro" ? "pro" : programType === "fall-academy" ? "fall-academy" : "micro-academy",
           preferred_date: preferredDate || null,
           preferred_time: preferredTime || null,
@@ -186,6 +198,14 @@ function BookPageInner() {
       });
       if (!res.ok) {
         const d = await res.json();
+        if (d.code === "NO_PASS_FOUND") {
+          // They said they had a pass but we couldn't find one for that email — drop
+          // them into the drop-in form (email stays filled in) instead of failing outright.
+          setHasPass(false);
+          setError(d.error || "We couldn't find an active pass for that email. Please fill in the rest of your info to book as a drop-in.");
+          setLoading(false);
+          return;
+        }
         throw new Error(d.error || "Booking failed");
       }
       setSubmitted(true);
@@ -392,49 +412,149 @@ function BookPageInner() {
           )}
         </div>
 
-        <div className="bg-white/3 border border-white/8 rounded-2xl p-4 mb-6 flex items-start gap-3">
-          <Zap className="w-4 h-4 text-white/40 mt-0.5 shrink-0" />
-          <p className="text-xs text-white/40 leading-relaxed">
-            If you have an active session pass, <strong className="text-white/60">enter the same email you used to buy it</strong> — your pass will be detected automatically and 1 session deducted. Otherwise, you'll be billed ${ programType === "pro" ? "85" : programType === "fall-academy" ? "55" : "70"} as a drop-in.
-          </p>
+        {/* Pass vs. drop-in toggle */}
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          <button
+            type="button"
+            onClick={() => setHasPass(true)}
+            className={`p-4 rounded-2xl border text-left transition-all ${
+              hasPass === true ? "bg-white text-black border-white" : "bg-[#111] text-white border-white/10 hover:border-white/25"
+            }`}
+          >
+            <p className="font-black text-sm uppercase">I Have A Pass</p>
+            <p className={`text-xs mt-0.5 ${hasPass === true ? "text-black/50" : "text-white/30"}`}>Just need your email</p>
+          </button>
+          <button
+            type="button"
+            onClick={() => setHasPass(false)}
+            className={`p-4 rounded-2xl border text-left transition-all ${
+              hasPass === false ? "bg-white text-black border-white" : "bg-[#111] text-white border-white/10 hover:border-white/25"
+            }`}
+          >
+            <p className="font-black text-sm uppercase">New / Drop-In</p>
+            <p className={`text-xs mt-0.5 ${hasPass === false ? "text-black/50" : "text-white/30"}`}>
+              ${programType === "pro" ? "85" : programType === "fall-academy" ? "55" : "70"} per session
+            </p>
+          </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Email Address</label>
-            <input
-              required
-              type="email"
-              placeholder="JORDAN@EXAMPLE.COM"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
-            />
-            <p className="text-[10px] text-white/25 mt-2 leading-relaxed">
-              Have a pass? Use the same email you bought it with — we'll match it automatically and deduct 1 session.
-            </p>
-          </div>
+        {hasPass === null && (
+          <p className="text-center text-white/20 text-xs font-bold uppercase tracking-widest py-8 border border-dashed border-white/10 rounded-2xl mb-6">
+            Choose an option above to continue
+          </p>
+        )}
 
-          {error && (
-            <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold p-4 rounded-xl text-center">
-              {error}
+        {hasPass !== null && (
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {hasPass ? (
+              <div>
+                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Email Address</label>
+                <input
+                  required
+                  type="email"
+                  placeholder="JORDAN@EXAMPLE.COM"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                />
+                <p className="text-[10px] text-white/25 mt-2 leading-relaxed">
+                  Use the same email you bought your pass with — we'll match it automatically and deduct 1 session.
+                </p>
+              </div>
+            ) : (
+              <>
+                <div>
+                  <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Athlete Full Name</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="JORDAN SMITH"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">School</label>
+                    <input
+                      required
+                      type="text"
+                      placeholder="RICHMOND SECONDARY"
+                      value={school}
+                      onChange={(e) => setSchool(e.target.value)}
+                      className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Grade</label>
+                    <input
+                      required
+                      type="text"
+                      placeholder="GRADE 10"
+                      value={grade}
+                      onChange={(e) => setGrade(e.target.value)}
+                      className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Name</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="MICHAEL SMITH"
+                    value={parentName}
+                    onChange={(e) => setParentName(e.target.value)}
+                    className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Phone Number</label>
+                  <input
+                    required
+                    type="tel"
+                    placeholder="604-000-0000"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Email Address</label>
+                  <input
+                    required
+                    type="email"
+                    placeholder="JORDAN@EXAMPLE.COM"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  />
+                </div>
+              </>
+            )}
+
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold p-4 rounded-xl text-center">
+                {error}
+              </div>
+            )}
+
+            <div className="flex gap-3 pt-2">
+              <button type="button" onClick={() => setStep(2)} className="w-1/3 bg-[#111] text-white/50 font-bold py-5 rounded-2xl border border-white/5">
+                BACK
+              </button>
+              <button
+                type="submit"
+                disabled={hasPass ? !email || loading : !name || !parentName || !email || !phone || !school || !grade || loading}
+                className="flex-1 bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30"
+              >
+                {loading ? "BOOKING..." : "CONFIRM BOOKING"}
+                {!loading && <ArrowRight className="w-5 h-5" />}
+              </button>
             </div>
-          )}
-
-          <div className="flex gap-3 pt-2">
-            <button type="button" onClick={() => setStep(2)} className="w-1/3 bg-[#111] text-white/50 font-bold py-5 rounded-2xl border border-white/5">
-              BACK
-            </button>
-            <button
-              type="submit"
-              disabled={!email || loading}
-              className="flex-1 bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30"
-            >
-              {loading ? "BOOKING..." : "CONFIRM BOOKING"}
-              {!loading && <ArrowRight className="w-5 h-5" />}
-            </button>
-          </div>
-        </form>
+          </form>
+        )}
       </div>
     </div>
   );
