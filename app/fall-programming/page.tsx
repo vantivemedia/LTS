@@ -128,11 +128,11 @@ export default function FallProgrammingPage() {
                 <div className="divide-y divide-white/5 bg-[#111] border border-white/5 rounded-2xl overflow-hidden">
                   {sessions.map((s) => (
                     <div key={s.date} className="px-4 py-3">
-                      <div className="flex items-center justify-between">
-                        <span className="font-bold text-white text-sm">{s.date}</span>
-                        <span className="text-white/40 text-xs font-bold">{s.time}</span>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-white/40 text-xs font-black uppercase tracking-wide">{s.date}</span>
+                        <span className="text-white/30 text-xs font-bold">{s.time}</span>
                       </div>
-                      <p className="text-white/30 text-xs mt-0.5">{s.focus}</p>
+                      <p className="text-white font-bold text-base leading-snug">{s.focus}</p>
                     </div>
                   ))}
                 </div>
