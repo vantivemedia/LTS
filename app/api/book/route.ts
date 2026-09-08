@@ -6,12 +6,12 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, parentName, email, phone, school, grade, program, preferred_date, preferred_time } = body;
 
-    if (!name || !parentName || !email || !phone || !school || !grade || !program) {
-      return NextResponse.json(
-        { error: "Name, parent name, parent phone, email, school, grade, and program are required" },
-        { status: 400 }
-      );
+    if (!email || !program) {
+      return NextResponse.json({ error: "Email and program are required" }, { status: 400 });
     }
+
+    // Individual session booking only requires email — everything else is optional.
+    const displayName = name || "Guest";
 
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
       console.log("Mock booking (Supabase not configured):", body);
@@ -62,12 +62,12 @@ export async function POST(request: Request) {
 
     // ── Save booking ──────────────────────────────────────────
     const { error: bookingError } = await supabase.from("bookings").insert({
-      name,
+      name: displayName,
       email,
-      phone,
-      parent_name: parentName,
-      school,
-      grade,
+      phone: phone || null,
+      parent_name: parentName || null,
+      school: school || null,
+      grade: grade || null,
       program: program === "pro" ? "pro" : program === "fall-academy" ? "fall-academy" : "micro-academy",
       preferred_date: preferred_date || null,
       preferred_time: preferred_time || null,
@@ -107,7 +107,7 @@ export async function POST(request: Request) {
     const userHtml = isPassHolder
       ? `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
-          <p>Hi ${name},</p>
+          <p>Hi ${displayName},</p>
           <p>Your session has been booked and <strong>1 session has been deducted from your pass</strong>.</p>
           <div style="margin:24px 0;padding:20px;background:#f9f9f9;border-radius:12px;border:1px solid #eee;">
             <p style="margin:6px 0;"><strong>Date:</strong> ${dateLabel}</p>
@@ -120,7 +120,7 @@ export async function POST(request: Request) {
       `
       : `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
-          <p>Hi ${name},</p>
+          <p>Hi ${displayName},</p>
           <p>Thanks for booking a ${programLabel} session with LTS ELITE PREP!</p>
           <p>To secure your spot, please complete the payment via E-transfer within the next 48 hours.</p>
           <div style="margin:24px 0;padding:20px;background:#f9f9f9;border-radius:12px;border:1px solid #eee;">
@@ -149,14 +149,14 @@ export async function POST(request: Request) {
       resend.emails.send({
         from: "LTS System <info@ltseliteprep.ca>",
         to: "paolo@ltseliteprep.ca",
-        subject: `New Booking: ${name} — ${isPassHolder ? "Pass Usage" : programLabel}`,
+        subject: `New Booking: ${displayName} — ${isPassHolder ? "Pass Usage" : programLabel}`,
         html: `
           <h2>New Session Booking</h2>
-          <p><strong>Athlete:</strong> ${name}</p>
-          <p><strong>School:</strong> ${school}</p>
-          <p><strong>Grade:</strong> ${grade}</p>
-          <p><strong>Parent:</strong> ${parentName}</p>
-          <p><strong>Parent Phone:</strong> ${phone}</p>
+          <p><strong>Athlete:</strong> ${displayName}</p>
+          <p><strong>School:</strong> ${school || "—"}</p>
+          <p><strong>Grade:</strong> ${grade || "—"}</p>
+          <p><strong>Parent:</strong> ${parentName || "—"}</p>
+          <p><strong>Parent Phone:</strong> ${phone || "—"}</p>
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Type:</strong> ${isPassHolder ? "Pass Holder (1 session deducted)" : `${programLabel} (${amount})`}</p>
           <p><strong>Date:</strong> ${dateLabel}</p>
