@@ -477,6 +477,9 @@ function BookPageInner() {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
             />
+            <p className="text-[10px] text-white/25 mt-2 leading-relaxed">
+              Have a pass? Use the same email you bought it with — we'll match it automatically and deduct 1 session.
+            </p>
           </div>
 
           {error && (
