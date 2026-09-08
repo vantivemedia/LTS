@@ -6,21 +6,21 @@ import { trackEvent } from "@/lib/analytics";
 
 const SCHEDULE = {
   September: [
-    { date: "Sept 11", time: "6:30 – 8:00 PM" },
-    { date: "Sept 12", time: "3:30 – 5:00 PM" },
-    { date: "Sept 13", time: "12:00 – 1:30 PM" },
-    { date: "Sept 14", time: "5:00 – 6:30 PM" },
-    { date: "Sept 16", time: "6:00 – 7:30 PM" },
-    { date: "Sept 18", time: "6:30 – 8:00 PM" },
-    { date: "Sept 19", time: "4:00 – 5:30 PM" },
-    { date: "Sept 20", time: "6:00 – 7:30 PM" },
-    { date: "Sept 25", time: "6:30 – 8:00 PM" },
-    { date: "Sept 26", time: "4:00 – 5:30 PM" },
-    { date: "Sept 27", time: "12:00 – 1:30 PM" },
+    { date: "Sept 11", time: "6:30 – 8:00 PM", focus: "Handle + Pace" },
+    { date: "Sept 12", time: "3:30 – 5:00 PM", focus: "Finishing School" },
+    { date: "Sept 13", time: "12:00 – 1:30 PM", focus: "Shot Making" },
+    { date: "Sept 14", time: "5:00 – 6:30 PM", focus: "Creating Separation" },
+    { date: "Sept 16", time: "6:00 – 7:30 PM", focus: "Paint Decisions" },
+    { date: "Sept 18", time: "6:30 – 8:00 PM", focus: "Finishing Through Contact" },
+    { date: "Sept 19", time: "4:00 – 5:30 PM", focus: "Shooting Off Movement" },
+    { date: "Sept 20", time: "6:00 – 7:30 PM", focus: "Change of Direction" },
+    { date: "Sept 25", time: "6:30 – 8:00 PM", focus: "Closeout Attacks" },
+    { date: "Sept 26", time: "4:00 – 5:30 PM", focus: "Pick & Roll Reads" },
+    { date: "Sept 27", time: "12:00 – 1:30 PM", focus: "Transition Offense" },
   ],
   October: [
-    { date: "Oct 2", time: "6:30 – 8:00 PM" },
-    { date: "Oct 3", time: "4:00 – 5:30 PM" },
+    { date: "Oct 2", time: "6:30 – 8:00 PM", focus: "Scoring Under Pressure" },
+    { date: "Oct 3", time: "4:00 – 5:30 PM", focus: "Complete Player" },
   ],
 };
 
@@ -127,9 +127,12 @@ export default function FallProgrammingPage() {
                 <p className="text-xs font-black text-white/50 uppercase tracking-widest mb-3">{month}</p>
                 <div className="divide-y divide-white/5 bg-[#111] border border-white/5 rounded-2xl overflow-hidden">
                   {sessions.map((s) => (
-                    <div key={s.date} className="flex items-center justify-between px-4 py-3">
-                      <span className="font-bold text-white text-sm">{s.date}</span>
-                      <span className="text-white/40 text-xs font-bold">{s.time}</span>
+                    <div key={s.date} className="px-4 py-3">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-white text-sm">{s.date}</span>
+                        <span className="text-white/40 text-xs font-bold">{s.time}</span>
+                      </div>
+                      <p className="text-white/30 text-xs mt-0.5">{s.focus}</p>
                     </div>
                   ))}
                 </div>
