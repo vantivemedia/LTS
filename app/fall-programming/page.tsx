@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, ArrowRight, Mail, MapPin } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
 
@@ -75,46 +76,62 @@ export default function FallProgrammingPage() {
             <ArrowLeft className="w-3 h-3" /> Back
           </Link>
 
-          <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-3">
-            September 11 – October 3
-          </p>
-          <h1
-            className="text-6xl sm:text-7xl mb-4 uppercase tracking-tighter leading-none"
-            style={{ fontFamily: '"Vanguard CF Heavy Oblique", sans-serif' }}
-          >
-            Fall Academy
-            <br />
-            <span className="text-white/20">Phase 1</span>
-          </h1>
-          <p className="text-white/40 text-lg leading-relaxed max-w-2xl mb-2">
-            13 training opportunities. 19.5 hours of development. A flexible format built around busy school,
-            team, and family schedules.
-          </p>
-          <p className="text-white/30 text-sm max-w-2xl mb-2">
-            You do not need to attend every session — choose the package that fits your schedule, and pick the
-            dates that work best for you.
-          </p>
-          <p className="flex items-center gap-1.5 text-white/40 text-sm mb-8">
-            <MapPin className="w-3.5 h-3.5 shrink-0" />
-            The Hoop — 11111 Twigg Pl #1061, Richmond, BC
-          </p>
+          <div className="lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:items-center">
+            <div>
+              <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-3">
+                September 11 – October 3
+              </p>
+              <h1
+                className="text-6xl sm:text-7xl mb-4 uppercase tracking-tighter leading-none"
+                style={{ fontFamily: '"Vanguard CF Heavy Oblique", sans-serif' }}
+              >
+                Fall Academy
+                <br />
+                <span className="text-white/20">Phase 1</span>
+              </h1>
+              <p className="text-white/40 text-lg leading-relaxed mb-2">
+                13 training opportunities. 19.5 hours of development. A flexible format built around busy school,
+                team, and family schedules.
+              </p>
+              <p className="text-white/30 text-sm mb-2">
+                You do not need to attend every session — choose the package that fits your schedule, and pick the
+                dates that work best for you.
+              </p>
+              <p className="flex items-center gap-1.5 text-white/40 text-sm mb-8">
+                <MapPin className="w-3.5 h-3.5 shrink-0" />
+                The Hoop — 11111 Twigg Pl #1061, Richmond, BC
+              </p>
 
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Link
-              href="/book?program=fall-academy"
-              onClick={() => trackEvent("button_click", "/fall-programming", "fall_book_session")}
-              className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
-            >
-              Book a Session
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/buy-pass?program=fall-academy"
-              onClick={() => trackEvent("button_click", "/fall-programming", "fall_buy_pass")}
-              className="inline-flex items-center justify-center gap-2 bg-[#111] border border-white/10 text-white font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:border-white/30 transition-all active:scale-95"
-            >
-              Buy a Package
-            </Link>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  href="/book?program=fall-academy"
+                  onClick={() => trackEvent("button_click", "/fall-programming", "fall_book_session")}
+                  className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
+                >
+                  Book a Session
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link
+                  href="/buy-pass?program=fall-academy"
+                  onClick={() => trackEvent("button_click", "/fall-programming", "fall_buy_pass")}
+                  className="inline-flex items-center justify-center gap-2 bg-[#111] border border-white/10 text-white font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:border-white/30 transition-all active:scale-95"
+                >
+                  Buy a Package
+                </Link>
+              </div>
+            </div>
+
+            <div className="mt-10 lg:mt-0 relative rounded-3xl overflow-hidden aspect-[4/5] lg:aspect-[3/4] border border-white/5">
+              <Image
+                src="/images/fall-academy-training.jpg"
+                alt="LTS Elite Prep athletes in a live 1-on-1 drill at The Hoop"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+            </div>
           </div>
         </div>
 
