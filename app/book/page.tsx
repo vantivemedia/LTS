@@ -17,15 +17,15 @@ import {
 
 // Session focus, by date, for Fall Academy Phase 1 — mirrors the schedule on /fall-programming.
 const FALL_ACADEMY_FOCUS: Record<string, string> = {
-  "2026-09-11": "Handle + Pace",
+  "2026-09-11": "Handle Under Pressure",
   "2026-09-12": "Finishing School",
-  "2026-09-13": "Shot Making",
+  "2026-09-13": "Complete Player",
   "2026-09-14": "Creating Separation",
   "2026-09-16": "Paint Decisions",
-  "2026-09-18": "Finishing Through Contact",
-  "2026-09-19": "Shooting Off Movement",
-  "2026-09-20": "Change of Direction",
-  "2026-09-25": "Closeout Attacks",
+  "2026-09-18": "Complete Player",
+  "2026-09-19": "Off Ball Scoring",
+  "2026-09-20": "Handle Under Pressure",
+  "2026-09-25": "Complete Player",
   "2026-09-26": "Pick & Roll Reads",
   "2026-09-27": "Transition Offense",
   "2026-10-02": "Scoring Under Pressure",

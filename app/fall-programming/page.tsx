@@ -6,15 +6,15 @@ import { trackEvent } from "@/lib/analytics";
 
 const SCHEDULE = {
   September: [
-    { date: "Sept 11", time: "6:30 – 8:00 PM", focus: "Handle + Pace" },
+    { date: "Sept 11", time: "6:30 – 8:00 PM", focus: "Handle Under Pressure" },
     { date: "Sept 12", time: "3:30 – 5:00 PM", focus: "Finishing School" },
-    { date: "Sept 13", time: "12:00 – 1:30 PM", focus: "Shot Making" },
+    { date: "Sept 13", time: "12:00 – 1:30 PM", focus: "Complete Player" },
     { date: "Sept 14", time: "5:00 – 6:30 PM", focus: "Creating Separation" },
     { date: "Sept 16", time: "6:00 – 7:30 PM", focus: "Paint Decisions" },
-    { date: "Sept 18", time: "6:30 – 8:00 PM", focus: "Finishing Through Contact" },
-    { date: "Sept 19", time: "4:00 – 5:30 PM", focus: "Shooting Off Movement" },
-    { date: "Sept 20", time: "6:00 – 7:30 PM", focus: "Change of Direction" },
-    { date: "Sept 25", time: "6:30 – 8:00 PM", focus: "Closeout Attacks" },
+    { date: "Sept 18", time: "6:30 – 8:00 PM", focus: "Complete Player" },
+    { date: "Sept 19", time: "4:00 – 5:30 PM", focus: "Off Ball Scoring" },
+    { date: "Sept 20", time: "6:00 – 7:30 PM", focus: "Handle Under Pressure" },
+    { date: "Sept 25", time: "6:30 – 8:00 PM", focus: "Complete Player" },
     { date: "Sept 26", time: "4:00 – 5:30 PM", focus: "Pick & Roll Reads" },
     { date: "Sept 27", time: "12:00 – 1:30 PM", focus: "Transition Offense" },
   ],
