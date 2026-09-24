@@ -124,14 +124,9 @@ export default function PopUpCampPage() {
                 <ArrowLeft className="w-3 h-3" /> Back
               </Link>
 
-              <div className="flex flex-wrap items-center gap-2 mb-5">
-                <span className="inline-flex items-center gap-2 text-xs font-black tracking-widest uppercase border border-white/10 text-white/50 rounded-full px-3.5 py-1.5">
-                  $65 · Sept 30 · HS Athletes
-                </span>
-                <span className="inline-flex items-center gap-1.5 text-xs font-black tracking-widest uppercase bg-white text-black rounded-full px-3.5 py-1.5">
-                  <Gift className="w-3.5 h-3.5" /> + Raffle Entry
-                </span>
-              </div>
+              <span className="inline-flex items-center gap-2 text-xs font-black tracking-widest uppercase border border-white/10 text-white/50 rounded-full px-3.5 py-1.5 mb-5">
+                $65 · Sept 30 · HS Athletes
+              </span>
 
               <h1
                 className="text-6xl sm:text-7xl mb-4 uppercase tracking-tighter leading-none"
@@ -141,6 +136,10 @@ export default function PopUpCampPage() {
                 <br />
                 <span className="text-white/20">Camp</span>
               </h1>
+
+              <span className="inline-flex items-center gap-1.5 text-xs font-black tracking-widest uppercase bg-white text-black rounded-full px-3.5 py-1.5 mb-5">
+                <Gift className="w-3.5 h-3.5" /> + Raffle Entry
+              </span>
 
               <p className="text-white/40 text-lg leading-relaxed max-w-xl mb-8">
                 A preview of what LTS Academy training looks like — mental performance, high-volume skill work,
