@@ -835,12 +835,62 @@ const SESSION_LABELS: Record<string, string> = {
   "session-2": "Sept 7 · 2:00–3:15 PM",
 };
 
+function CampRegistrationRow({ r }: { r: any }) {
+  const pkgLabel = PACKAGE_LABELS[r.package_type] || r.package_type || "—";
+  const sessionLabel = r.dropin_session ? SESSION_LABELS[r.dropin_session] || r.dropin_session : null;
+  const date = r.created_at ? new Date(r.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—";
+  return (
+    <div className="bg-[#111] border border-white/5 rounded-2xl p-5">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-3 mb-1 flex-wrap">
+            <span className="font-black text-white">{r.athlete_name}</span>
+            <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-white/10 text-white/60">
+              {pkgLabel}
+              {sessionLabel ? ` · ${sessionLabel}` : ""}
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40">
+            <span className="flex items-center gap-1"><Users className="w-3 h-3" /> Parent: {r.parent_name || "—"}</span>
+            <span className="flex items-center gap-1"><Mail className="w-3 h-3" /> {r.parent_email || "—"}</span>
+            {r.parent_phone && (
+              <span className="flex items-center gap-1"><Phone className="w-3 h-3" /> {r.parent_phone}</span>
+            )}
+            <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {date}</span>
+          </div>
+          {(r.school || r.age || r.grade) && (
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40 mt-1">
+              <span className="flex items-center gap-1"><GraduationCap className="w-3 h-3" /> {[r.school, r.age && `Age ${r.age}`, r.grade].filter(Boolean).join(" · ")}</span>
+            </div>
+          )}
+          {r.referred_by && (
+            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40 mt-1">
+              <span className="flex items-center gap-1"><Gift className="w-3 h-3" /> Referred by: {r.referred_by}</span>
+            </div>
+          )}
+        </div>
+        <div className="text-right shrink-0">
+          <p className="text-xl font-black text-white">{r.amount || "—"}</p>
+          <p className={`text-[10px] uppercase font-bold mt-0.5 ${
+            r.status === "paid" || r.status === "confirmed" ? "text-green-400" :
+            r.status === "cancelled" ? "text-red-400" :
+            "text-yellow-400"
+          }`}>
+            {r.status || "pending"}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function CampTab() {
   const [registrations, setRegistrations] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [campFilter, setCampFilter] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<"date" | "camp">("date");
 
   async function fetchRegistrations() {
     setLoading(true);
@@ -896,6 +946,22 @@ function CampTab() {
     pending: inSelectedCamp.filter(r => r.status === "pending_payment" || !r.status).length,
     cancelled: inSelectedCamp.filter(r => r.status === "cancelled").length,
   };
+
+  // When sorting "By Camp", bucket the currently-filtered rows under each camp
+  // (in the same newest-activity-first order as the filter pills) instead of
+  // one flat chronological list.
+  const groupedByCamp = useMemo(() => {
+    if (sortBy !== "camp") return null;
+    const buckets = new Map<string, any[]>();
+    for (const r of filtered) {
+      const id = r.camp_id || "unknown";
+      if (!buckets.has(id)) buckets.set(id, []);
+      buckets.get(id)!.push(r);
+    }
+    return campGroups
+      .filter(g => buckets.has(g.id))
+      .map(g => ({ ...g, rows: buckets.get(g.id)! }));
+  }, [sortBy, filtered, campGroups]);
 
   return (
     <div>
@@ -953,6 +1019,24 @@ function CampTab() {
             className="w-full bg-[#111] border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-sm text-white outline-none focus:border-white/30"
           />
         </div>
+        <div className="flex items-center bg-[#111] border border-white/10 rounded-xl p-1 shrink-0">
+          <button
+            onClick={() => setSortBy("date")}
+            className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-all ${
+              sortBy === "date" ? "bg-white text-black" : "text-white/40 hover:text-white"
+            }`}
+          >
+            Newest
+          </button>
+          <button
+            onClick={() => setSortBy("camp")}
+            className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-all ${
+              sortBy === "camp" ? "bg-white text-black" : "text-white/40 hover:text-white"
+            }`}
+          >
+            By Camp
+          </button>
+        </div>
         <button
           onClick={fetchRegistrations}
           className="p-2.5 bg-[#111] border border-white/10 rounded-xl hover:border-white/30 transition-colors"
@@ -974,56 +1058,23 @@ function CampTab() {
         <div className="text-center py-20 text-white/20 border border-dashed border-white/10 rounded-2xl">
           <p className="font-bold uppercase tracking-widest text-sm">No registrations found</p>
         </div>
+      ) : groupedByCamp ? (
+        <div className="space-y-8">
+          {groupedByCamp.map(g => (
+            <div key={g.id}>
+              <div className="flex items-center gap-2 mb-3">
+                <p className="text-xs font-black uppercase tracking-widest text-white/50">{g.label}</p>
+                <span className="text-[10px] font-bold text-white/25">({g.rows.length})</span>
+              </div>
+              <div className="space-y-3">
+                {g.rows.map(r => <CampRegistrationRow key={r.id} r={r} />)}
+              </div>
+            </div>
+          ))}
+        </div>
       ) : (
         <div className="space-y-3">
-          {filtered.map(r => {
-            const pkgLabel = PACKAGE_LABELS[r.package_type] || r.package_type || "—";
-            const sessionLabel = r.dropin_session ? SESSION_LABELS[r.dropin_session] || r.dropin_session : null;
-            const date = r.created_at ? new Date(r.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—";
-            return (
-              <div key={r.id} className="bg-[#111] border border-white/5 rounded-2xl p-5">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-1 flex-wrap">
-                      <span className="font-black text-white">{r.athlete_name}</span>
-                      <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-white/10 text-white/60">
-                        {pkgLabel}
-                        {sessionLabel ? ` · ${sessionLabel}` : ""}
-                      </span>
-                    </div>
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40">
-                      <span className="flex items-center gap-1"><Users className="w-3 h-3" /> Parent: {r.parent_name || "—"}</span>
-                      <span className="flex items-center gap-1"><Mail className="w-3 h-3" /> {r.parent_email || "—"}</span>
-                      {r.parent_phone && (
-                        <span className="flex items-center gap-1"><Phone className="w-3 h-3" /> {r.parent_phone}</span>
-                      )}
-                      <span className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {date}</span>
-                    </div>
-                    {(r.school || r.age || r.grade) && (
-                      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40 mt-1">
-                        <span className="flex items-center gap-1"><GraduationCap className="w-3 h-3" /> {[r.school, r.age && `Age ${r.age}`, r.grade].filter(Boolean).join(" · ")}</span>
-                      </div>
-                    )}
-                    {r.referred_by && (
-                      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40 mt-1">
-                        <span className="flex items-center gap-1"><Gift className="w-3 h-3" /> Referred by: {r.referred_by}</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="text-right shrink-0">
-                    <p className="text-xl font-black text-white">{r.amount || "—"}</p>
-                    <p className={`text-[10px] uppercase font-bold mt-0.5 ${
-                      r.status === "paid" || r.status === "confirmed" ? "text-green-400" :
-                      r.status === "cancelled" ? "text-red-400" :
-                      "text-yellow-400"
-                    }`}>
-                      {r.status || "pending"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {filtered.map(r => <CampRegistrationRow key={r.id} r={r} />)}
         </div>
       )}
     </div>
