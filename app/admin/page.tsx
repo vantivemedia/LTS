@@ -30,6 +30,7 @@ import {
   Send,
   GraduationCap,
   Gift,
+  DollarSign,
 } from "lucide-react";
 
 // ── 管理者パスワード (MVP用) ──────────────────────────────────
@@ -111,7 +112,7 @@ function LoginScreen({ onSuccess }: { onSuccess: () => void }) {
 // ── ダッシュボード ────────────────────────────────────────────
 
 function Dashboard() {
-  const [activeTab, setActiveTab] = useState<"bookings" | "passes" | "camp" | "college" | "schedule" | "analytics">("bookings");
+  const [activeTab, setActiveTab] = useState<"bookings" | "passes" | "camp" | "college" | "schedule" | "analytics" | "revenue">("bookings");
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] pt-24 pb-16">
@@ -171,6 +172,13 @@ function Dashboard() {
             >
               Analytics
             </button>
+            <button
+              onClick={() => setActiveTab("revenue")}
+              className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all whitespace-nowrap ${activeTab === "revenue" ? "bg-[#F97316] text-white shadow-lg" : "text-white/50 hover:text-white"
+                }`}
+            >
+              Revenue
+            </button>
           </div>
         </div>
 
@@ -180,7 +188,225 @@ function Dashboard() {
         {activeTab === "college" && <BookingsTab type="college" />}
         {activeTab === "schedule" && <ScheduleTab />}
         {activeTab === "analytics" && <AnalyticsTab />}
+        {activeTab === "revenue" && <RevenueTab />}
       </div>
+    </div>
+  );
+}
+
+// ── Revenue Tab ──────────────────────────────────────────────────
+
+const DEV_EMAIL = "tomokanakura@gmail.com";
+
+// Per-session drop-in price, by booking.program.
+const BOOKING_PRICES: Record<string, number> = { "micro-academy": 70, "pro": 85, "fall-academy": 55 };
+
+// Per-pass price, keyed "program|pass_type".
+const PASS_PRICES: Record<string, number> = {
+  "academy|pass-5": 299.99,
+  "academy|pass-10": 449,
+  "pro|pass-5": 399.99,
+  "fall-academy|pass-5": 249,
+  "fall-academy|pass-10": 449,
+  "fall-academy|pass-13": 499,
+};
+
+const PASS_TYPE_LABELS: Record<string, string> = {
+  "pass-5": "5-Session Package",
+  "pass-10": "10-Session Package",
+  "pass-13": "Full Phase 1 Package",
+};
+
+type RevenueLine = { label: string; count: number; amount: number };
+type RevenueCategory = { label: string; total: number; lines: RevenueLine[] };
+type MonthRevenue = { key: string; label: string; total: number; categories: RevenueCategory[] };
+
+function addLine(lines: RevenueLine[], label: string, amount: number) {
+  const existing = lines.find(l => l.label === label);
+  if (existing) { existing.count++; existing.amount += amount; }
+  else lines.push({ label, count: 1, amount });
+}
+
+function RevenueTab() {
+  const [bookings, setBookings] = useState<any[]>([]);
+  const [passes, setPasses] = useState<any[]>([]);
+  const [camps, setCamps] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
+
+  async function fetchAll() {
+    setLoading(true);
+    setFetchError(null);
+    try {
+      const [b, p, c] = await Promise.all([
+        supabase.from("bookings").select("*"),
+        supabase.from("pass_holders").select("*"),
+        supabase.from("camp_registrations").select("*"),
+      ]);
+      if (b.error) throw b.error;
+      if (p.error) throw p.error;
+      if (c.error) throw c.error;
+      setBookings(b.data || []);
+      setPasses(p.data || []);
+      setCamps(c.data || []);
+    } catch (err: any) {
+      setFetchError(err.message || "Failed to fetch revenue data");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => { fetchAll(); }, []);
+
+  const months = useMemo<MonthRevenue[]>(() => {
+    const byMonth = new Map<string, MonthRevenue>();
+
+    function getMonth(key: string): MonthRevenue {
+      let m = byMonth.get(key);
+      if (!m) {
+        const label = new Date(key + "-01T00:00:00").toLocaleDateString("en-US", { month: "long", year: "numeric" });
+        m = {
+          key, label, total: 0,
+          categories: [
+            { label: "Fall Academy", total: 0, lines: [] },
+            { label: "PRO", total: 0, lines: [] },
+            { label: "Micro Academy", total: 0, lines: [] },
+            { label: "Camp", total: 0, lines: [] },
+          ],
+        };
+        byMonth.set(key, m);
+      }
+      return m;
+    }
+
+    const catIndex: Record<string, number> = { "fall-academy": 0, "pro": 1, "academy": 2 };
+
+    for (const b of bookings) {
+      if (b.message === "PASS USAGE" || b.status === "cancelled") continue;
+      if ((b.email || "").toLowerCase().includes(DEV_EMAIL)) continue;
+      const price = BOOKING_PRICES[b.program];
+      if (price == null || !b.created_at) continue;
+      const key = b.created_at.slice(0, 7);
+      const m = getMonth(key);
+      const idx = catIndex[b.program];
+      if (idx == null) continue;
+      m.categories[idx].total += price;
+      m.total += price;
+      addLine(m.categories[idx].lines, "Drop-In", price);
+    }
+
+    for (const p of passes) {
+      if (p.status === "cancelled") continue;
+      if ((p.email || "").toLowerCase().includes(DEV_EMAIL)) continue;
+      const price = PASS_PRICES[`${p.program}|${p.pass_type}`];
+      if (price == null || !p.created_at) continue;
+      const key = p.created_at.slice(0, 7);
+      const m = getMonth(key);
+      const idx = catIndex[p.program];
+      if (idx == null) continue;
+      m.categories[idx].total += price;
+      m.total += price;
+      addLine(m.categories[idx].lines, PASS_TYPE_LABELS[p.pass_type] || p.pass_type, price);
+    }
+
+    for (const c of camps) {
+      if (c.status === "cancelled") continue;
+      if ((c.parent_email || "").toLowerCase().includes(DEV_EMAIL)) continue;
+      const amount = parseFloat(String(c.amount).replace(/[^0-9.]/g, ""));
+      if (!amount || !c.created_at) continue;
+      const key = c.created_at.slice(0, 7);
+      const m = getMonth(key);
+      m.categories[3].total += amount;
+      m.total += amount;
+      addLine(m.categories[3].lines, CAMP_LABELS[c.camp_id] || c.camp_name || c.camp_id || "Other", amount);
+    }
+
+    return Array.from(byMonth.values()).sort((a, b) => b.key.localeCompare(a.key));
+  }, [bookings, passes, camps]);
+
+  const current = selectedMonth
+    ? months.find(m => m.key === selectedMonth) || null
+    : months[0] || null;
+
+  if (loading) {
+    return <div className="text-center py-20 text-white/30">Loading…</div>;
+  }
+
+  return (
+    <div>
+      {fetchError && (
+        <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm p-4 rounded-xl mb-4 flex justify-between items-center">
+          <span>{fetchError}</span>
+          <button onClick={fetchAll} className="text-xs underline opacity-70 hover:opacity-100">Retry</button>
+        </div>
+      )}
+
+      {months.length === 0 ? (
+        <div className="text-center py-20 text-white/20 border border-dashed border-white/10 rounded-2xl">
+          <p className="font-bold uppercase tracking-widest text-sm">No revenue yet</p>
+        </div>
+      ) : (
+        <>
+          {/* Month selector */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {months.map(m => (
+              <button
+                key={m.key}
+                onClick={() => setSelectedMonth(m.key)}
+                className={`text-xs font-bold px-3.5 py-2 rounded-xl border transition-all ${
+                  (current?.key === m.key)
+                    ? "bg-white text-black border-white"
+                    : "bg-[#111] text-white/50 border-white/10 hover:border-white/25"
+                }`}
+              >
+                {m.label} <span className="opacity-50">(${m.total.toFixed(0)})</span>
+              </button>
+            ))}
+          </div>
+
+          {current && (
+            <>
+              {/* Grand total */}
+              <div className="bg-[#111] border border-white/5 rounded-2xl p-6 mb-6 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-[#F97316]/15 flex items-center justify-center shrink-0">
+                  <DollarSign className="w-6 h-6 text-[#F97316]" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{current.label} Total</p>
+                  <p className="text-3xl font-black">${current.total.toFixed(2)}</p>
+                </div>
+              </div>
+
+              {/* Category breakdown */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {current.categories.map(cat => (
+                  <div key={cat.label} className="bg-[#111] border border-white/5 rounded-2xl p-5">
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="font-black uppercase text-sm">{cat.label}</p>
+                      <p className="font-black text-lg">${cat.total.toFixed(2)}</p>
+                    </div>
+                    {cat.lines.length === 0 ? (
+                      <p className="text-xs text-white/20 uppercase tracking-widest font-bold">No activity</p>
+                    ) : (
+                      <div className="space-y-1.5">
+                        {cat.lines
+                          .sort((a, b) => b.amount - a.amount)
+                          .map(line => (
+                            <div key={line.label} className="flex items-center justify-between text-xs">
+                              <span className="text-white/50">{line.label} <span className="text-white/25">× {line.count}</span></span>
+                              <span className="text-white/70 font-bold">${line.amount.toFixed(2)}</span>
+                            </div>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }
