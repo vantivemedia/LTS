@@ -195,7 +195,7 @@ export default function PopUpCampPage() {
             </div>
             <p className="text-sm leading-relaxed">
               Every registered athlete is automatically entered to win <strong>Full Phase 2 Access ($500 value)</strong>.
-              Refer a friend to sign up and mention your name — every additional referral is another raffle entry.
+              Refer your friends for additional entries.
               No limit on how many you can earn.
             </p>
           </div>
