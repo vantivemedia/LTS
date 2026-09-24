@@ -218,7 +218,7 @@ export default function PopUpCampPage() {
       </div>
 
       {/* ── Run of Show ── */}
-      <div className="max-w-4xl mx-auto mb-14">
+      <div className="max-w-6xl mx-auto mt-14 mb-14">
         <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Run of Show</p>
         <div className="divide-y divide-white/5 bg-[#111] border border-white/5 rounded-2xl overflow-hidden">
           {RUN_OF_SHOW.map((block) => (
