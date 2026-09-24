@@ -99,6 +99,7 @@ create table if not exists camp_registrations (
   school         text,
   age            text,
   grade          text,
+  referred_by    text,   -- name of the person who referred this registrant (raffle entries)
 
   camp_id        text,
   camp_name      text,
@@ -115,6 +116,7 @@ alter table camp_registrations add column if not exists parent_phone text;
 alter table camp_registrations add column if not exists school text;
 alter table camp_registrations add column if not exists age text;
 alter table camp_registrations add column if not exists grade text;
+alter table camp_registrations add column if not exists referred_by text;
 
 alter table camp_registrations drop constraint if exists camp_registrations_status_check;
 alter table camp_registrations add constraint camp_registrations_status_check

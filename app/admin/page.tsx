@@ -29,6 +29,7 @@ import {
   MousePointerClick,
   Send,
   GraduationCap,
+  Gift,
 } from "lucide-react";
 
 // ── 管理者パスワード (MVP用) ──────────────────────────────────
@@ -811,6 +812,7 @@ const PACKAGE_LABELS: Record<string, string> = {
   "both": "Both Weekends",
   "dropin": "Drop-in",
   "pop-up-camp": "Free Pop-Up Camp",
+  "pop-up-camp-sept30": "Pop-Up Camp (Sept 30)",
 };
 
 const SESSION_LABELS: Record<string, string> = {
@@ -941,6 +943,11 @@ function CampTab() {
                     {(r.school || r.age || r.grade) && (
                       <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40 mt-1">
                         <span className="flex items-center gap-1"><GraduationCap className="w-3 h-3" /> {[r.school, r.age && `Age ${r.age}`, r.grade].filter(Boolean).join(" · ")}</span>
+                      </div>
+                    )}
+                    {r.referred_by && (
+                      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/40 mt-1">
+                        <span className="flex items-center gap-1"><Gift className="w-3 h-3" /> Referred by: {r.referred_by}</span>
                       </div>
                     )}
                   </div>
