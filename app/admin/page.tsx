@@ -913,6 +913,8 @@ function CampTab() {
 
   // One group per distinct camp_id, newest activity first — this is how
   // different camp events (workshops, pop-up camps, etc.) get separated.
+  // Every camp in CAMP_LABELS shows up here even with zero registrations yet
+  // (e.g. a page that just went live), so it's visible on the dashboard right away.
   const campGroups = useMemo(() => {
     const map = new Map<string, { id: string; label: string; count: number; latest: string }>();
     for (const r of registrations) {
@@ -925,6 +927,12 @@ function CampTab() {
       } else {
         map.set(id, { id, label, count: 1, latest: r.created_at || "" });
       }
+    }
+    // Known camps with zero registrations yet still show up (as an empty
+    // pill) so a newly-launched page is visible on the dashboard right away.
+    const now = new Date().toISOString();
+    for (const [id, label] of Object.entries(CAMP_LABELS)) {
+      if (!map.has(id)) map.set(id, { id, label, count: 0, latest: now });
     }
     return Array.from(map.values()).sort((a, b) => b.latest.localeCompare(a.latest));
   }, [registrations]);
