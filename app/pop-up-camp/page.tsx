@@ -134,7 +134,7 @@ export default function PopUpCampPage() {
               >
                 Pop Up
                 <br />
-                <span className="text-white/20">Camp</span>
+                Camp
               </h1>
 
               <span className="inline-flex items-center gap-1.5 text-xs font-black tracking-widest uppercase bg-white text-black rounded-full px-3.5 py-1.5 mb-5">
