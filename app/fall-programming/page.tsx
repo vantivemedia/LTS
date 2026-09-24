@@ -7,21 +7,21 @@ import { trackEvent } from "@/lib/analytics";
 
 const SCHEDULE = {
   September: [
-    { date: "Sept 11", time: "6:30 – 8:00 PM", focus: "Handle Under Pressure" },
-    { date: "Sept 12", time: "3:30 – 5:00 PM", focus: "Finishing School" },
-    { date: "Sept 13", time: "12:00 – 1:30 PM", focus: "Complete Player" },
-    { date: "Sept 14", time: "5:00 – 6:30 PM", focus: "Creating Separation" },
-    { date: "Sept 16", time: "6:00 – 7:30 PM", focus: "Paint Decisions" },
-    { date: "Sept 18", time: "6:30 – 8:00 PM", focus: "Complete Player" },
-    { date: "Sept 19", time: "4:00 – 5:30 PM", focus: "Off Ball Scoring" },
-    { date: "Sept 20", time: "6:00 – 7:30 PM", focus: "Handle Under Pressure" },
-    { date: "Sept 25", time: "6:30 – 8:00 PM", focus: "Complete Player" },
-    { date: "Sept 26", time: "4:00 – 5:30 PM", focus: "Pick & Roll Reads" },
-    { date: "Sept 27", time: "12:00 – 1:30 PM", focus: "Transition Offense" },
+    { date: "Sept 11", day: "Fri", time: "6:30 – 8:00 PM", focus: "Handle Under Pressure" },
+    { date: "Sept 12", day: "Sat", time: "3:30 – 5:00 PM", focus: "Finishing School" },
+    { date: "Sept 13", day: "Sun", time: "12:00 – 1:30 PM", focus: "Complete Player" },
+    { date: "Sept 14", day: "Mon", time: "5:00 – 6:30 PM", focus: "Creating Separation" },
+    { date: "Sept 16", day: "Wed", time: "6:00 – 7:30 PM", focus: "Paint Decisions" },
+    { date: "Sept 18", day: "Fri", time: "6:30 – 8:00 PM", focus: "Complete Player" },
+    { date: "Sept 19", day: "Sat", time: "4:00 – 5:30 PM", focus: "Off Ball Scoring" },
+    { date: "Sept 20", day: "Sun", time: "6:00 – 7:30 PM", focus: "Handle Under Pressure" },
+    { date: "Sept 25", day: "Fri", time: "6:30 – 8:00 PM", focus: "Complete Player" },
+    { date: "Sept 26", day: "Sat", time: "4:00 – 5:30 PM", focus: "Pick & Roll Reads" },
+    { date: "Sept 27", day: "Sun", time: "12:00 – 1:30 PM", focus: "Transition Offense" },
   ],
   October: [
-    { date: "Oct 2", time: "6:30 – 8:00 PM", focus: "Scoring Under Pressure" },
-    { date: "Oct 3", time: "4:00 – 5:30 PM", focus: "Complete Player" },
+    { date: "Oct 2", day: "Fri", time: "6:30 – 8:00 PM", focus: "Scoring Under Pressure" },
+    { date: "Oct 3", day: "Sat", time: "4:00 – 5:30 PM", focus: "Complete Player" },
   ],
 };
 
@@ -146,7 +146,7 @@ export default function FallProgrammingPage() {
                   {sessions.map((s) => (
                     <div key={s.date} className="px-4 py-3">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-white/40 text-xs font-black uppercase tracking-wide">{s.date}</span>
+                        <span className="text-white/40 text-xs font-black uppercase tracking-wide">{s.day}, {s.date}</span>
                         <span className="text-white/30 text-xs font-bold">{s.time}</span>
                       </div>
                       <p className="text-white font-bold text-base leading-snug">{s.focus}</p>
