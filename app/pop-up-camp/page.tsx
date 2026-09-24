@@ -83,7 +83,7 @@ export default function PopUpCampPage() {
           <h2 className="text-4xl font-black mb-4 uppercase">You're Registered</h2>
           <p className="text-white/40 mb-4 leading-relaxed">
             Check your email for payment instructions. Your athlete is also entered into the Phase 2 raffle —
-            get friends to name you as their referral for extra entries.
+            get friends to name you as their referral for 3 extra entries each.
           </p>
           <p className="text-white/30 text-sm mb-10">
             Wednesday, September 30 · 10:30 AM – 1:30 PM · The Hoop
@@ -199,7 +199,7 @@ export default function PopUpCampPage() {
             </div>
             <p className="text-sm leading-relaxed">
               Every registered athlete is automatically entered to win <strong>Full Phase 2 Access ($500 value)</strong>.
-              Refer your friends for additional entries.
+              Refer your friends — each one is worth 3 additional entries.
               No limit on how many you can earn.
             </p>
           </div>
@@ -355,7 +355,7 @@ export default function PopUpCampPage() {
                 className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
               />
               <p className="text-[10px] text-white/25 mt-2 leading-relaxed">
-                Enter the name of whoever referred you — they'll get an extra entry into the Phase 2 raffle
+                Enter the name of whoever referred you — they'll get 3 extra entries into the Phase 2 raffle
                 ($500 value) for every friend they bring.
               </p>
             </div>

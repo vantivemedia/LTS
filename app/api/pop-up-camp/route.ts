@@ -105,7 +105,7 @@ export async function POST(request: Request) {
 
               <div style="background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:20px;margin:24px 0;">
                 <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#999;margin:0 0 8px;">🎁 Phase 2 Raffle</p>
-                <p style="margin:0;font-size:14px;">${athleteName} is automatically entered to win <strong>Full Phase 2 Access ($500 value)</strong>. Refer a friend and have them mention your name when they register — every additional referral is another entry!</p>
+                <p style="margin:0;font-size:14px;">${athleteName} is automatically entered to win <strong>Full Phase 2 Access ($500 value)</strong>. Refer a friend and have them mention your name when they register — every additional referral is worth 3 more entries!</p>
               </div>
 
               <p>Questions? Reply to this email or contact <a href="mailto:info@ltseliteprep.ca">info@ltseliteprep.ca</a></p>
