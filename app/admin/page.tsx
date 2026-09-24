@@ -815,6 +815,17 @@ const PACKAGE_LABELS: Record<string, string> = {
   "pop-up-camp-sept30": "Pop-Up Camp (Sept 30)",
 };
 
+// Friendly label per camp_id, used to split the flat registrations list into
+// per-event groups — camp_name has been inconsistent across events, so camp_id
+// (set server-side at registration time) is the reliable grouping key.
+const CAMP_LABELS: Record<string, string> = {
+  "blueprint-2026-july": "Blueprint Series (Jul)",
+  "blueprint-workshop-aug12": "Blueprint Workshop (Aug 12)",
+  "blueprint-workshop-aug27": "Blueprint Workshop (Aug 27)",
+  "pop-up-camp-sept7": "Free Pop-Up Camp (Sept 7)",
+  "pop-up-camp-sept30": "Pop-Up Camp (Sept 30)",
+};
+
 const SESSION_LABELS: Record<string, string> = {
   jul11: "Jul 11 BUILD",
   jul12: "Jul 12 PERFORM",
@@ -829,6 +840,7 @@ function CampTab() {
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [campFilter, setCampFilter] = useState<string>("all");
 
   async function fetchRegistrations() {
     setLoading(true);
@@ -849,7 +861,29 @@ function CampTab() {
 
   useEffect(() => { fetchRegistrations(); }, []);
 
-  const filtered = registrations.filter(r =>
+  // One group per distinct camp_id, newest activity first — this is how
+  // different camp events (workshops, pop-up camps, etc.) get separated.
+  const campGroups = useMemo(() => {
+    const map = new Map<string, { id: string; label: string; count: number; latest: string }>();
+    for (const r of registrations) {
+      const id = r.camp_id || "unknown";
+      const label = CAMP_LABELS[id] || r.camp_name || id;
+      const existing = map.get(id);
+      if (existing) {
+        existing.count++;
+        if (r.created_at > existing.latest) existing.latest = r.created_at;
+      } else {
+        map.set(id, { id, label, count: 1, latest: r.created_at || "" });
+      }
+    }
+    return Array.from(map.values()).sort((a, b) => b.latest.localeCompare(a.latest));
+  }, [registrations]);
+
+  const inSelectedCamp = campFilter === "all"
+    ? registrations
+    : registrations.filter(r => (r.camp_id || "unknown") === campFilter);
+
+  const filtered = inSelectedCamp.filter(r =>
     !search ||
     r.athlete_name?.toLowerCase().includes(search.toLowerCase()) ||
     r.parent_name?.toLowerCase().includes(search.toLowerCase()) ||
@@ -857,23 +891,48 @@ function CampTab() {
   );
 
   const stats = {
-    total: registrations.length,
-    both: registrations.filter(r => r.package_type === "both").length,
-    weekend1: registrations.filter(r => r.package_type === "weekend-1").length,
-    weekend2: registrations.filter(r => r.package_type === "weekend-2").length,
-    dropin: registrations.filter(r => r.package_type === "dropin").length,
+    total: inSelectedCamp.length,
+    paid: inSelectedCamp.filter(r => r.status === "paid" || r.status === "confirmed").length,
+    pending: inSelectedCamp.filter(r => r.status === "pending_payment" || !r.status).length,
+    cancelled: inSelectedCamp.filter(r => r.status === "cancelled").length,
   };
 
   return (
     <div>
+      {/* Camp type filter */}
+      <div className="flex flex-wrap gap-2 mb-4">
+        <button
+          onClick={() => setCampFilter("all")}
+          className={`text-xs font-bold px-3.5 py-2 rounded-xl border transition-all ${
+            campFilter === "all"
+              ? "bg-white text-black border-white"
+              : "bg-[#111] text-white/50 border-white/10 hover:border-white/25"
+          }`}
+        >
+          All <span className="opacity-50">({registrations.length})</span>
+        </button>
+        {campGroups.map(g => (
+          <button
+            key={g.id}
+            onClick={() => setCampFilter(g.id)}
+            className={`text-xs font-bold px-3.5 py-2 rounded-xl border transition-all ${
+              campFilter === g.id
+                ? "bg-white text-black border-white"
+                : "bg-[#111] text-white/50 border-white/10 hover:border-white/25"
+            }`}
+          >
+            {g.label} <span className="opacity-50">({g.count})</span>
+          </button>
+        ))}
+      </div>
+
       {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         {[
           { label: "Total", value: stats.total },
-          { label: "Both Weekends", value: stats.both },
-          { label: "Weekend 1", value: stats.weekend1 },
-          { label: "Weekend 2", value: stats.weekend2 },
-          { label: "Drop-in", value: stats.dropin },
+          { label: "Paid / Confirmed", value: stats.paid },
+          { label: "Pending Payment", value: stats.pending },
+          { label: "Cancelled", value: stats.cancelled },
         ].map(s => (
           <div key={s.label} className="bg-[#111] border border-white/5 rounded-xl p-4 text-center">
             <p className="text-2xl font-black">{s.value}</p>
