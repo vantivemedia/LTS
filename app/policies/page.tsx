@@ -4,9 +4,14 @@
 // ============================================================
 
 import Link from "next/link";
-import { ArrowRight, Ban, Clock, CalendarClock, Mail } from "lucide-react";
+import { ArrowRight, Ban, Clock, CalendarClock, Mail, UserX } from "lucide-react";
 
 const RULES = [
+  {
+    icon: UserX,
+    title: "No-Shows Are Charged",
+    desc: "Once you've registered for a session or camp through the website, you're responsible for it. If you don't cancel at least 24 hours in advance, you'll still be charged — or, for pass holders, the session will still be deducted — whether or not you show up.",
+  },
   {
     icon: Ban,
     title: "Used Passes Are Non-Refundable",
@@ -15,7 +20,7 @@ const RULES = [
   {
     icon: Clock,
     title: "24-Hour Cutoff",
-    desc: "Refund requests must be submitted at least 24 hours before your next scheduled session. Requests made within 24 hours of a session cannot be refunded.",
+    desc: "Refund and cancellation requests must be submitted at least 24 hours before your next scheduled session or camp. Requests made within 24 hours cannot be refunded and will still be billed as a no-show.",
   },
   {
     icon: CalendarClock,
@@ -24,8 +29,8 @@ const RULES = [
   },
   {
     icon: Mail,
-    title: "How to Request a Refund",
-    desc: "Email info@ltseliteprep.ca with the athlete's name, the email used at purchase, and the reason for your request. We'll confirm eligibility and process approved refunds within 5–7 business days.",
+    title: "How to Cancel or Request a Refund",
+    desc: "Email info@ltseliteprep.ca at least 24 hours in advance with the athlete's name, the email used at registration, and your session or camp date. We'll confirm eligibility and process approved refunds within 5–7 business days.",
   },
 ];
 
@@ -39,10 +44,10 @@ export default function PoliciesPage() {
             Policies
           </span>
           <h1 className="text-5xl sm:text-6xl font-black tracking-tighter uppercase mb-4">
-            Refund <span className="text-white/20">Policy</span>
+            Refund & Cancellation <span className="text-white/20">Policy</span>
           </h1>
           <p className="text-white/40 text-lg max-w-xl mx-auto leading-relaxed">
-            Please review our refund terms before purchasing a session pass or PRO package.
+            Please review our refund and cancellation terms before booking a session, purchasing a pass, or registering for a camp.
           </p>
         </div>
 
@@ -65,6 +70,7 @@ export default function PoliciesPage() {
         <div className="bg-[#111] border border-white/5 rounded-3xl p-8 sm:p-10 mb-14">
           <h2 className="text-2xl font-black uppercase tracking-tight mb-4">In Short</h2>
           <ul className="space-y-3 text-white/50 leading-relaxed list-disc list-inside">
+            <li>No-shows without 24+ hours&rsquo; notice: you&rsquo;re still charged for the session or camp, no exceptions.</li>
             <li>Unused passes: refundable if requested 24+ hours before your next session.</li>
             <li>Once you&rsquo;ve used at least one session from a pass: no refund, regardless of timing.</li>
             <li>Requests inside the 24-hour window: not eligible, regardless of usage.</li>

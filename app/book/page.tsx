@@ -585,6 +585,10 @@ function BookPageInner() {
                 {!loading && <ArrowRight className="w-5 h-5" />}
               </button>
             </div>
+            <p className="text-center text-xs text-white/20 pt-1">
+              No-shows without 24 hours&rsquo; notice are still charged. See our{" "}
+              <Link href="/policies" className="underline hover:text-white/40">cancellation policy</Link>.
+            </p>
           </form>
         )}
       </div>

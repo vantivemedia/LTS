@@ -334,6 +334,10 @@ export default function ProPage() {
             <p className="text-center text-xs text-white/20 pt-1">
               You'll receive an e-transfer invoice by email. Your package activates once payment is confirmed.
             </p>
+            <p className="text-center text-xs text-white/20">
+              No-shows without 24 hours&rsquo; notice are still charged a session. See our{" "}
+              <Link href="/policies" className="underline hover:text-white/40">cancellation policy</Link>.
+            </p>
           </form>
         </div>
 
