@@ -27,6 +27,34 @@ const SCHEDULE = {
   ],
 };
 
+const PRICING = [
+  {
+    name: "Drop-In",
+    price: "$55",
+    desc: "Attend any available individual session.",
+    href: "/book?program=phase-2",
+  },
+  {
+    name: "5-Session Pass",
+    price: "$249.99",
+    desc: "Choose any 5 Phase 2 sessions.",
+    href: "/buy-pass?program=phase-2",
+  },
+  {
+    name: "10-Session Pass",
+    price: "$449.99",
+    desc: "Choose any 10 Phase 2 sessions.",
+    href: "/buy-pass?program=phase-2",
+  },
+  {
+    name: "Full Access",
+    price: "$549.99",
+    desc: "Access all 15 training opportunities. Attend as many sessions as your schedule allows.",
+    href: "/buy-pass?program=phase-2",
+    featured: true,
+  },
+];
+
 const PHASES = [
   { letter: "B", word: "Build" },
   { letter: "L", word: "Load" },
@@ -77,20 +105,20 @@ export default function Phase2Page() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <a
-                  href={MAILTO}
-                  onClick={() => trackEvent("button_click", "/phase-2", "phase2_reserve_email")}
+                <Link
+                  href="/book?program=phase-2"
+                  onClick={() => trackEvent("button_click", "/phase-2", "phase2_book_session")}
                   className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
                 >
-                  <Mail className="w-4 h-4" />
-                  Reserve Your Spot
-                </a>
+                  Book a Session
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
                 <Link
-                  href="/fall-programming"
-                  onClick={() => trackEvent("button_click", "/phase-2", "phase2_view_phase1")}
+                  href="/buy-pass?program=phase-2"
+                  onClick={() => trackEvent("button_click", "/phase-2", "phase2_buy_pass")}
                   className="inline-flex items-center justify-center gap-2 bg-[#111] border border-white/10 text-white font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:border-white/30 transition-all active:scale-95"
                 >
-                  View Phase 1
+                  Buy a Package
                 </Link>
               </div>
             </div>
@@ -135,6 +163,32 @@ export default function Phase2Page() {
           </p>
         </div>
 
+        {/* Pricing */}
+        <div className="mb-14">
+          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Pricing</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {PRICING.map((p) => (
+              <Link
+                key={p.name}
+                href={p.href}
+                onClick={() => trackEvent("button_click", "/phase-2", `phase2_pricing_${p.name.toLowerCase().replace(/[^a-z0-9]+/g, "_")}`)}
+                className={`rounded-2xl p-6 relative transition-all active:scale-95 ${p.featured ? "bg-white text-black hover:bg-white/90" : "bg-[#111] border border-white/5 hover:border-white/20"}`}
+              >
+                {p.featured && (
+                  <span className="absolute -top-3 right-4 bg-black text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
+                    🔥 Best Value
+                  </span>
+                )}
+                <p className={`text-xs uppercase tracking-widest font-bold mb-2 ${p.featured ? "text-black/50" : "text-white/30"}`}>
+                  {p.name}
+                </p>
+                <p className="text-3xl font-black mb-2">{p.price}</p>
+                <p className={`text-xs leading-relaxed ${p.featured ? "text-black/60" : "text-white/40"}`}>{p.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* The Training */}
         <div className="mb-14">
           <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">The Training</p>
@@ -158,24 +212,33 @@ export default function Phase2Page() {
 
         <div className="bg-[#111] border border-white/5 rounded-2xl p-6 mb-14">
           <p className="text-white/40 text-sm leading-relaxed">
-            Pricing and online registration for Phase 2 are coming soon. Email us to reserve your spot now —
-            spots will be limited.
+            Phase 2 builds directly on everything covered in Phase 1. Spots will be limited.
           </p>
         </div>
 
         {/* CTA */}
         <div className="text-center">
           <p className="text-white/30 text-sm mb-5">
-            Reply with the athlete&rsquo;s name and grade to reserve a spot for Phase 2.
+            Spots are limited — book a session or grab a package to lock in your dates.
           </p>
-          <a
-            href={MAILTO}
-            onClick={() => trackEvent("button_click", "/phase-2", "phase2_reserve_email")}
-            className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-8 py-4 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
-          >
-            <Mail className="w-4 h-4" />
-            Email Coach Paolo
-          </a>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/book?program=phase-2"
+              onClick={() => trackEvent("button_click", "/phase-2", "phase2_book_session")}
+              className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-8 py-4 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
+            >
+              Book a Session
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a
+              href={MAILTO}
+              onClick={() => trackEvent("button_click", "/phase-2", "phase2_reserve_email")}
+              className="inline-flex items-center justify-center gap-2 bg-[#111] border border-white/10 text-white font-black text-sm uppercase tracking-wide px-8 py-4 rounded-2xl hover:border-white/30 transition-all active:scale-95"
+            >
+              <Mail className="w-4 h-4" />
+              Email Coach Paolo
+            </a>
+          </div>
         </div>
       </div>
     </div>

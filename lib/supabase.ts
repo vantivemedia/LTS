@@ -46,7 +46,7 @@ export interface Booking {
   parent_name:    string | null;     // 保護者の名前
   school:         string | null;     // 学校名
   grade:          string | null;     // 学年
-  program:        "micro-academy" | "futures" | "high" | "college" | "private" | "trial" | "pass-5" | "pass-10" | "pass-13" | "pass-usage" | "pro" | "fall-academy"; // プログラム
+  program:        "micro-academy" | "futures" | "high" | "college" | "private" | "trial" | "pass-5" | "pass-10" | "pass-13" | "pass-15" | "pass-usage" | "pro" | "fall-academy" | "phase-2"; // プログラム
   preferred_date: string | null;     // 希望日（例: "2026-05-10"）
   preferred_time: string | null;     // 希望時間帯（例: "Morning (9am–12pm)"）
   message:        string | null;     // 自由記述メッセージ（任意）
@@ -65,7 +65,7 @@ export interface PassHolder {
   parent_name:     string | null;
   school:          string | null;
   grade:           string | null;
-  pass_type:       "pass-5" | "pass-10" | "pass-13";
+  pass_type:       "pass-5" | "pass-10" | "pass-13" | "pass-15";
   sessions_total:  number;
   sessions_used:   number;
   status:          "active" | "expired" | "cancelled";

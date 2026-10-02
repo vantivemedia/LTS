@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check, CheckCircle2 } from "lucide-react";
 
-type PassType = "pass-5" | "pass-10" | "pass-13";
-type Program = "academy" | "pro" | "fall-academy";
+type PassType = "pass-5" | "pass-10" | "pass-13" | "pass-15";
+type Program = "academy" | "pro" | "fall-academy" | "phase-2";
 
 const PASSES = [
   {
@@ -38,6 +38,36 @@ const PASSES = [
     perSession: "$38.38/session",
     desc: "Access all 13 training opportunities in Phase 1.",
     features: ["All 13 Sessions Included", "19.5 Hours of Development", "Bridge into New-Facility Programming", "Best Value"],
+  },
+  {
+    id: "phase2-5",
+    program: "phase-2" as Program,
+    passType: "pass-5" as PassType,
+    name: "Phase 2 — 5-Session Pass",
+    price: "$249.99",
+    perSession: "$50.00/session",
+    desc: "Choose any 5 Phase 2 sessions (Oct 6 – Nov 3).",
+    features: ["5 Sessions Included", "Choose Any Phase 2 Dates", "Build → Load → Apply → Test", "Save vs. Drop-In Rate"],
+  },
+  {
+    id: "phase2-10",
+    program: "phase-2" as Program,
+    passType: "pass-10" as PassType,
+    name: "Phase 2 — 10-Session Pass",
+    price: "$449.99",
+    perSession: "$45.00/session",
+    desc: "Choose any 10 Phase 2 sessions (Oct 6 – Nov 3).",
+    features: ["10 Sessions Included", "Choose Any Phase 2 Dates", "Build → Load → Apply → Test", "Save vs. Drop-In Rate"],
+  },
+  {
+    id: "phase2-15",
+    program: "phase-2" as Program,
+    passType: "pass-15" as PassType,
+    name: "Phase 2 — Full Access",
+    price: "$549.99",
+    perSession: "$36.66/session",
+    desc: "Access all 15 training opportunities in Phase 2.",
+    features: ["All 15 Sessions Included", "Full Access to Every Date", "Build → Load → Apply → Test", "Best Value"],
   },
   {
     id: "pro",
@@ -76,6 +106,7 @@ function BuyPassPageInner() {
   useEffect(() => {
     const requested = searchParams.get("program");
     if (requested === "fall-academy") setSelected("fall-13");
+    else if (requested === "phase-2") setSelected("phase2-15");
     else if (requested === "pro") setSelected("pro");
   }, [searchParams]);
 

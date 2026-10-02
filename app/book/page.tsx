@@ -32,6 +32,25 @@ const FALL_ACADEMY_FOCUS: Record<string, string> = {
   "2026-10-03": "Complete Player",
 };
 
+// Session focus, by date, for LTS Academy Phase 2 — mirrors the schedule on /phase-2.
+const PHASE_2_FOCUS: Record<string, string> = {
+  "2026-10-06": "Handle Under Pressure",
+  "2026-10-09": "Shooting Lab",
+  "2026-10-10": "Finishing School",
+  "2026-10-11": "Complete Player",
+  "2026-10-13": "Creating Separation",
+  "2026-10-16": "Shooting Off the Dribble",
+  "2026-10-17": "Pick & Roll Reads",
+  "2026-10-18": "Complete Player",
+  "2026-10-20": "Off Ball Scoring",
+  "2026-10-23": "On-Ball Defence",
+  "2026-10-24": "Pick & Roll Reads",
+  "2026-10-25": "Complete Player",
+  "2026-10-27": "Scoring Under Pressure",
+  "2026-10-30": "Offensive Actions",
+  "2026-11-03": "Complete Player",
+};
+
 // ── Calendar ─────────────────────────────────────────────────
 
 function Calendar({
@@ -131,13 +150,16 @@ export default function BookPage() {
   );
 }
 
-type ProgramType = "session" | "pro" | "fall-academy";
+type ProgramType = "session" | "pro" | "fall-academy" | "phase-2";
 
 function BookPageInner() {
   const searchParams = useSearchParams();
   const requestedProgram = searchParams.get("program");
   const initialProgram: ProgramType =
-    requestedProgram === "pro" ? "pro" : requestedProgram === "fall-academy" ? "fall-academy" : "session";
+    requestedProgram === "pro" ? "pro"
+    : requestedProgram === "fall-academy" ? "fall-academy"
+    : requestedProgram === "phase-2" ? "phase-2"
+    : "session";
 
   const [step, setStep] = useState<1 | 2 | 3>(initialProgram === "session" ? 1 : 2);
   const [programType, setProgramType] = useState<ProgramType>(initialProgram);
@@ -179,6 +201,7 @@ function BookPageInner() {
     return classes.filter((c) => {
       if (programType === "pro") return c.program === "pro" || c.program === "private";
       if (programType === "fall-academy") return c.program === "fall-academy";
+      if (programType === "phase-2") return c.program === "phase-2";
       return c.program === "micro-academy" || c.program === "futures" || c.program === "high";
     });
   }, [classes, programType]);
@@ -208,7 +231,7 @@ function BookPageInner() {
           phone,
           school,
           grade,
-          program: programType === "pro" ? "pro" : programType === "fall-academy" ? "fall-academy" : "micro-academy",
+          program: programType === "pro" ? "pro" : programType === "fall-academy" ? "fall-academy" : programType === "phase-2" ? "phase-2" : "micro-academy",
           preferred_date: preferredDate || null,
           preferred_time: preferredTime || null,
         }),
@@ -296,6 +319,31 @@ function BookPageInner() {
               <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
             </Link>
 
+            {/* Phase 2 — drop-in */}
+            <button
+              type="button"
+              onClick={() => { setProgramType("phase-2"); setStep(2); }}
+              className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
+            >
+              <div>
+                <h3 className="font-black text-xl uppercase text-white mb-1">LTS Academy Phase 2</h3>
+                <p className="text-sm text-white/40">$55/session · Pass holders deducted automatically</p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
+            </button>
+
+            {/* Buy Phase 2 Package */}
+            <Link
+              href="/buy-pass?program=phase-2"
+              className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
+            >
+              <div>
+                <h3 className="font-black text-xl uppercase text-white mb-1">Buy Phase 2 Package</h3>
+                <p className="text-sm text-white/40">5, 10, or Full Access — from $249.99</p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
+            </Link>
+
             {/* LTS PRO — drop-in */}
             <button
               type="button"
@@ -336,7 +384,7 @@ function BookPageInner() {
               <ArrowLeft className="w-3 h-3" /> Back
             </button>
             <h1 className="text-4xl font-black mb-2 uppercase tracking-tighter">
-              {programType === "pro" ? "LTS PRO" : programType === "fall-academy" ? "Fall Academy" : "Choose Session"}
+              {programType === "pro" ? "LTS PRO" : programType === "fall-academy" ? "Fall Academy" : programType === "phase-2" ? "Phase 2" : "Choose Session"}
             </h1>
             <p className="text-white/40 text-sm">Select a date and session from the schedule below.</p>
           </div>
@@ -368,7 +416,9 @@ function BookPageInner() {
                   {sessionsForDate.map((c) => {
                     const timeLabel = `${formatTime(c.start_time)} - ${formatTime(c.end_time)}`;
                     const isSel = preferredTime === timeLabel;
-                    const focus = c.program === "fall-academy" ? FALL_ACADEMY_FOCUS[c.class_date] : null;
+                    const focus = c.program === "fall-academy" ? FALL_ACADEMY_FOCUS[c.class_date]
+                      : c.program === "phase-2" ? PHASE_2_FOCUS[c.class_date]
+                      : null;
                     return (
                       <button
                         key={c.id}
@@ -465,7 +515,7 @@ function BookPageInner() {
           >
             <p className="font-black text-sm uppercase">New / Drop-In</p>
             <p className={`text-xs mt-0.5 ${hasPass === false ? "text-black/50" : "text-white/30"}`}>
-              ${programType === "pro" ? "85" : programType === "fall-academy" ? "55" : "70"} per session
+              ${programType === "pro" ? "85" : programType === "fall-academy" || programType === "phase-2" ? "55" : "70"} per session
             </p>
           </button>
         </div>

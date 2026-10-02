@@ -6,14 +6,17 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, parentName, email, phone, school, grade, passType, pass_type: body_pass_type } = body;
     const pass_type = passType || body_pass_type;
-    const program: "academy" | "pro" | "fall-academy" =
-      body.program === "pro" ? "pro" : body.program === "fall-academy" ? "fall-academy" : "academy";
+    const program: "academy" | "pro" | "fall-academy" | "phase-2" =
+      body.program === "pro" ? "pro"
+      : body.program === "fall-academy" ? "fall-academy"
+      : body.program === "phase-2" ? "phase-2"
+      : "academy";
 
     if (!name || !parentName || !email || !phone || !school || !grade || !pass_type) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    if (pass_type !== "pass-5" && pass_type !== "pass-10" && pass_type !== "pass-13") {
+    if (pass_type !== "pass-5" && pass_type !== "pass-10" && pass_type !== "pass-13" && pass_type !== "pass-15") {
       return NextResponse.json({ error: "Invalid pass type" }, { status: 400 });
     }
 
@@ -21,11 +24,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "LTS PRO only offers the 5-Session Package" }, { status: 400 });
     }
 
-    if (program === "academy" && pass_type === "pass-13") {
+    if (program === "academy" && (pass_type === "pass-13" || pass_type === "pass-15")) {
       return NextResponse.json({ error: "Invalid pass type for Micro Academy" }, { status: 400 });
     }
 
-    const sessions_total = pass_type === "pass-5" ? 5 : pass_type === "pass-10" ? 10 : 13;
+    if (program === "fall-academy" && pass_type === "pass-15") {
+      return NextResponse.json({ error: "Invalid pass type for Fall Academy" }, { status: 400 });
+    }
+
+    if (program === "phase-2" && pass_type === "pass-13") {
+      return NextResponse.json({ error: "Invalid pass type for Phase 2" }, { status: 400 });
+    }
+
+    const sessions_total = pass_type === "pass-5" ? 5 : pass_type === "pass-10" ? 10 : pass_type === "pass-13" ? 13 : 15;
 
     const amount =
       program === "pro"
@@ -36,6 +47,12 @@ export async function POST(request: Request) {
           : pass_type === "pass-10"
           ? "$449"
           : "$499"
+        : program === "phase-2"
+        ? pass_type === "pass-5"
+          ? "$249.99"
+          : pass_type === "pass-10"
+          ? "$449.99"
+          : "$549.99"
         : pass_type === "pass-5"
         ? "$299.99"
         : "$449";
@@ -49,6 +66,12 @@ export async function POST(request: Request) {
           : pass_type === "pass-10"
           ? "Fall Academy — 10-Session Pass"
           : "Fall Academy — Full Phase 1 Access"
+        : program === "phase-2"
+        ? pass_type === "pass-5"
+          ? "Phase 2 — 5-Session Pass"
+          : pass_type === "pass-10"
+          ? "Phase 2 — 10-Session Pass"
+          : "Phase 2 — Full Access"
         : pass_type === "pass-5"
         ? "Micro Academy — 5-Session Pass"
         : "Micro Academy — 10-Session Pass";

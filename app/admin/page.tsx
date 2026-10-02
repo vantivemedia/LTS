@@ -199,7 +199,7 @@ function Dashboard() {
 const DEV_EMAIL = "tomokanakura@gmail.com";
 
 // Per-session drop-in price, by booking.program.
-const BOOKING_PRICES: Record<string, number> = { "micro-academy": 70, "pro": 85, "fall-academy": 55 };
+const BOOKING_PRICES: Record<string, number> = { "micro-academy": 70, "pro": 85, "fall-academy": 55, "phase-2": 55 };
 
 // Per-pass price, keyed "program|pass_type".
 const PASS_PRICES: Record<string, number> = {
@@ -209,12 +209,16 @@ const PASS_PRICES: Record<string, number> = {
   "fall-academy|pass-5": 249,
   "fall-academy|pass-10": 449,
   "fall-academy|pass-13": 499,
+  "phase-2|pass-5": 249.99,
+  "phase-2|pass-10": 449.99,
+  "phase-2|pass-15": 549.99,
 };
 
 const PASS_TYPE_LABELS: Record<string, string> = {
   "pass-5": "5-Session Package",
   "pass-10": "10-Session Package",
   "pass-13": "Full Phase 1 Package",
+  "pass-15": "Full Access Package",
 };
 
 type RevenueLine = { label: string; count: number; amount: number };
@@ -270,6 +274,7 @@ function RevenueTab() {
           key, label, total: 0,
           categories: [
             { label: "Fall Academy", total: 0, lines: [] },
+            { label: "Phase 2", total: 0, lines: [] },
             { label: "PRO", total: 0, lines: [] },
             { label: "Micro Academy", total: 0, lines: [] },
             { label: "Camp", total: 0, lines: [] },
@@ -280,7 +285,7 @@ function RevenueTab() {
       return m;
     }
 
-    const catIndex: Record<string, number> = { "fall-academy": 0, "pro": 1, "academy": 2 };
+    const catIndex: Record<string, number> = { "fall-academy": 0, "phase-2": 1, "pro": 2, "academy": 3 };
 
     for (const b of bookings) {
       if (b.message === "PASS USAGE" || b.status === "cancelled") continue;
@@ -317,9 +322,9 @@ function RevenueTab() {
       if (!amount || !c.created_at) continue;
       const key = c.created_at.slice(0, 7);
       const m = getMonth(key);
-      m.categories[3].total += amount;
+      m.categories[4].total += amount;
       m.total += amount;
-      addLine(m.categories[3].lines, CAMP_LABELS[c.camp_id] || c.camp_name || c.camp_id || "Other", amount);
+      addLine(m.categories[4].lines, CAMP_LABELS[c.camp_id] || c.camp_name || c.camp_id || "Other", amount);
     }
 
     return Array.from(byMonth.values()).sort((a, b) => b.key.localeCompare(a.key));
@@ -724,6 +729,7 @@ function ScheduleTab() {
               <option value="college">LTS College</option>
               <option value="pro">LTS PRO</option>
               <option value="fall-academy">Fall Academy</option>
+              <option value="phase-2">Phase 2</option>
             </select>
           </div>
           <div>
@@ -876,7 +882,9 @@ function BookingCard({
              booking.program === "pass-5" ? "5-Session Pass" :
              booking.program === "pass-10" ? "10-Session Pass" :
              booking.program === "pass-13" ? "Full Phase 1 Pass" :
+             booking.program === "pass-15" ? "Full Access Pass" :
              booking.program === "fall-academy" ? "Fall Academy" :
+             booking.program === "phase-2" ? "Phase 2" :
              `LTS ${booking.program}`}
           </p>
         </div>
@@ -1411,7 +1419,7 @@ function PassHoldersTab() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {passHolders.map(holder => {
             const remaining = holder.sessions_total - holder.sessions_used;
-            const passLabel = holder.pass_type === "pass-5" ? "5-Session Pass" : holder.pass_type === "pass-10" ? "10-Session Pass" : "Full Phase 1 Pass";
+            const passLabel = holder.pass_type === "pass-5" ? "5-Session Pass" : holder.pass_type === "pass-10" ? "10-Session Pass" : holder.pass_type === "pass-15" ? "Full Access Pass" : "Full Phase 1 Pass";
             return (
               <div key={holder.id} className="bg-[#111] p-6 rounded-2xl border border-white/10 flex flex-col justify-between">
                 <div className="mb-4">

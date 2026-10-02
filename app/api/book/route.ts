@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     // ── Pass check via pass_holders table ────────────────────
     // Passes are scoped per-program — an Academy pass can't cover a PRO or Fall Academy
     // session and vice versa, since each program is priced differently.
-    const passProgram = program === "pro" ? "pro" : program === "fall-academy" ? "fall-academy" : "academy";
+    const passProgram = program === "pro" ? "pro" : program === "fall-academy" ? "fall-academy" : program === "phase-2" ? "phase-2" : "academy";
     let isPassHolder = false;
 
     const { data: passes } = await supabase
@@ -78,9 +78,10 @@ export async function POST(request: Request) {
       );
     }
 
-    const amount = isPassHolder ? "Pre-paid (Pass)" : program === "pro" ? "$85" : program === "fall-academy" ? "$55" : "$70";
+    const amount = isPassHolder ? "Pre-paid (Pass)" : program === "pro" ? "$85" : program === "fall-academy" || program === "phase-2" ? "$55" : "$70";
 
     // ── Save booking ──────────────────────────────────────────
+    const bookingProgram = program === "pro" ? "pro" : program === "fall-academy" ? "fall-academy" : program === "phase-2" ? "phase-2" : "micro-academy";
     const { error: bookingError } = await supabase.from("bookings").insert({
       name: displayName,
       email,
@@ -88,10 +89,10 @@ export async function POST(request: Request) {
       parent_name: parentName || null,
       school: school || null,
       grade: grade || null,
-      program: program === "pro" ? "pro" : program === "fall-academy" ? "fall-academy" : "micro-academy",
+      program: bookingProgram,
       preferred_date: preferred_date || null,
       preferred_time: preferred_time || null,
-      message: isPassHolder ? "PASS USAGE" : program === "pro" || program === "fall-academy" ? null : "DROP-IN",
+      message: isPassHolder ? "PASS USAGE" : bookingProgram !== "micro-academy" ? null : "DROP-IN",
     });
 
     if (bookingError) {
@@ -122,7 +123,7 @@ export async function POST(request: Request) {
 
     const location = "The Hoop — 11111 Twigg Pl #1061, Richmond, BC";
 
-    const programLabel = program === "pro" ? "LTS PRO" : program === "fall-academy" ? "Fall Academy" : "Drop-In";
+    const programLabel = program === "pro" ? "LTS PRO" : program === "fall-academy" ? "Fall Academy" : program === "phase-2" ? "Phase 2" : "Drop-In";
 
     const userHtml = isPassHolder
       ? `

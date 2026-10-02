@@ -33,7 +33,7 @@ create table if not exists bookings (
                    check (program in (
                      'futures','high','college','private','trial',
                      'micro-academy','pass-5','pass-10','pass-13','pass-usage','pro',
-                     'fall-academy'
+                     'fall-academy','phase-2'
                    )),
   preferred_date date,
   preferred_time text,
@@ -58,7 +58,7 @@ alter table bookings add constraint bookings_program_check
   check (program in (
     'futures','high','college','private','trial',
     'micro-academy','pass-5','pass-10','pass-13','pass-usage','pro',
-    'fall-academy'
+    'fall-academy','phase-2'
   ));
 
 alter table bookings enable row level security;
@@ -162,7 +162,7 @@ create table if not exists pass_holders (
   -- interchangeable — a pass only deducts against bookings in the same program.
   program        text        not null default 'academy',
 
-  pass_type      text        not null check (pass_type in ('pass-5','pass-10','pass-13')),
+  pass_type      text        not null check (pass_type in ('pass-5','pass-10','pass-13','pass-15')),
   sessions_total integer     not null,
   sessions_used  integer     not null default 0,
 
@@ -178,11 +178,11 @@ alter table pass_holders add column if not exists school text;
 alter table pass_holders add column if not exists grade text;
 alter table pass_holders drop constraint if exists pass_holders_program_check;
 alter table pass_holders add constraint pass_holders_program_check
-  check (program in ('academy','pro','fall-academy'));
+  check (program in ('academy','pro','fall-academy','phase-2'));
 
 alter table pass_holders drop constraint if exists pass_holders_pass_type_check;
 alter table pass_holders add constraint pass_holders_pass_type_check
-  check (pass_type in ('pass-5','pass-10','pass-13'));
+  check (pass_type in ('pass-5','pass-10','pass-13','pass-15'));
 
 alter table pass_holders enable row level security;
 
