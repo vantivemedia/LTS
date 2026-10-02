@@ -69,7 +69,7 @@ const PROGRAMS = [
     details: [
       "Build → Load → Apply → Test progression",
       "Drop-in, 5, 10, or full Phase 1 access",
-      "Bridge into new-facility LTS Academy programming",
+      "Bridge into Fall Academy Phase 2",
       "Spots are limited",
     ],
   },

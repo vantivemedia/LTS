@@ -64,7 +64,7 @@ const PHASES = [
 
 const MAILTO =
   "mailto:info@ltseliteprep.ca?subject=" +
-  encodeURIComponent("LTS Academy Phase 2 — Reservation") +
+  encodeURIComponent("Fall Academy Phase 2 — Reservation") +
   "&body=" +
   encodeURIComponent("Athlete Name: \nGrade: \nI'd like to reserve a spot for Phase 2.\n");
 
@@ -81,7 +81,7 @@ export default function Phase2Page() {
           <div className="lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:items-center">
             <div>
               <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-3">
-                LTS Academy
+                Fall Academy
               </p>
               <h1
                 className="text-6xl sm:text-7xl mb-4 uppercase tracking-tighter leading-none"
@@ -96,7 +96,7 @@ export default function Phase2Page() {
                 Build / Load / Apply / Test
               </p>
               <p className="text-white/40 text-lg leading-relaxed mb-2">
-                15 sessions. 90 minutes each. The next chapter of LTS Academy training, building directly on
+                15 sessions. 90 minutes each. The next chapter of Fall Academy training, building directly on
                 everything covered in Phase 1.
               </p>
               <p className="flex items-center gap-1.5 text-white/40 text-sm mb-8">

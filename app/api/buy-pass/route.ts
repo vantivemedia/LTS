@@ -68,10 +68,10 @@ export async function POST(request: Request) {
           : "Fall Academy — Full Phase 1 Access"
         : program === "phase-2"
         ? pass_type === "pass-5"
-          ? "Phase 2 — 5-Session Pass"
+          ? "Fall Academy Phase 2 — 5-Session Pass"
           : pass_type === "pass-10"
-          ? "Phase 2 — 10-Session Pass"
-          : "Phase 2 — Full Access"
+          ? "Fall Academy Phase 2 — 10-Session Pass"
+          : "Fall Academy Phase 2 — Full Access"
         : pass_type === "pass-5"
         ? "Micro Academy — 5-Session Pass"
         : "Micro Academy — 10-Session Pass";

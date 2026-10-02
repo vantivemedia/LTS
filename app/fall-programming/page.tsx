@@ -207,7 +207,7 @@ export default function FallProgrammingPage() {
 
         <div className="bg-[#111] border border-white/5 rounded-2xl p-6 mb-14">
           <p className="text-white/40 text-sm leading-relaxed">
-            Phase 1 is also the bridge into the next chapter of LTS Academy programming at our new facility.
+            Phase 1 is also the bridge into Fall Academy Phase 2, launching October 6.
             Spots will be limited.
           </p>
         </div>

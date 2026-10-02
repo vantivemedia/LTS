@@ -32,7 +32,7 @@ const FALL_ACADEMY_FOCUS: Record<string, string> = {
   "2026-10-03": "Complete Player",
 };
 
-// Session focus, by date, for LTS Academy Phase 2 — mirrors the schedule on /phase-2.
+// Session focus, by date, for Fall Academy Phase 2 — mirrors the schedule on /phase-2.
 const PHASE_2_FOCUS: Record<string, string> = {
   "2026-10-06": "Handle Under Pressure",
   "2026-10-09": "Shooting Lab",
@@ -326,7 +326,7 @@ function BookPageInner() {
               className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
             >
               <div>
-                <h3 className="font-black text-xl uppercase text-white mb-1">LTS Academy Phase 2</h3>
+                <h3 className="font-black text-xl uppercase text-white mb-1">Fall Academy — Phase 2</h3>
                 <p className="text-sm text-white/40">$55/session · Pass holders deducted automatically</p>
               </div>
               <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
@@ -384,7 +384,7 @@ function BookPageInner() {
               <ArrowLeft className="w-3 h-3" /> Back
             </button>
             <h1 className="text-4xl font-black mb-2 uppercase tracking-tighter">
-              {programType === "pro" ? "LTS PRO" : programType === "fall-academy" ? "Fall Academy" : programType === "phase-2" ? "Phase 2" : "Choose Session"}
+              {programType === "pro" ? "LTS PRO" : programType === "fall-academy" ? "Fall Academy" : programType === "phase-2" ? "Fall Academy — Phase 2" : "Choose Session"}
             </h1>
             <p className="text-white/40 text-sm">Select a date and session from the schedule below.</p>
           </div>

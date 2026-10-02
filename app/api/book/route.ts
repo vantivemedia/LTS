@@ -123,7 +123,7 @@ export async function POST(request: Request) {
 
     const location = "The Hoop — 11111 Twigg Pl #1061, Richmond, BC";
 
-    const programLabel = program === "pro" ? "LTS PRO" : program === "fall-academy" ? "Fall Academy" : program === "phase-2" ? "Phase 2" : "Drop-In";
+    const programLabel = program === "pro" ? "LTS PRO" : program === "fall-academy" ? "Fall Academy" : program === "phase-2" ? "Fall Academy Phase 2" : "Drop-In";
 
     const userHtml = isPassHolder
       ? `
