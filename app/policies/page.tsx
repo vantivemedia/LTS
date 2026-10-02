@@ -1,36 +1,36 @@
 // ============================================================
 // ポリシーページ (app/policies/page.tsx)
-// Refund policy for session passes & PRO packages
+// Strict no-refund, cancellation, and pass carry-forward policy
 // ============================================================
 
 import Link from "next/link";
-import { ArrowRight, Ban, Clock, CalendarClock, Mail, UserX } from "lucide-react";
+import { ArrowRight, Ban, Clock, RefreshCw, Mail, UserX } from "lucide-react";
 
 const RULES = [
   {
-    icon: UserX,
-    title: "No-Shows Are Charged",
-    desc: "Once you've registered for a session or camp through the website, you're responsible for it. If you don't cancel at least 24 hours in advance, you'll still be charged — or, for pass holders, the session will still be deducted — whether or not you show up.",
+    icon: Ban,
+    title: "All Sales Are Final",
+    desc: "Every booking, pass, and camp registration is non-refundable once purchased — no exceptions, regardless of how many sessions remain unused or how far in advance you ask. This applies to drop-ins, 5/10-session passes, Full Access / Full Phase passes, and camp registrations alike.",
   },
   {
-    icon: Ban,
-    title: "Used Passes Are Non-Refundable",
-    desc: "Once one or more sessions from a pass or package (Micro Academy 5/10-session pass, or PRO 5-session package) have been used, that pass is no longer eligible for a refund — even if sessions remain on it.",
+    icon: UserX,
+    title: "No-Shows Are Charged",
+    desc: "Once you've registered for a session or camp through the website, you're responsible for it. If you don't cancel or reschedule at least 24 hours in advance, you'll still be charged — or, for pass holders, the session will still be deducted — whether or not you show up.",
   },
   {
     icon: Clock,
-    title: "24-Hour Cutoff",
-    desc: "Refund and cancellation requests must be submitted at least 24 hours before your next scheduled session or camp. Requests made within 24 hours cannot be refunded and will still be billed as a no-show.",
+    title: "24-Hour Reschedule Window",
+    desc: "Need to change your date? Let us know at least 24 hours before your scheduled session or camp and we'll move you to another available date at no extra cost. This does not entitle you to a refund — it just means that session isn't wasted.",
   },
   {
-    icon: CalendarClock,
-    title: "Program Cut-Off",
-    desc: "All passes and packages must be used by the program end date listed at the time of purchase. We reserve the right to close out a membership once that date passes, regardless of sessions remaining.",
+    icon: RefreshCw,
+    title: "Unused Sessions Carry Forward",
+    desc: "Sessions remaining on a pass when its set or phase ends automatically carry forward into the next set or phase of the same program (e.g. a Fall Academy Phase 1 pass carries into Phase 2). Carry-forward only applies within the same program and session type — sessions cannot be exchanged or transferred between different programs (e.g. Fall Academy sessions cannot be used toward PRO sessions, or vice versa).",
   },
   {
     icon: Mail,
-    title: "How to Cancel or Request a Refund",
-    desc: "Email info@ltseliteprep.ca at least 24 hours in advance with the athlete's name, the email used at registration, and your session or camp date. We'll confirm eligibility and process approved refunds within 5–7 business days.",
+    title: "How to Cancel or Reschedule",
+    desc: "Email info@ltseliteprep.ca at least 24 hours in advance with the athlete's name, the email used at registration, and your session or camp date. We'll confirm your new date — remember, this reschedules your spot, it does not refund your payment.",
   },
 ];
 
@@ -44,10 +44,10 @@ export default function PoliciesPage() {
             Policies
           </span>
           <h1 className="text-5xl sm:text-6xl font-black tracking-tighter uppercase mb-4">
-            Refund & Cancellation <span className="text-white/20">Policy</span>
+            No-Refund & Cancellation <span className="text-white/20">Policy</span>
           </h1>
           <p className="text-white/40 text-lg max-w-xl mx-auto leading-relaxed">
-            Please review our refund and cancellation terms before booking a session, purchasing a pass, or registering for a camp.
+            All sales are final. Please review our cancellation and carry-forward terms before booking a session, purchasing a pass, or registering for a camp.
           </p>
         </div>
 
@@ -70,11 +70,10 @@ export default function PoliciesPage() {
         <div className="bg-[#111] border border-white/5 rounded-3xl p-8 sm:p-10 mb-14">
           <h2 className="text-2xl font-black uppercase tracking-tight mb-4">In Short</h2>
           <ul className="space-y-3 text-white/50 leading-relaxed list-disc list-inside">
+            <li>All sales are final — no refunds, ever, regardless of usage or notice given.</li>
             <li>No-shows without 24+ hours&rsquo; notice: you&rsquo;re still charged for the session or camp, no exceptions.</li>
-            <li>Unused passes: refundable if requested 24+ hours before your next session.</li>
-            <li>Once you&rsquo;ve used at least one session from a pass: no refund, regardless of timing.</li>
-            <li>Requests inside the 24-hour window: not eligible, regardless of usage.</li>
-            <li>All passes must be used by the program end date — memberships close out after that, sessions remaining or not.</li>
+            <li>24+ hours&rsquo; notice gets you a reschedule to another date — not a refund.</li>
+            <li>Sessions left on a pass when its set or phase ends carry forward into the next set or phase of the same program and session type — they don&rsquo;t expire, and they don&rsquo;t transfer to a different program.</li>
           </ul>
         </div>
 
