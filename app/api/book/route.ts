@@ -34,19 +34,24 @@ export async function POST(request: Request) {
     // ── Pass check via pass_holders table ────────────────────
     // Passes are scoped per-program — an Academy pass can't cover a PRO or Fall Academy
     // session and vice versa, since each program is priced differently.
+    // Exception (carry-forward policy): sessions left over on a Fall Academy Phase 1
+    // pass roll into Phase 2, so Phase 2 bookings also draw from "fall-academy" passes —
+    // Phase 1 leftovers first, then any Phase 2 pass.
     const passProgram = program === "pro" ? "pro" : program === "fall-academy" ? "fall-academy" : program === "phase-2" ? "phase-2" : "academy";
+    const passPrograms = program === "phase-2" ? ["fall-academy", "phase-2"] : [passProgram];
     let isPassHolder = false;
 
     const { data: passes } = await supabase
       .from("pass_holders")
-      .select("id, sessions_total, sessions_used")
+      .select("id, program, sessions_total, sessions_used")
       .eq("email", email.trim().toLowerCase())
       .eq("status", "active")
-      .eq("program", passProgram)
+      .in("program", passPrograms)
       .order("created_at", { ascending: true });
 
     if (passes && passes.length > 0) {
-      // Find first pass with remaining sessions
+      // Find first pass with remaining sessions (carried-over Phase 1 passes sort first)
+      passes.sort((a, b) => passPrograms.indexOf(a.program) - passPrograms.indexOf(b.program));
       const activePass = passes.find((p) => p.sessions_used < p.sessions_total);
       if (activePass) {
         isPassHolder = true;

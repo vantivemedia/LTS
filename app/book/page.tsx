@@ -542,6 +542,11 @@ function BookPageInner() {
                 <p className="text-[10px] text-white/25 mt-2 leading-relaxed">
                   Use the same email you bought your pass with — we'll match it automatically and deduct 1 session.
                 </p>
+                {programType === "phase-2" && (
+                  <p className="text-[10px] text-white/40 mt-1.5 leading-relaxed">
+                    Sessions left over from your Fall Academy Phase 1 pass carry over automatically, and are used first.
+                  </p>
+                )}
               </div>
             ) : (
               <>
