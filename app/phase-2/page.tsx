@@ -7,23 +7,23 @@ import { trackEvent } from "@/lib/analytics";
 
 const SCHEDULE = {
   October: [
-    { date: "Oct 6", day: "Tue", time: "4:30 – 6:00 PM", focus: "Handle Under Pressure" },
-    { date: "Oct 9", day: "Fri", time: "5:30 – 7:00 PM", focus: "Shooting Lab" },
-    { date: "Oct 10", day: "Sat", time: "2:00 – 3:30 PM", focus: "Finishing School" },
-    { date: "Oct 11", day: "Sun", time: "6:30 – 8:00 PM", focus: "Complete Player" },
-    { date: "Oct 13", day: "Tue", time: "4:30 – 6:00 PM", focus: "Creating Separation" },
+    { date: "Oct 6", day: "Tue", time: "4:30 – 6:00 PM", focus: "Ball Handling" },
+    { date: "Oct 9", day: "Fri", time: "5:30 – 7:00 PM", focus: "Shooting" },
+    { date: "Oct 10", day: "Sat", time: "2:00 – 3:30 PM", focus: "Finishing" },
+    { date: "Oct 11", day: "Sun", time: "6:30 – 8:00 PM", focus: "1-on-1 Scoring" },
+    { date: "Oct 13", day: "Tue", time: "4:30 – 6:00 PM", focus: "Ball Handling Under Pressure" },
     { date: "Oct 16", day: "Fri", time: "5:30 – 7:00 PM", focus: "Shooting Off the Dribble" },
-    { date: "Oct 17", day: "Sat", time: "2:00 – 3:30 PM", focus: "Pick & Roll Reads" },
-    { date: "Oct 18", day: "Sun", time: "6:30 – 8:00 PM", focus: "Complete Player" },
-    { date: "Oct 20", day: "Tue", time: "4:30 – 6:00 PM", focus: "Off Ball Scoring" },
-    { date: "Oct 23", day: "Fri", time: "5:30 – 7:00 PM", focus: "On-Ball Defence" },
-    { date: "Oct 24", day: "Sat", time: "4:00 – 5:30 PM", focus: "Pick & Roll Reads" },
-    { date: "Oct 25", day: "Sun", time: "6:30 – 8:00 PM", focus: "Complete Player" },
-    { date: "Oct 27", day: "Tue", time: "4:30 – 6:00 PM", focus: "Scoring Under Pressure" },
-    { date: "Oct 30", day: "Fri", time: "5:30 – 7:00 PM", focus: "Offensive Actions" },
+    { date: "Oct 17", day: "Sat", time: "2:00 – 3:30 PM", focus: "Finishing Through Contact" },
+    { date: "Oct 18", day: "Sun", time: "6:30 – 8:00 PM", focus: "Passing & Playmaking" },
+    { date: "Oct 20", day: "Tue", time: "4:30 – 6:00 PM", focus: "Off-Ball Scoring" },
+    { date: "Oct 23", day: "Fri", time: "5:30 – 7:00 PM", focus: "Pick-and-Roll Reads" },
+    { date: "Oct 24", day: "Sat", time: "4:00 – 5:30 PM", focus: "Defense" },
+    { date: "Oct 25", day: "Sun", time: "6:30 – 8:00 PM", focus: "Offensive Actions" },
+    { date: "Oct 27", day: "Tue", time: "4:30 – 6:00 PM", focus: "Scoring Counters" },
+    { date: "Oct 30", day: "Fri", time: "5:30 – 7:00 PM", focus: "Pick-and-Roll Reads" },
   ],
   November: [
-    { date: "Nov 3", day: "Tue", time: "4:30 – 6:00 PM", focus: "Complete Player" },
+    { date: "Nov 3", day: "Tue", time: "4:30 – 6:00 PM", focus: "Game Application" },
   ],
 };
 
@@ -96,7 +96,7 @@ export default function Phase2Page() {
                 Build / Load / Apply / Test
               </p>
               <p className="text-white/40 text-lg leading-relaxed mb-2">
-                15 sessions. 90 minutes each. The next chapter of Fall Academy training, building directly on
+                15 training opportunities. 22.5 hours of development. The next chapter of Fall Academy training, building directly on
                 everything covered in Phase 1.
               </p>
               <p className="flex items-center gap-1.5 text-white/40 text-sm mb-8">
@@ -159,7 +159,7 @@ export default function Phase2Page() {
             ))}
           </div>
           <p className="text-white/25 text-xs mt-4">
-            15 Sessions · 90 Minutes Each · All Times Pacific. Please note: October 24 starts at 4:00 PM.
+            15 Sessions · 22.5 Hours Total · 90 Minutes Each · All Times Pacific. Please note: October 24 starts at 4:00 PM.
           </p>
         </div>
 

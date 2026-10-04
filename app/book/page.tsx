@@ -34,21 +34,21 @@ const FALL_ACADEMY_FOCUS: Record<string, string> = {
 
 // Session focus, by date, for Fall Academy Phase 2 — mirrors the schedule on /phase-2.
 const PHASE_2_FOCUS: Record<string, string> = {
-  "2026-10-06": "Handle Under Pressure",
-  "2026-10-09": "Shooting Lab",
-  "2026-10-10": "Finishing School",
-  "2026-10-11": "Complete Player",
-  "2026-10-13": "Creating Separation",
+  "2026-10-06": "Ball Handling",
+  "2026-10-09": "Shooting",
+  "2026-10-10": "Finishing",
+  "2026-10-11": "1-on-1 Scoring",
+  "2026-10-13": "Ball Handling Under Pressure",
   "2026-10-16": "Shooting Off the Dribble",
-  "2026-10-17": "Pick & Roll Reads",
-  "2026-10-18": "Complete Player",
-  "2026-10-20": "Off Ball Scoring",
-  "2026-10-23": "On-Ball Defence",
-  "2026-10-24": "Pick & Roll Reads",
-  "2026-10-25": "Complete Player",
-  "2026-10-27": "Scoring Under Pressure",
-  "2026-10-30": "Offensive Actions",
-  "2026-11-03": "Complete Player",
+  "2026-10-17": "Finishing Through Contact",
+  "2026-10-18": "Passing & Playmaking",
+  "2026-10-20": "Off-Ball Scoring",
+  "2026-10-23": "Pick-and-Roll Reads",
+  "2026-10-24": "Defense",
+  "2026-10-25": "Offensive Actions",
+  "2026-10-27": "Scoring Counters",
+  "2026-10-30": "Pick-and-Roll Reads",
+  "2026-11-03": "Game Application",
 };
 
 // ── Calendar ─────────────────────────────────────────────────

@@ -67,7 +67,7 @@ const PASSES = [
     price: "$549.99",
     perSession: "$36.66/session",
     desc: "Access all 15 training opportunities in Phase 2.",
-    features: ["All 15 Sessions Included", "Full Access to Every Date", "Build → Load → Apply → Test", "Best Value"],
+    features: ["All 15 Sessions Included", "22.5 Hours of Development", "Build → Load → Apply → Test", "Best Value"],
   },
   {
     id: "pro",
