@@ -21,7 +21,7 @@ import FallPromoModal from "@/components/FallPromoModal";
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 const HERO = {
-  badge: "FALL ACADEMY PHASE 1 · SEPT 11 – OCT 3",
+  badge: "FALL ACADEMY PHASE 2 · OCT 6 – NOV 3",
   heading: ["TRAIN.", "LEARN.", "COMPETE."],
   subtext:
     "Small groups. High intent. Flexibility. The premium basketball experience in Vancouver. Register for a pass, pay later.",

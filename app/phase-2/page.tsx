@@ -125,10 +125,10 @@ export default function Phase2Page() {
 
             <div className="mt-10 lg:mt-0 relative rounded-3xl overflow-hidden aspect-[4/5] lg:aspect-[3/4] border border-white/5">
               <Image
-                src="/images/fall-academy-training.jpg"
-                alt="LTS Elite Prep athletes in a live 1-on-1 drill at The Hoop"
+                src="/images/phase-2-training.jpg"
+                alt="LTS Elite Prep athletes lined up on the court at The Hoop"
                 fill
-                className="object-cover"
+                className="object-cover object-[center_35%]"
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 priority
               />
