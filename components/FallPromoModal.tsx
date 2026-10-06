@@ -52,7 +52,7 @@ export default function FallPromoModal() {
         </button>
 
         <span className="inline-flex items-center gap-2 text-xs font-black tracking-widest uppercase border border-white/10 text-white/50 rounded-full px-3.5 py-1.5 mb-5">
-          Phase 1 · Sept 11 – Oct 3
+          Phase 2 · Oct 6 – Nov 3
         </span>
 
         <h2
@@ -63,19 +63,19 @@ export default function FallPromoModal() {
         </h2>
 
         <p className="text-white/50 leading-relaxed mb-6">
-          13 training opportunities, 19.5 hours of development — a flexible format built around busy school,
-          team, and family schedules.
+          15 training opportunities, 22.5 hours of development — the next chapter of Fall Academy, built
+          around busy school, team, and family schedules.
         </p>
 
         <div className="flex items-center gap-3 mb-8 text-sm">
           <span className="font-black text-white">$55/session</span>
           <span className="text-white/20">·</span>
-          <span className="font-black text-white">Full Phase 1 for $499</span>
+          <span className="font-black text-white">Full Access for $549.99</span>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
-            href="/fall-programming"
+            href="/phase-2"
             onClick={() => {
               trackEvent("button_click", "/", "fall_promo_click");
               setOpen(false);

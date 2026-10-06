@@ -50,17 +50,17 @@ const PROGRAMS = [
   {
     id: "fall-academy",
     name: "LTS Fall Academy",
-    tagline: "Phase 1 · Sept 11 – Oct 3",
+    tagline: "Phase 2 · Oct 6 – Nov 3",
     badge: "Now Open",
     featured: true,
-    desc: "13 training opportunities and 19.5 hours of development — a flexible format built around busy school, team, and family schedules.",
+    desc: "15 training opportunities and 22.5 hours of development — the next chapter of Fall Academy, built around busy school, team, and family schedules.",
     features: [
       "Skill Development, Shooting & Finishing",
       "Footwork & Decision-Making",
       "Live Play & Competitive Application",
-      "$55/Session or Full Phase 1 for $499",
+      "$55/Session or Full Access for $549.99",
     ],
-    href: "/fall-programming",
+    href: "/phase-2",
     cta: "EXPLORE FALL ACADEMY",
   },
   {
