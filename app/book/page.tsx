@@ -344,27 +344,14 @@ function BookPageInner() {
               <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
             </Link>
 
-            {/* LTS PRO — drop-in */}
-            <button
-              type="button"
-              onClick={() => { setProgramType("pro"); setStep(2); }}
-              className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
-            >
-              <div>
-                <h3 className="font-black text-xl uppercase text-white mb-1">LTS PRO</h3>
-                <p className="text-sm text-white/40">$85/session · Pass holders deducted automatically</p>
-              </div>
-              <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
-            </button>
-
-            {/* Buy PRO Package */}
+            {/* LTS PRO — by request */}
             <Link
-              href="/buy-pass?program=pro"
+              href="/pro"
               className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
             >
               <div>
-                <h3 className="font-black text-xl uppercase text-white mb-1">Buy PRO Package</h3>
-                <p className="text-sm text-white/40">5-Session $399.99 · Save $25+ vs. individual sessions</p>
+                <h3 className="font-black text-xl uppercase text-white mb-1">LTS PRO — Request a Session</h3>
+                <p className="text-sm text-white/40">Private training by request · 60 min $85 · 90 min $105</p>
               </div>
               <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
             </Link>

@@ -59,6 +59,8 @@ const PROGRAMS = [
     color: "from-purple-500/20 to-violet-500/10",
     borderColor: "border-purple-500/20",
     featured: true,
+    href: "/fall-programming",
+    cta: "EXPLORE FALL ACADEMY",
     desc: "13 training opportunities and 19.5 hours of development — a flexible format built around busy school, team, and family schedules. Choose the package and dates that work for you.",
     features: [
       { icon: Zap, text: "Skill development & shooting mechanics" },
@@ -74,6 +76,34 @@ const PROGRAMS = [
     ],
   },
   {
+    id: "pro",
+    name: "LTS PRO",
+    tagline: "Private Training",
+    emoji: "🏀",
+    ages: "All Ages",
+    schedule: "By request · No fixed dates",
+    location: "Richmond, BC",
+    groupSize: "1:2 Coach to Athlete",
+    price: "60 min $85 · 90 min $105",
+    color: "from-orange-500/20 to-amber-500/10",
+    borderColor: "border-orange-500/20",
+    href: "/pro",
+    cta: "REQUEST A SESSION",
+    desc: "Our premium private training experience. Each session is customized to the athlete’s position, skill level, and goals, with sessions scheduled around your availability.",
+    features: [
+      { icon: Target, text: "Individualized skill development" },
+      { icon: Zap, text: "Ball handling, shooting & finishing" },
+      { icon: Brain, text: "Footwork & decision-making" },
+      { icon: Calendar, text: "Scheduled by request" },
+    ],
+    details: [
+      "60-minute sessions — $85",
+      "90-minute sessions — $105",
+      "Led by Coach Paolo Labrador",
+      "Coach Paolo confirms a time that works for you",
+    ],
+  },
+  {
     id: "college",
     name: "LTS College",
     tagline: "College Prep",
@@ -85,6 +115,8 @@ const PROGRAMS = [
     price: "Contact for pricing",
     color: "from-blue-500/20 to-indigo-500/10",
     borderColor: "border-blue-500/20",
+    href: "/college-contact",
+    cta: "INQUIRE NOW",
     desc: "High-intensity training for players ready to compete at the university level and beyond. No shortcuts — just relentless improvement.",
     features: [
       { icon: BarChart3, text: "Data-driven performance tracking" },
@@ -134,7 +166,7 @@ export default function ProgramsPage() {
             Find Your <span className="text-white">Level</span>
           </h1>
           <p className="text-white/40 text-lg max-w-xl mx-auto">
-            Two programs built for where you are — and where you want to go.
+            Three programs built for where you are — and where you want to go.
             Join the team today.
           </p>
         </div>
@@ -239,11 +271,11 @@ export default function ProgramsPage() {
                 {/* CTA */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link
-                    href={program.id === 'college' ? '/college-contact' : '/fall-programming'}
+                    href={program.href}
                     className="btn-accent inline-flex items-center justify-center gap-2
                                font-bold px-8 py-3.5 rounded-xl group"
                   >
-                    {program.id === 'college' ? 'INQUIRE NOW' : 'EXPLORE FALL ACADEMY'}
+                    {program.cta}
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                   <span className="text-sm text-white/30 flex items-center">

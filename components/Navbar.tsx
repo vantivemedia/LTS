@@ -33,6 +33,7 @@ const NAV_LINKS: NavLink[] = [
       { href: "/phase-2", label: "Phase 2" },
     ],
   },
+  { href: "/pro", label: "LTS PRO" },
   { href: "/college-contact", label: "College" },
   { href: "/policies", label: "Policies" },
   { href: "/admin", label: "Admin" },
@@ -87,7 +88,7 @@ export default function Navbar() {
         </Link>
 
         {/* ── デスクトップナビ ── */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-4 lg:gap-8 whitespace-nowrap">
           {NAV_LINKS.map((link) =>
             link.children ? (
               <div
@@ -157,7 +158,7 @@ export default function Navbar() {
       <div className={`
         md:hidden overflow-hidden transition-all duration-300
         bg-[#0a0a0a]/98 nav-glass border-b border-white/5
-        ${menuOpen ? "max-h-[700px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"}
+        ${menuOpen ? "max-h-[780px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"}
       `}>
         <nav className="flex flex-col px-5 pt-2 pb-8 gap-1">
           {NAV_LINKS.map((link) =>

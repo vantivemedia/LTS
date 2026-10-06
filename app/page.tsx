@@ -41,7 +41,7 @@ const TICKER = [
 
 const STATS = [
   { value: "200+", label: "Athletes Trained", icon: Users },
-  { value: "2", label: "Programs", icon: Trophy },
+  { value: "3", label: "Programs", icon: Trophy },
   { value: "5+", label: "Years Running", icon: Calendar },
   { value: "4.9", label: "Rating", icon: Star },
 ];
@@ -62,6 +62,21 @@ const PROGRAMS = [
     ],
     href: "/fall-programming",
     cta: "EXPLORE FALL ACADEMY",
+  },
+  {
+    id: "pro",
+    name: "LTS PRO",
+    tagline: "Private Training",
+    badge: "By Request",
+    desc: "Premium 1-on-1 and 1-on-2 training with Coach Paolo, customized to the athlete’s position, skill level, and goals. No fixed dates — sessions are scheduled by request.",
+    features: [
+      "Individualized skill development",
+      "1:2 Coach to athlete ratio",
+      "60 min — $85 · 90 min — $105",
+      "Scheduled around your availability",
+    ],
+    href: "/pro",
+    cta: "REQUEST A SESSION",
   },
   {
     id: "college",

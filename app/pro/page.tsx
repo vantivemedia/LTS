@@ -15,19 +15,25 @@ const SKILLS = [
   "Game Application",
 ];
 
-const WINDOWS = [
-  { id: "jul13", range: "July 13–17", time: "12:00 PM – 3:30 PM" },
-  { id: "jul29", range: "July 29 – August 14", time: "12:00 PM – 3:30 PM" },
-  { id: "aug24", range: "August 24–31", time: "12:00 PM – 3:30 PM" },
+const OPTIONS = [
+  { id: "60", length: "60 Minutes", price: "$85", desc: "Focused one-hour private session." },
+  { id: "90", length: "90 Minutes", price: "$105", desc: "Extended session for deeper work and more reps.", featured: true },
 ];
 
+const INPUT_CLASS =
+  "w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors";
+const LABEL_CLASS = "text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block";
+
 export default function ProPage() {
-  const [name, setName] = useState("");
+  const [athleteName, setAthleteName] = useState("");
+  const [school, setSchool] = useState("");
+  const [grade, setGrade] = useState("");
   const [parentName, setParentName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [school, setSchool] = useState("");
-  const [grade, setGrade] = useState("");
+  const [sessionLength, setSessionLength] = useState("60");
+  const [availability, setAvailability] = useState("");
+  const [details, setDetails] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -37,15 +43,16 @@ export default function ProPage() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/buy-pass", {
+      const res = await fetch("/api/pro-inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, parentName, email, phone, school, grade, passType: "pass-5", program: "pro" }),
+        body: JSON.stringify({ athleteName, school, grade, parentName, email, phone, sessionLength, availability, details }),
       });
       if (!res.ok) {
         const d = await res.json();
-        throw new Error(d.error || "Purchase failed");
+        throw new Error(d.error || "Request failed");
       }
+      trackEvent("button_click", "/pro", "pro_request_submitted");
       setSubmitted(true);
     } catch (err: any) {
       setError(err.message || "Something went wrong. Please email us directly at info@ltseliteprep.ca");
@@ -60,21 +67,16 @@ export default function ProPage() {
           <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-8">
             <Check className="w-10 h-10 text-black" />
           </div>
-          <h2 className="text-4xl font-black mb-4 uppercase">Pass Registered</h2>
+          <h2 className="text-4xl font-black mb-4 uppercase">Request Received</h2>
           <p className="text-white/40 mb-4 leading-relaxed">
-            Check your email for payment instructions. Once payment is received, your 5-session package is active and you can start booking.
+            Thanks! Coach Paolo will reach out shortly to confirm a session time that works for you. A copy of your request is on its way to your email.
           </p>
           <p className="text-white/30 text-sm mb-10">
-            Use <strong className="text-white/50">/book</strong> to schedule your sessions — we'll automatically detect your pass.
+            Payment is by e-transfer once your time is confirmed.
           </p>
-          <div className="flex gap-3 justify-center">
-            <Link href="/book?program=pro" className="bg-white text-black font-bold px-8 py-4 rounded-2xl">
-              BOOK A SESSION
-            </Link>
-            <Link href="/" className="bg-white/10 text-white font-bold px-8 py-4 rounded-2xl">
-              HOME
-            </Link>
-          </div>
+          <Link href="/" className="inline-block bg-white text-black font-bold px-8 py-4 rounded-2xl">
+            HOME
+          </Link>
         </div>
       </div>
     );
@@ -121,14 +123,14 @@ export default function ProPage() {
                 The Hoop — 11111 Twigg Pl #1061, Richmond, BC
               </p>
 
-              <Link
-                href="/book?program=pro"
-                onClick={() => trackEvent("button_click", "/pro", "pro_continue")}
+              <a
+                href="#request"
+                onClick={() => trackEvent("button_click", "/pro", "pro_request_scroll")}
                 className="inline-flex items-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
               >
-                Book Your Sessions
+                Request a Session
                 <ArrowRight className="w-4 h-4" />
-              </Link>
+              </a>
 
               <div className="flex items-center gap-3 mt-6 text-xs font-bold uppercase tracking-wider text-white/30">
                 <span>200+ Athletes Trained</span>
@@ -148,7 +150,7 @@ export default function ProPage() {
               </div>
             </div>
             <p className="text-white/40 text-sm mb-4">
-              Each session is customized to the athlete's position, skill level, and goals with an emphasis on:
+              Each session is customized to the athlete&rsquo;s position, skill level, and goals with an emphasis on:
             </p>
             <div className="flex flex-wrap gap-2">
               {SKILLS.map((s) => (
@@ -159,57 +161,42 @@ export default function ProPage() {
             </div>
           </div>
 
-          {/* Available Training Windows */}
+          {/* Scheduling */}
           <div className="mb-14">
-            <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Available Training Windows</p>
-            <div className="divide-y divide-white/5">
-              {WINDOWS.map((w) => (
-                <div key={w.id} className="flex items-center justify-between py-3">
-                  <span className="font-bold text-white">{w.range}</span>
-                  <span className="text-white/40 text-sm font-bold">{w.time}</span>
-                </div>
-              ))}
+            <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Scheduling</p>
+            <div className="bg-[#111] border border-white/5 rounded-2xl p-5">
+              <p className="font-black text-white uppercase tracking-wide mb-1">By Request</p>
+              <p className="text-white/40 text-sm leading-relaxed">
+                LTS PRO has no fixed dates. Send us your availability and Coach Paolo will confirm a time that works for you.
+              </p>
             </div>
           </div>
 
           {/* Pricing */}
           <div>
             <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Pricing</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-              <div className="bg-[#111] border border-white/5 rounded-2xl p-6">
-                <p className="text-xs text-white/30 uppercase tracking-widest font-bold mb-2">Per Session</p>
-                <p className="text-3xl font-black">$85.00</p>
-              </div>
-              <div className="bg-white text-black rounded-2xl p-6 pt-8 relative">
-                <span className="absolute -top-3 right-4 bg-black text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
-                  🔥 Best Value
-                </span>
-                <p className="text-xs text-black/50 uppercase tracking-widest font-bold mb-2">5-Session Package</p>
-                <p className="text-3xl font-black">$399.99</p>
-                <p className="text-xs text-black/50 font-bold mt-1">Save $25+ vs. individual sessions</p>
-              </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+              {OPTIONS.map((o) => (
+                <div
+                  key={o.id}
+                  className={`rounded-2xl p-6 ${o.featured ? "bg-white text-black" : "bg-[#111] border border-white/5"}`}
+                >
+                  <p className={`text-xs uppercase tracking-widest font-bold mb-2 ${o.featured ? "text-black/50" : "text-white/30"}`}>
+                    {o.length}
+                  </p>
+                  <p className="text-3xl font-black mb-2">{o.price}</p>
+                  <p className={`text-xs leading-relaxed ${o.featured ? "text-black/60" : "text-white/40"}`}>{o.desc}</p>
+                </div>
+              ))}
             </div>
-            <p className="text-white/30 text-xs leading-relaxed mb-6">
-              All purchased sessions must be completed by August 31, 2026. Limited spots available throughout the summer.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link
-                href="/book?program=pro"
-                onClick={() => trackEvent("button_click", "/pro", "pro_continue")}
-                className="flex-1 inline-flex items-center justify-center gap-2 border border-white/15 hover:border-white/30 hover:bg-white/5 text-white font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl transition-all active:scale-95"
-              >
-                Book Single Session
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/buy-pass?program=pro"
-                onClick={() => trackEvent("button_click", "/pro", "pro_continue")}
-                className="flex-1 inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
-              >
-                Buy 5-Session Package
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+            <a
+              href="#request"
+              onClick={() => trackEvent("button_click", "/pro", "pro_request_scroll")}
+              className="inline-flex items-center justify-center gap-2 w-full bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
+            >
+              Request a Session
+              <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
 
@@ -230,90 +217,136 @@ export default function ProPage() {
         </div>
       </div>
 
-      {/* ── Buy Package Form ── */}
-      <div className="max-w-4xl mx-auto mt-20 scroll-mt-28">
+      {/* ── Request Form ── */}
+      <div id="request" className="max-w-4xl mx-auto mt-20 scroll-mt-28">
         <div className="text-center mb-8">
-          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Best Value</p>
-          <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">Buy the 5-Session Package</h2>
+          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">By Request</p>
+          <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">Request a Session</h2>
           <p className="text-white/40 text-sm max-w-md mx-auto">
-            $399.99 for 5 sessions — save $25+ vs. booking individually. Just need a single session? <Link href="/book?program=pro" className="text-white underline hover:no-underline">Book one instead</Link>.
+            Tell us what works for you and Coach Paolo will confirm a time. Nothing is charged until your session is confirmed.
           </p>
         </div>
 
         <div className="bg-[#111] p-6 sm:p-10 rounded-3xl border border-white/5">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Full Name</label>
+              <label className={LABEL_CLASS}>Athlete Name</label>
               <input
                 required
                 type="text"
                 placeholder="JORDAN SMITH"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                value={athleteName}
+                onChange={(e) => setAthleteName(e.target.value)}
+                className={INPUT_CLASS}
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">School</label>
+                <label className={LABEL_CLASS}>School</label>
                 <input
                   required
                   type="text"
                   placeholder="RICHMOND SECONDARY"
                   value={school}
                   onChange={(e) => setSchool(e.target.value)}
-                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  className={INPUT_CLASS}
                 />
               </div>
               <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Grade</label>
+                <label className={LABEL_CLASS}>Grade</label>
                 <input
                   required
                   type="text"
                   placeholder="GRADE 10"
                   value={grade}
                   onChange={(e) => setGrade(e.target.value)}
-                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  className={INPUT_CLASS}
                 />
               </div>
             </div>
 
             <div>
-              <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Name</label>
+              <label className={LABEL_CLASS}>Parent Name</label>
               <input
                 required
                 type="text"
                 placeholder="MICHAEL SMITH"
                 value={parentName}
                 onChange={(e) => setParentName(e.target.value)}
-                className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                className={INPUT_CLASS}
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Email Address</label>
+                <label className={LABEL_CLASS}>Email Address</label>
                 <input
                   required
                   type="email"
                   placeholder="PARENT@EXAMPLE.COM"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  className={INPUT_CLASS}
                 />
               </div>
               <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Phone Number</label>
+                <label className={LABEL_CLASS}>Parent Phone Number</label>
                 <input
                   required
                   type="tel"
                   placeholder="604-000-0000"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  className={INPUT_CLASS}
                 />
               </div>
+            </div>
+
+            <div>
+              <label className={LABEL_CLASS}>Session Length</label>
+              <div className="grid grid-cols-2 gap-3">
+                {OPTIONS.map((o) => (
+                  <button
+                    key={o.id}
+                    type="button"
+                    onClick={() => setSessionLength(o.id)}
+                    className={`rounded-2xl px-5 py-4 text-left border transition-all ${
+                      sessionLength === o.id
+                        ? "bg-white text-black border-white"
+                        : "bg-[#0a0a0a] text-white border-white/5 hover:border-white/20"
+                    }`}
+                  >
+                    <span className="block font-black uppercase text-sm">{o.length}</span>
+                    <span className={`block text-xs font-bold ${sessionLength === o.id ? "text-black/50" : "text-white/40"}`}>
+                      {o.price}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className={LABEL_CLASS}>Preferred Days &amp; Times</label>
+              <textarea
+                required
+                rows={3}
+                placeholder="E.G. WEEKDAYS AFTER 5 PM, SATURDAY MORNINGS"
+                value={availability}
+                onChange={(e) => setAvailability(e.target.value)}
+                className={`${INPUT_CLASS} resize-none`}
+              />
+            </div>
+
+            <div>
+              <label className={LABEL_CLASS}>Anything Else We Should Know (Optional)</label>
+              <textarea
+                rows={2}
+                placeholder="POSITION, GOALS, SKILLS TO WORK ON"
+                value={details}
+                onChange={(e) => setDetails(e.target.value)}
+                className={`${INPUT_CLASS} resize-none`}
+              />
             </div>
 
             {error && (
@@ -324,15 +357,15 @@ export default function ProPage() {
 
             <button
               type="submit"
-              disabled={!name || !parentName || !email || !phone || !school || !grade || loading}
+              disabled={!athleteName || !parentName || !email || !phone || !school || !grade || !availability || loading}
               className="w-full bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30 mt-2"
             >
-              {loading ? "PROCESSING..." : "REGISTER — $399.99"}
+              {loading ? "SENDING..." : "REQUEST A SESSION"}
               {!loading && <ArrowRight className="w-5 h-5" />}
             </button>
 
             <p className="text-center text-xs text-white/20 pt-1">
-              You'll receive an e-transfer invoice by email. Your package activates once payment is confirmed.
+              We&rsquo;ll email you to confirm a time. Payment is by e-transfer once your session is confirmed.
             </p>
             <p className="text-center text-xs text-white/20">
               No-shows without 24 hours&rsquo; notice are still charged a session. See our{" "}
@@ -345,7 +378,7 @@ export default function ProPage() {
         <div className="mt-8 bg-[#111] border border-white/5 rounded-2xl p-5 sm:p-6">
           <div className="flex gap-0.5 mb-3 text-white">{"★★★★★"}</div>
           <p className="text-white/60 text-sm italic leading-relaxed mb-4">
-            "I met Coach Paolo through the basketball community. His training helped me improve in all aspects of the game. Coach Paolo showed care for every little detail and made sure to keep me right during my off season before college basketball."
+            &ldquo;I met Coach Paolo through the basketball community. His training helped me improve in all aspects of the game. Coach Paolo showed care for every little detail and made sure to keep me right during my off season before college basketball.&rdquo;
           </p>
           <p className="text-xs font-bold text-white/30 uppercase tracking-widest">
             Justin Pamintuan — Byrne Creek / Capilano University

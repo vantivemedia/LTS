@@ -69,16 +69,6 @@ const PASSES = [
     desc: "Access all 15 training opportunities in Phase 2.",
     features: ["All 15 Sessions Included", "22.5 Hours of Development", "Build → Load → Apply → Test", "Best Value"],
   },
-  {
-    id: "pro",
-    program: "pro" as Program,
-    passType: "pass-5" as PassType,
-    name: "LTS PRO — 5-Session Pass",
-    price: "$399.99",
-    perSession: "$80.00/session",
-    desc: "5 private training sessions with Coach Paolo, 1-on-1 or 1-on-2.",
-    features: ["5 Sessions Included", "1-on-1 or 1-on-2 Coaching", "Flexible Summer Windows", "Save $25+ vs. Individual Sessions"],
-  },
 ];
 
 export default function BuyPassPage() {
@@ -107,7 +97,6 @@ function BuyPassPageInner() {
     const requested = searchParams.get("program");
     if (requested === "fall-academy") setSelected("fall-13");
     else if (requested === "phase-2") setSelected("phase2-15");
-    else if (requested === "pro") setSelected("pro");
   }, [searchParams]);
 
   const pass = PASSES.find((p) => p.id === selected)!;
