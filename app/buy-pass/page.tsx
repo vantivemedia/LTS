@@ -46,7 +46,7 @@ const PASSES = [
     name: "Fall Academy Phase 2 — 5-Session Pass",
     price: "$249.99",
     perSession: "$50.00/session",
-    desc: "Choose any 5 Phase 2 sessions (Oct 6 – Nov 3).",
+    desc: "Choose any 5 Phase 2 sessions (Oct 9 – Oct 30).",
     features: ["5 Sessions Included", "Choose Any Phase 2 Dates", "Build → Load → Apply → Test", "Save vs. Drop-In Rate"],
   },
   {
@@ -56,18 +56,8 @@ const PASSES = [
     name: "Fall Academy Phase 2 — 10-Session Pass",
     price: "$449.99",
     perSession: "$45.00/session",
-    desc: "Choose any 10 Phase 2 sessions (Oct 6 – Nov 3).",
-    features: ["10 Sessions Included", "Choose Any Phase 2 Dates", "Build → Load → Apply → Test", "Save vs. Drop-In Rate"],
-  },
-  {
-    id: "phase2-15",
-    program: "phase-2" as Program,
-    passType: "pass-15" as PassType,
-    name: "Fall Academy Phase 2 — Full Access",
-    price: "$549.99",
-    perSession: "$36.66/session",
-    desc: "Access all 15 training opportunities in Phase 2.",
-    features: ["All 15 Sessions Included", "22.5 Hours of Development", "Build → Load → Apply → Test", "Best Value"],
+    desc: "Choose any 10 Phase 2 sessions (Oct 9 – Oct 30).",
+    features: ["10 Sessions Included", "Every Phase 2 Session Covered", "Build → Load → Apply → Test", "Best Value"],
   },
 ];
 
@@ -96,7 +86,7 @@ function BuyPassPageInner() {
   useEffect(() => {
     const requested = searchParams.get("program");
     if (requested === "fall-academy") setSelected("fall-13");
-    else if (requested === "phase-2") setSelected("phase2-15");
+    else if (requested === "phase-2") setSelected("phase2-10");
   }, [searchParams]);
 
   const pass = PASSES.find((p) => p.id === selected)!;

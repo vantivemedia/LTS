@@ -32,7 +32,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid pass type for Fall Academy" }, { status: 400 });
     }
 
-    if (program === "phase-2" && pass_type === "pass-13") {
+    if (program === "phase-2" && (pass_type === "pass-13" || pass_type === "pass-15")) {
       return NextResponse.json({ error: "Invalid pass type for Phase 2" }, { status: 400 });
     }
 

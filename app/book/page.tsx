@@ -34,21 +34,16 @@ const FALL_ACADEMY_FOCUS: Record<string, string> = {
 
 // Session focus, by date, for Fall Academy Phase 2 — mirrors the schedule on /phase-2.
 const PHASE_2_FOCUS: Record<string, string> = {
-  "2026-10-06": "Ball Handling",
   "2026-10-09": "Shooting",
   "2026-10-10": "Finishing",
   "2026-10-11": "1-on-1 Scoring",
-  "2026-10-13": "Ball Handling Under Pressure",
   "2026-10-16": "Shooting Off the Dribble",
   "2026-10-17": "Finishing Through Contact",
   "2026-10-18": "Passing & Playmaking",
-  "2026-10-20": "Off-Ball Scoring",
   "2026-10-23": "Pick-and-Roll Reads",
   "2026-10-24": "Defense",
   "2026-10-25": "Offensive Actions",
-  "2026-10-27": "Scoring Counters",
   "2026-10-30": "Pick-and-Roll Reads",
-  "2026-11-03": "Game Application",
 };
 
 // ── Calendar ─────────────────────────────────────────────────
@@ -339,7 +334,7 @@ function BookPageInner() {
             >
               <div>
                 <h3 className="font-black text-xl uppercase text-white mb-1">Buy Phase 2 Package</h3>
-                <p className="text-sm text-white/40">5, 10, or Full Access — from $249.99</p>
+                <p className="text-sm text-white/40">5 or 10 sessions — from $249.99</p>
               </div>
               <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
             </Link>

@@ -7,23 +7,16 @@ import { trackEvent } from "@/lib/analytics";
 
 const SCHEDULE = {
   October: [
-    { date: "Oct 6", day: "Tue", time: "4:30 – 6:00 PM", focus: "Ball Handling" },
     { date: "Oct 9", day: "Fri", time: "5:30 – 7:00 PM", focus: "Shooting" },
     { date: "Oct 10", day: "Sat", time: "2:00 – 3:30 PM", focus: "Finishing" },
     { date: "Oct 11", day: "Sun", time: "6:30 – 8:00 PM", focus: "1-on-1 Scoring" },
-    { date: "Oct 13", day: "Tue", time: "4:30 – 6:00 PM", focus: "Ball Handling Under Pressure" },
     { date: "Oct 16", day: "Fri", time: "5:30 – 7:00 PM", focus: "Shooting Off the Dribble" },
     { date: "Oct 17", day: "Sat", time: "2:00 – 3:30 PM", focus: "Finishing Through Contact" },
     { date: "Oct 18", day: "Sun", time: "6:30 – 8:00 PM", focus: "Passing & Playmaking" },
-    { date: "Oct 20", day: "Tue", time: "4:30 – 6:00 PM", focus: "Off-Ball Scoring" },
     { date: "Oct 23", day: "Fri", time: "5:30 – 7:00 PM", focus: "Pick-and-Roll Reads" },
     { date: "Oct 24", day: "Sat", time: "4:00 – 5:30 PM", focus: "Defense" },
     { date: "Oct 25", day: "Sun", time: "6:30 – 8:00 PM", focus: "Offensive Actions" },
-    { date: "Oct 27", day: "Tue", time: "4:30 – 6:00 PM", focus: "Scoring Counters" },
     { date: "Oct 30", day: "Fri", time: "5:30 – 7:00 PM", focus: "Pick-and-Roll Reads" },
-  ],
-  November: [
-    { date: "Nov 3", day: "Tue", time: "4:30 – 6:00 PM", focus: "Game Application" },
   ],
 };
 
@@ -43,13 +36,7 @@ const PRICING = [
   {
     name: "10-Session Pass",
     price: "$449.99",
-    desc: "Choose any 10 Phase 2 sessions.",
-    href: "/buy-pass?program=phase-2",
-  },
-  {
-    name: "Full Access",
-    price: "$549.99",
-    desc: "Access all 15 training opportunities. Attend as many sessions as your schedule allows.",
+    desc: "Attend all 10 Phase 2 sessions, or choose the 10 that fit your schedule.",
     href: "/buy-pass?program=phase-2",
     featured: true,
   },
@@ -90,13 +77,13 @@ export default function Phase2Page() {
                 Phase 2
               </h1>
               <p className="text-white/50 text-sm font-bold uppercase tracking-widest mb-4">
-                October 6 – November 3, 2026
+                October 9 – October 30, 2026
               </p>
               <p className="text-white/30 text-xs font-black uppercase tracking-[0.2em] mb-6">
                 Build / Load / Apply / Test
               </p>
               <p className="text-white/40 text-lg leading-relaxed mb-2">
-                15 training opportunities. 22.5 hours of development. The next chapter of Fall Academy training, building directly on
+                10 training opportunities. 15 hours of development. The next chapter of Fall Academy training, building directly on
                 everything covered in Phase 1.
               </p>
               <p className="flex items-center gap-1.5 text-white/40 text-sm mb-8">
@@ -140,7 +127,7 @@ export default function Phase2Page() {
         {/* Schedule */}
         <div className="mb-14">
           <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Phase 2 Schedule</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 sm:max-w-md">
             {Object.entries(SCHEDULE).map(([month, sessions]) => (
               <div key={month}>
                 <p className="text-xs font-black text-white/50 uppercase tracking-widest mb-3">{month}</p>
@@ -159,8 +146,25 @@ export default function Phase2Page() {
             ))}
           </div>
           <p className="text-white/25 text-xs mt-4">
-            15 Sessions · 22.5 Hours Total · 90 Minutes Each · All Times Pacific. Please note: October 24 starts at 4:00 PM.
+            10 Sessions · 15 Hours Total · 90 Minutes Each · All Times Pacific. Please note: October 24 starts at 4:00 PM.
           </p>
+        </div>
+
+        {/* Tuesdays */}
+        <div className="bg-[#111] border border-white/5 rounded-2xl p-6 mb-14">
+          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Tuesdays</p>
+          <p className="text-white/50 text-sm leading-relaxed mb-4">
+            There are no Fall Academy sessions on Tuesdays. Private and semi-private LTS PRO sessions are available on
+            Tuesdays by request.
+          </p>
+          <Link
+            href="/pro"
+            onClick={() => trackEvent("button_click", "/phase-2", "phase2_tuesday_pro")}
+            className="inline-flex items-center gap-2 text-white font-black text-xs uppercase tracking-wide hover:text-white/70 transition-colors"
+          >
+            Request an LTS PRO session
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
 
         {/* Pricing */}

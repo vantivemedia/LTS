@@ -10,7 +10,7 @@ const RULES = [
   {
     icon: Ban,
     title: "All Sales Are Final",
-    desc: "Every booking, pass, and camp registration is non-refundable once purchased — no exceptions, regardless of how many sessions remain unused or how far in advance you ask. This applies to drop-ins, 5/10-session passes, Full Access / Full Phase passes, and camp registrations alike.",
+    desc: "Every booking, pass, and camp registration is non-refundable once purchased — no exceptions, regardless of how many sessions remain unused or how far in advance you ask. This applies to drop-ins, 5/10-session passes, Full Phase passes, and camp registrations alike.",
   },
   {
     icon: UserX,

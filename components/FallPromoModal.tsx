@@ -52,7 +52,7 @@ export default function FallPromoModal() {
         </button>
 
         <span className="inline-flex items-center gap-2 text-xs font-black tracking-widest uppercase border border-white/10 text-white/50 rounded-full px-3.5 py-1.5 mb-5">
-          Phase 2 · Oct 6 – Nov 3
+          Phase 2 · Oct 9 – Oct 30
         </span>
 
         <h2
@@ -63,14 +63,14 @@ export default function FallPromoModal() {
         </h2>
 
         <p className="text-white/50 leading-relaxed mb-6">
-          15 training opportunities, 22.5 hours of development — the next chapter of Fall Academy, built
+          10 training opportunities, 15 hours of development — the next chapter of Fall Academy, built
           around busy school, team, and family schedules.
         </p>
 
         <div className="flex items-center gap-3 mb-8 text-sm">
           <span className="font-black text-white">$55/session</span>
           <span className="text-white/20">·</span>
-          <span className="font-black text-white">Full Access for $549.99</span>
+          <span className="font-black text-white">10-Session Pass $449.99</span>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3">

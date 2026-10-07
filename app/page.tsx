@@ -21,7 +21,7 @@ import FallPromoModal from "@/components/FallPromoModal";
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 const HERO = {
-  badge: "FALL ACADEMY PHASE 2 · OCT 6 – NOV 3",
+  badge: "FALL ACADEMY PHASE 2 · OCT 9 – OCT 30",
   heading: ["TRAIN.", "LEARN.", "COMPETE."],
   subtext:
     "Small groups. High intent. Flexibility. The premium basketball experience in Vancouver. Register for a pass, pay later.",
@@ -50,15 +50,15 @@ const PROGRAMS = [
   {
     id: "fall-academy",
     name: "LTS Fall Academy",
-    tagline: "Phase 2 · Oct 6 – Nov 3",
+    tagline: "Phase 2 · Oct 9 – Oct 30",
     badge: "Now Open",
     featured: true,
-    desc: "15 training opportunities and 22.5 hours of development — the next chapter of Fall Academy, built around busy school, team, and family schedules.",
+    desc: "10 training opportunities and 15 hours of development — the next chapter of Fall Academy, built around busy school, team, and family schedules.",
     features: [
       "Skill Development, Shooting & Finishing",
       "Footwork & Decision-Making",
       "Live Play & Competitive Application",
-      "$55/Session or Full Access for $549.99",
+      "$55/Session or 10-Session Pass for $449.99",
     ],
     href: "/phase-2",
     cta: "EXPLORE FALL ACADEMY",

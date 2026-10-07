@@ -169,6 +169,9 @@ export default function ProPage() {
               <p className="text-white/40 text-sm leading-relaxed">
                 LTS PRO has no fixed dates. Send us your availability and Coach Paolo will confirm a time that works for you.
               </p>
+              <p className="text-white/60 text-sm leading-relaxed mt-3">
+                <span className="font-black text-white">Tuesdays:</span> private and semi-private sessions are available on Tuesdays by request.
+              </p>
             </div>
           </div>
 
