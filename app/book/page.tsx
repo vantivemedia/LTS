@@ -152,8 +152,7 @@ function BookPageInner() {
   const requestedProgram = searchParams.get("program");
   const initialProgram: ProgramType =
     requestedProgram === "pro" ? "pro"
-    : requestedProgram === "fall-academy" ? "fall-academy"
-    : requestedProgram === "phase-2" ? "phase-2"
+    : requestedProgram === "fall-academy" || requestedProgram === "phase-2" ? "phase-2"
     : "session";
 
   const [step, setStep] = useState<1 | 2 | 3>(initialProgram === "session" ? 1 : 2);
@@ -287,44 +286,17 @@ function BookPageInner() {
           </div>
 
           <div className="space-y-3">
-            {/* Fall Academy — drop-in */}
-            <button
-              type="button"
-              onClick={() => { setProgramType("fall-academy"); setStep(2); }}
-              className="w-full text-left p-6 rounded-2xl border bg-white text-black border-white transition-all group"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="font-black text-xl uppercase mb-1">Fall Academy</h3>
-                  <p className="text-sm text-black/50">$55/session · Phase 1 · Pass holders deducted automatically</p>
-                </div>
-                <ArrowRight className="w-5 h-5 text-black/40 group-hover:text-black transition-colors" />
-              </div>
-            </button>
-
-            {/* Buy Fall Academy Package */}
-            <Link
-              href="/buy-pass?program=fall-academy"
-              className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
-            >
-              <div>
-                <h3 className="font-black text-xl uppercase text-white mb-1">Buy Fall Academy Package</h3>
-                <p className="text-sm text-white/40">5, 10, or Full Phase 1 access — from $249</p>
-              </div>
-              <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
-            </Link>
-
             {/* Phase 2 — drop-in */}
             <button
               type="button"
               onClick={() => { setProgramType("phase-2"); setStep(2); }}
-              className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
+              className="w-full text-left p-6 rounded-2xl border bg-white text-black border-white transition-all group flex items-center justify-between"
             >
               <div>
-                <h3 className="font-black text-xl uppercase text-white mb-1">Fall Academy — Phase 2</h3>
-                <p className="text-sm text-white/40">$55/session · Pass holders deducted automatically</p>
+                <h3 className="font-black text-xl uppercase mb-1">Fall Academy — Phase 2</h3>
+                <p className="text-sm text-black/50">$55/session · Pass holders deducted automatically (Phase 1 leftovers included)</p>
               </div>
-              <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
+              <ArrowRight className="w-5 h-5 text-black/40 group-hover:text-black transition-colors" />
             </button>
 
             {/* Buy Phase 2 Package */}

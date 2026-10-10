@@ -10,36 +10,6 @@ type Program = "academy" | "pro" | "fall-academy" | "phase-2";
 
 const PASSES = [
   {
-    id: "fall-5",
-    program: "fall-academy" as Program,
-    passType: "pass-5" as PassType,
-    name: "Fall Academy — 5-Session Pass",
-    price: "$249",
-    perSession: "$49.80/session",
-    desc: "Choose any 5 Phase 1 sessions (Sept 11 – Oct 3).",
-    features: ["5 Sessions Included", "Choose Any Phase 1 Dates", "Build → Load → Apply → Test", "Save vs. Drop-In Rate"],
-  },
-  {
-    id: "fall-10",
-    program: "fall-academy" as Program,
-    passType: "pass-10" as PassType,
-    name: "Fall Academy — 10-Session Pass",
-    price: "$449",
-    perSession: "$44.90/session",
-    desc: "Choose any 10 Phase 1 sessions (Sept 11 – Oct 3).",
-    features: ["10 Sessions Included", "Choose Any Phase 1 Dates", "Build → Load → Apply → Test", "Save vs. Drop-In Rate"],
-  },
-  {
-    id: "fall-13",
-    program: "fall-academy" as Program,
-    passType: "pass-13" as PassType,
-    name: "Fall Academy — Full Phase 1 Access",
-    price: "$499",
-    perSession: "$38.38/session",
-    desc: "Access all 13 training opportunities in Phase 1.",
-    features: ["All 13 Sessions Included", "19.5 Hours of Development", "Bridge into New-Facility Programming", "Best Value"],
-  },
-  {
     id: "phase2-5",
     program: "phase-2" as Program,
     passType: "pass-5" as PassType,
@@ -71,7 +41,7 @@ export default function BuyPassPage() {
 
 function BuyPassPageInner() {
   const searchParams = useSearchParams();
-  const [selected, setSelected] = useState<string>("fall-13");
+  const [selected, setSelected] = useState<string>("phase2-10");
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState("");
   const [parentName, setParentName] = useState("");
@@ -85,8 +55,7 @@ function BuyPassPageInner() {
 
   useEffect(() => {
     const requested = searchParams.get("program");
-    if (requested === "fall-academy") setSelected("fall-13");
-    else if (requested === "phase-2") setSelected("phase2-10");
+    if (requested === "fall-academy" || requested === "phase-2") setSelected("phase2-10");
   }, [searchParams]);
 
   const pass = PASSES.find((p) => p.id === selected)!;

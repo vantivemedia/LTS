@@ -25,34 +25,6 @@ const SCHEDULE = {
   ],
 };
 
-const PRICING = [
-  {
-    name: "Drop-In",
-    price: "$55",
-    desc: "Attend any available individual session.",
-    href: "/book?program=fall-academy",
-  },
-  {
-    name: "5-Session Academy Pass",
-    price: "$249",
-    desc: "Choose any 5 Phase 1 sessions.",
-    href: "/buy-pass?program=fall-academy",
-  },
-  {
-    name: "10-Session Academy Pass",
-    price: "$449",
-    desc: "Choose any 10 Phase 1 sessions.",
-    href: "/buy-pass?program=fall-academy",
-  },
-  {
-    name: "Full Phase 1 Access",
-    price: "$499",
-    desc: "Access all 13 training opportunities. Attend as many sessions as your schedule allows.",
-    href: "/buy-pass?program=fall-academy",
-    featured: true,
-  },
-];
-
 const PHASES = [
   { letter: "B", word: "Build" },
   { letter: "L", word: "Load" },
@@ -74,6 +46,16 @@ export default function FallProgrammingPage() {
         <div className="mb-14">
           <Link href="/" className="inline-flex items-center gap-2 text-white/30 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
             <ArrowLeft className="w-3 h-3" /> Back
+          </Link>
+
+          <Link
+            href="/phase-2"
+            className="flex items-center justify-between gap-4 bg-white text-black rounded-2xl px-5 py-4 mb-10 hover:bg-white/90 transition-all"
+          >
+            <span className="text-sm font-bold">
+              Phase 1 has ended. Fall Academy Phase 2 runs October 9 – 30. Unused Phase 1 sessions carry over.
+            </span>
+            <ArrowRight className="w-4 h-4 shrink-0" />
           </Link>
 
           <div className="lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:items-center">
@@ -104,19 +86,12 @@ export default function FallProgrammingPage() {
 
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
-                  href="/book?program=fall-academy"
-                  onClick={() => trackEvent("button_click", "/fall-programming", "fall_book_session")}
+                  href="/phase-2"
+                  onClick={() => trackEvent("button_click", "/fall-programming", "fall_view_phase2")}
                   className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
                 >
-                  Book a Session
+                  View Phase 2
                   <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  href="/buy-pass?program=fall-academy"
-                  onClick={() => trackEvent("button_click", "/fall-programming", "fall_buy_pass")}
-                  className="inline-flex items-center justify-center gap-2 bg-[#111] border border-white/10 text-white font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:border-white/30 transition-all active:scale-95"
-                >
-                  Buy a Package
                 </Link>
               </div>
             </div>
@@ -158,32 +133,6 @@ export default function FallProgrammingPage() {
           </div>
         </div>
 
-        {/* Pricing */}
-        <div className="mb-14">
-          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Pricing</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {PRICING.map((p) => (
-              <Link
-                key={p.name}
-                href={p.href}
-                onClick={() => trackEvent("button_click", "/fall-programming", `fall_pricing_${p.name.toLowerCase().replace(/[^a-z0-9]+/g, "_")}`)}
-                className={`rounded-2xl p-6 relative transition-all active:scale-95 ${p.featured ? "bg-white text-black hover:bg-white/90" : "bg-[#111] border border-white/5 hover:border-white/20"}`}
-              >
-                {p.featured && (
-                  <span className="absolute -top-3 right-4 bg-black text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
-                    🔥 Best Value
-                  </span>
-                )}
-                <p className={`text-xs uppercase tracking-widest font-bold mb-2 ${p.featured ? "text-black/50" : "text-white/30"}`}>
-                  {p.name}
-                </p>
-                <p className="text-3xl font-black mb-2">{p.price}</p>
-                <p className={`text-xs leading-relaxed ${p.featured ? "text-black/60" : "text-white/40"}`}>{p.desc}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-
         {/* The Training */}
         <div className="mb-14">
           <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">The Training</p>
@@ -207,23 +156,22 @@ export default function FallProgrammingPage() {
 
         <div className="bg-[#111] border border-white/5 rounded-2xl p-6 mb-14">
           <p className="text-white/40 text-sm leading-relaxed">
-            Phase 1 is also the bridge into Fall Academy Phase 2, launching October 6.
-            Spots will be limited.
+            Phase 1 is the bridge into Fall Academy Phase 2 (October 9 – 30). Unused Phase 1 sessions carry over to Phase 2.
           </p>
         </div>
 
         {/* CTA */}
         <div className="text-center">
           <p className="text-white/30 text-sm mb-5">
-            Spots are limited — book a session or grab a package to lock in your dates.
+            Phase 1 has ended — join us for Fall Academy Phase 2.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
-              href="/book?program=fall-academy"
-              onClick={() => trackEvent("button_click", "/fall-programming", "fall_book_session")}
+              href="/phase-2"
+              onClick={() => trackEvent("button_click", "/fall-programming", "fall_view_phase2")}
               className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-8 py-4 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
             >
-              Book a Session
+              View Phase 2
               <ArrowRight className="w-4 h-4" />
             </Link>
             <a
