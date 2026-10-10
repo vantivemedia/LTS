@@ -288,7 +288,7 @@ function RevenueTab() {
     const catIndex: Record<string, number> = { "fall-academy": 0, "phase-2": 1, "pro": 2, "academy": 3 };
 
     for (const b of bookings) {
-      if (b.message === "PASS USAGE" || b.status === "cancelled") continue;
+      if ((b.message || "").startsWith("PASS USAGE") || b.status === "cancelled") continue;
       if ((b.email || "").toLowerCase().includes(DEV_EMAIL)) continue;
       const price = BOOKING_PRICES[b.program];
       if (price == null || !b.created_at) continue;

@@ -25,6 +25,7 @@ const INPUT_CLASS =
 const LABEL_CLASS = "text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block";
 
 export default function ProPage() {
+  const [hasPass, setHasPass] = useState(false);
   const [athleteName, setAthleteName] = useState("");
   const [school, setSchool] = useState("");
   const [grade, setGrade] = useState("");
@@ -46,10 +47,17 @@ export default function ProPage() {
       const res = await fetch("/api/pro-inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ athleteName, school, grade, parentName, email, phone, sessionLength, availability, details }),
+        body: JSON.stringify({ hasPass, athleteName, school, grade, parentName, email, phone, sessionLength, availability, details }),
       });
       if (!res.ok) {
         const d = await res.json();
+        if (d.code === "NO_PASS_FOUND") {
+          // No active PRO pass for that email — drop them into the full request form (email stays filled in).
+          setHasPass(false);
+          setError(d.error);
+          setLoading(false);
+          return;
+        }
         throw new Error(d.error || "Request failed");
       }
       trackEvent("button_click", "/pro", "pro_request_submitted");
@@ -226,12 +234,48 @@ export default function ProPage() {
           <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">By Request</p>
           <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">Request a Session</h2>
           <p className="text-white/40 text-sm max-w-md mx-auto">
-            Tell us what works for you and Coach Paolo will confirm a time. Nothing is charged until your session is confirmed.
+            Already have a PRO pass? Choose &ldquo;I Have a PRO Pass&rdquo; and just enter your email. Tell us what works for you and Coach Paolo will confirm a time.
           </p>
         </div>
 
         <div className="bg-[#111] p-6 sm:p-10 rounded-3xl border border-white/5">
           <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { value: true, title: "I Have a PRO Pass", sub: "Just need your email" },
+                { value: false, title: "New Request", sub: "$85 / 60 min · $105 / 90 min" },
+              ].map((o) => (
+                <button
+                  key={o.title}
+                  type="button"
+                  onClick={() => { setHasPass(o.value); setError(""); }}
+                  className={`rounded-2xl px-5 py-4 text-left border transition-all ${
+                    hasPass === o.value ? "bg-white text-black border-white" : "bg-[#0a0a0a] text-white border-white/5 hover:border-white/20"
+                  }`}
+                >
+                  <span className="block font-black uppercase text-sm">{o.title}</span>
+                  <span className={`block text-xs font-bold ${hasPass === o.value ? "text-black/50" : "text-white/40"}`}>{o.sub}</span>
+                </button>
+              ))}
+            </div>
+
+            {hasPass ? (
+              <div>
+                <label className={LABEL_CLASS}>Email Address</label>
+                <input
+                  required
+                  type="email"
+                  placeholder="PARENT@EXAMPLE.COM"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={INPUT_CLASS}
+                />
+                <p className="text-[10px] text-white/25 mt-2 leading-relaxed">
+                  Use the email you bought your pass with. Your session is taken from your pass once Coach Paolo confirms a time.
+                </p>
+              </div>
+            ) : (
+              <>
             <div>
               <label className={LABEL_CLASS}>Athlete Name</label>
               <input
@@ -306,6 +350,9 @@ export default function ProPage() {
               </div>
             </div>
 
+              </>
+            )}
+
             <div>
               <label className={LABEL_CLASS}>Session Length</label>
               <div className="grid grid-cols-2 gap-3">
@@ -360,7 +407,7 @@ export default function ProPage() {
 
             <button
               type="submit"
-              disabled={!athleteName || !parentName || !email || !phone || !school || !grade || !availability || loading}
+              disabled={(hasPass ? !email : !athleteName || !parentName || !email || !phone || !school || !grade) || !availability || loading}
               className="w-full bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30 mt-2"
             >
               {loading ? "SENDING..." : "REQUEST A SESSION"}
@@ -368,7 +415,9 @@ export default function ProPage() {
             </button>
 
             <p className="text-center text-xs text-white/20 pt-1">
-              We&rsquo;ll email you to confirm a time. Payment is by e-transfer once your session is confirmed.
+              {hasPass
+                ? "We’ll email you to confirm a time. Your session comes off your pass once it’s confirmed."
+                : "We’ll email you to confirm a time. Payment is by e-transfer once your session is confirmed."}
             </p>
             <p className="text-center text-xs text-white/20">
               No-shows without 24 hours&rsquo; notice are still charged a session. See our{" "}

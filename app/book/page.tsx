@@ -346,7 +346,7 @@ function BookPageInner() {
             >
               <div>
                 <h3 className="font-black text-xl uppercase text-white mb-1">LTS PRO — Request a Session</h3>
-                <p className="text-sm text-white/40">Private training by request · 60 min $85 · 90 min $105</p>
+                <p className="text-sm text-white/40">Private training by request · PRO pass holders request here too</p>
               </div>
               <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
             </Link>
