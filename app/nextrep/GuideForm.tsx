@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, Check, Download, FileText, Lock, Mail } from "lucide-react";
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, getSessionId, getAttribution } from "@/lib/analytics";
 
 const INPUT_CLASS =
   "w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors";
@@ -39,12 +39,11 @@ export default function GuideForm() {
       const res = await fetch("/api/guidebook/unlock", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ parentName, athleteName, email, website }),
+        body: JSON.stringify({ parentName, athleteName, email, website, sessionId: getSessionId(), attribution: getAttribution() }),
       });
       const d = await res.json();
       if (!res.ok) throw new Error(d.error || "Something went wrong");
       if (!d.token) throw new Error("Something went wrong. Please try again.");
-      trackEvent("button_click", "/nextrep", "guidebook_unlocked");
       setSentTo(d.email || email);
       setToken(d.token);
     } catch (err: any) {
@@ -61,7 +60,7 @@ export default function GuideForm() {
       const res = await fetch("/api/guidebook/email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
+        body: JSON.stringify({ token, sessionId: getSessionId(), attribution: getAttribution() }),
       });
       const d = await res.json();
       if (!res.ok) throw new Error(d.error || "Could not send the email");

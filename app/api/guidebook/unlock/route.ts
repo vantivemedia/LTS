@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { createToken, escapeHtml, guidebookExists, isValidEmail } from "@/lib/guidebook";
+import { createToken, escapeHtml, guidebookExists, isValidEmail, sanitizeAttribution } from "@/lib/guidebook";
 
 export async function POST(request: Request) {
   try {
@@ -43,8 +43,9 @@ export async function POST(request: Request) {
           event_type: "form_submit",
           page: "/nextrep",
           label: "guidebook_unlock",
-          session_id: "server",
-          metadata: {},
+          // use the visitor's browser session so the campaign funnel can join page view -> unlock
+          session_id: typeof body.sessionId === "string" && body.sessionId ? body.sessionId.slice(0, 64) : "server",
+          metadata: sanitizeAttribution(body.attribution),
         });
       }
     }

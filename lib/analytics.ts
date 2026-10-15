@@ -4,7 +4,7 @@
 // Form submissions are logged server-side in the relevant API routes.
 // ============================================================
 
-function getSessionId(): string {
+export function getSessionId(): string {
   if (typeof window === "undefined") return "server";
   const key = "lts_session_id";
   let id = sessionStorage.getItem(key);
@@ -34,6 +34,34 @@ function getDeviceInfo(): { device: string; browser: string } {
   return { device, browser };
 }
 
+// Traffic source for the session, captured on the first event (the landing page) so later
+// events and server-side form submissions can be attributed to the campaign / link that
+// brought the visitor in: ?utm_source / utm_medium / utm_campaign, else the referring site.
+export type Attribution = { utm_source?: string; utm_medium?: string; utm_campaign?: string; referrer?: string };
+
+export function getAttribution(): Attribution {
+  if (typeof window === "undefined") return {};
+  const key = "lts_attribution";
+  try {
+    const saved = sessionStorage.getItem(key);
+    if (saved) return JSON.parse(saved);
+  } catch {}
+
+  const params = new URLSearchParams(window.location.search);
+  const attribution: Attribution = {};
+  for (const k of ["utm_source", "utm_medium", "utm_campaign"] as const) {
+    const v = params.get(k);
+    if (v) attribution[k] = v.slice(0, 80).toLowerCase();
+  }
+  try {
+    const stripWww = (host: string) => host.replace(/^www\./, "");
+    const ref = document.referrer ? stripWww(new URL(document.referrer).hostname) : "";
+    if (ref && ref !== stripWww(window.location.hostname)) attribution.referrer = ref;
+  } catch {}
+  try { sessionStorage.setItem(key, JSON.stringify(attribution)); } catch {}
+  return attribution;
+}
+
 export function trackEvent(
   eventType: "page_view" | "button_click",
   page: string,
@@ -49,7 +77,7 @@ export function trackEvent(
       page,
       label: label || null,
       session_id: getSessionId(),
-      metadata: { ...metadata, ...getDeviceInfo() },
+      metadata: { ...metadata, ...getDeviceInfo(), ...getAttribution() },
     }),
     keepalive: true,
   }).catch(() => {});

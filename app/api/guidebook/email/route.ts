@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { GUIDEBOOK_FILENAME, guidebookExists, readGuidebook, verifyToken } from "@/lib/guidebook";
+import { GUIDEBOOK_FILENAME, guidebookExists, readGuidebook, sanitizeAttribution, verifyToken } from "@/lib/guidebook";
 
 export async function POST(request: Request) {
   try {
-    const { token } = await request.json();
+    const { token, sessionId, attribution } = await request.json();
     const lead = verifyToken(token);
     if (!lead) {
       return NextResponse.json({ error: "This link has expired. Please unlock the guide again." }, { status: 401 });
@@ -48,8 +48,8 @@ export async function POST(request: Request) {
         event_type: "button_click",
         page: "/nextrep",
         label: "guidebook_emailed",
-        session_id: "server",
-        metadata: {},
+        session_id: typeof sessionId === "string" && sessionId ? sessionId.slice(0, 64) : "server",
+        metadata: sanitizeAttribution(attribution),
       });
     }
 

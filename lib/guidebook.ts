@@ -55,6 +55,18 @@ export function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+// Attribution comes from the browser, so only keep known string fields, length-capped.
+export function sanitizeAttribution(input: unknown): Record<string, string> {
+  const out: Record<string, string> = {};
+  if (input && typeof input === "object") {
+    for (const k of ["utm_source", "utm_medium", "utm_campaign", "referrer"]) {
+      const v = (input as Record<string, unknown>)[k];
+      if (typeof v === "string" && v) out[k] = v.slice(0, 80);
+    }
+  }
+  return out;
+}
+
 export function escapeHtml(s: string) {
   return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 }

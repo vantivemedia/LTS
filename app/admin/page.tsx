@@ -1589,6 +1589,50 @@ function AnalyticsTab() {
     };
   }, [events, timeRange]);
 
+  // The Next Rep guide campaign (/nextrep): visitors -> unlocks -> downloads / emails, by traffic source.
+  // Sessions are joined on the browser session id; the old "server" session (pre-tracking tests) is ignored.
+  const campaign = useMemo(() => {
+    let list = events.filter((e) => e.session_id !== "server");
+    if (timeRange !== "all") {
+      const cutoff = Date.now() - (timeRange === "24h" ? 24 : 7 * 24) * 60 * 60 * 1000;
+      list = list.filter((e) => new Date(e.created_at).getTime() >= cutoff);
+    }
+    const sourceOf = (m: any) => {
+      if (m?.utm_source) return m.utm_campaign ? `${m.utm_source} / ${m.utm_campaign}` : m.utm_source;
+      return m?.referrer || "Direct";
+    };
+    const visitors = new Map<string, string>(); // session -> source (from its first /nextrep page view)
+    list
+      .filter((e) => e.event_type === "page_view" && e.page === "/nextrep")
+      .sort((a, b) => a.created_at.localeCompare(b.created_at))
+      .forEach((e) => { if (!visitors.has(e.session_id)) visitors.set(e.session_id, sourceOf(e.metadata)); });
+
+    const sessionsFor = (type: string, label: string) =>
+      new Set(list.filter((e) => e.event_type === type && e.label === label).map((e) => e.session_id));
+    const unlocks = sessionsFor("form_submit", "guidebook_unlock");
+    const downloads = sessionsFor("button_click", "guidebook_download");
+    const emails = sessionsFor("button_click", "guidebook_emailed");
+    const toPhase2 = sessionsFor("button_click", "guidebook_to_phase2");
+
+    const bySource = new Map<string, { visitors: number; leads: number }>();
+    visitors.forEach((src, sid) => {
+      const row = bySource.get(src) || { visitors: 0, leads: 0 };
+      row.visitors += 1;
+      if (unlocks.has(sid)) row.leads += 1;
+      bySource.set(src, row);
+    });
+    return {
+      visitors: visitors.size,
+      unlocks: unlocks.size,
+      downloads: downloads.size,
+      emails: emails.size,
+      toPhase2: toPhase2.size,
+      sources: Array.from(bySource.entries())
+        .map(([source, v]) => ({ source, ...v }))
+        .sort((a, b) => b.visitors - a.visitors),
+    };
+  }, [events, timeRange]);
+
   if (loading) {
     return (
       <div className="py-20 flex justify-center">
@@ -1647,6 +1691,56 @@ function AnalyticsTab() {
           <BreakdownColumn title="Clicks by Button" rows={filteredBreakdown.clicksByLabel} total={filteredBreakdown.totalClicks} />
           <BreakdownColumn title="Submissions by Form" rows={filteredBreakdown.submitsByPage} total={filteredBreakdown.totalSubmits} />
         </div>
+      </div>
+
+      {/* Next Rep guide campaign */}
+      <div className="bg-[#111] border border-white/7 rounded-2xl p-6 mb-8">
+        <div className="flex items-start justify-between gap-4 flex-wrap mb-6">
+          <div>
+            <h3 className="text-sm font-black uppercase tracking-widest text-white/50">The Next Rep Guide Campaign</h3>
+            <p className="text-white/30 text-xs mt-1">
+              Unique visitors to /nextrep and what they did, for the time range selected above. Tag links with
+              {" "}<span className="text-white/50">?utm_source=instagram&amp;utm_campaign=nextrep</span> to see where leads come from.
+            </p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-6">
+          {[
+            { label: "Visitors", value: campaign.visitors, pct: null as number | null },
+            { label: "Unlocked (Leads)", value: campaign.unlocks, pct: campaign.visitors ? (campaign.unlocks / campaign.visitors) * 100 : null },
+            { label: "Downloaded", value: campaign.downloads, pct: campaign.unlocks ? (campaign.downloads / campaign.unlocks) * 100 : null },
+            { label: "Emailed", value: campaign.emails, pct: campaign.unlocks ? (campaign.emails / campaign.unlocks) * 100 : null },
+            { label: "Clicked Phase 2", value: campaign.toPhase2, pct: campaign.unlocks ? (campaign.toPhase2 / campaign.unlocks) * 100 : null },
+          ].map((step) => (
+            <div key={step.label} className="text-center">
+              <p className="text-3xl font-black">{step.value}</p>
+              <p className="text-[10px] text-white/40 uppercase tracking-widest mt-1">{step.label}</p>
+              {step.pct !== null && (
+                <p className="text-[10px] text-[#F97316] mt-1">
+                  {Math.round(step.pct)}% of {step.label === "Unlocked (Leads)" ? "visitors" : "leads"}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+        <h4 className="text-xs font-black uppercase tracking-widest text-white/40 mb-3">Leads by Traffic Source</h4>
+        {campaign.sources.length === 0 ? (
+          <p className="text-white/20 text-sm">No visits tracked yet</p>
+        ) : (
+          <div className="space-y-2">
+            <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-6 text-[10px] font-black uppercase tracking-widest text-white/30">
+              <span>Source</span><span className="text-right">Visitors</span><span className="text-right">Leads</span><span className="text-right">Conv.</span>
+            </div>
+            {campaign.sources.slice(0, 12).map((r) => (
+              <div key={r.source} className="grid grid-cols-[1fr_auto_auto_auto] gap-x-6 text-sm items-center">
+                <span className="text-white/60 truncate">{r.source}</span>
+                <span className="text-white font-bold text-right">{r.visitors}</span>
+                <span className="text-white font-bold text-right">{r.leads}</span>
+                <span className="text-[#F97316] font-bold text-right w-12">{r.visitors ? Math.round((r.leads / r.visitors) * 100) : 0}%</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Academy vs. PRO Breakdown */}

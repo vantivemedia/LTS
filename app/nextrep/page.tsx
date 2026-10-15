@@ -4,9 +4,30 @@ import { ArrowLeft } from "lucide-react";
 import { guidebookExists } from "@/lib/guidebook";
 import GuideForm from "./GuideForm";
 
+const TITLE = "The Next Rep: Free Player Guide";
+const DESCRIPTION =
+  "One bad play does not define you. What you do next does. Get the free Next Rep playbook for basketball players from LTS Elite Prep.";
+
 export const metadata: Metadata = {
-  title: "The Next Rep Player Guide | LTS Elite Prep",
-  description: "A free playbook for basketball players: how to reset after a mistake and respond with your next play. Download the PDF or have it sent to your inbox.",
+  metadataBase: new URL("https://www.ltseliteprep.ca"),
+  title: `${TITLE} | LTS Elite Prep`,
+  description: DESCRIPTION,
+  alternates: { canonical: "/nextrep" },
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: "/nextrep",
+    siteName: "LTS Elite Prep",
+    type: "website",
+    locale: "en_CA",
+    images: [{ url: "/images/nextrep-og.jpg", width: 1200, height: 630, alt: "The Next Rep: free player guide from LTS Elite Prep" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/images/nextrep-og.jpg"],
+  },
 };
 
 export default function GuidePage() {
