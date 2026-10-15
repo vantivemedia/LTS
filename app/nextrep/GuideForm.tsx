@@ -94,6 +94,18 @@ export default function GuideForm() {
               One bad play does not define you. What you do next does. A free 6 page playbook for basketball players from LTS Elite Prep. Enter your info to unlock it.
             </p>
 
+            {/* photo for phones/tablets (desktop shows the taller version below) */}
+            <div className="relative rounded-3xl overflow-hidden aspect-[4/3] border border-white/5 mb-8 lg:hidden">
+              <Image
+                src="/images/nextrep-hero-v2.jpg"
+                alt="Coach Paolo working with LTS Elite Prep athletes at The Hoop"
+                fill
+                priority
+                className="object-cover object-[center_62%]"
+                sizes="(max-width: 1024px) 100vw, 45vw"
+              />
+            </div>
+
             <ul className="space-y-3 mb-8">
               {PERKS.map((p) => (
                 <li key={p} className="flex items-start gap-3 text-sm text-white/60">
@@ -107,10 +119,10 @@ export default function GuideForm() {
 
             <div className="relative rounded-3xl overflow-hidden aspect-[4/5] max-w-md border border-white/5 hidden lg:block">
               <Image
-                src="/images/nextrep-hero.jpg"
-                alt="LTS Elite Prep athlete in a ball handling stance at The Hoop"
+                src="/images/nextrep-hero-v2.jpg"
+                alt="Coach Paolo working with LTS Elite Prep athletes at The Hoop"
                 fill
-                className="object-cover object-[center_55%]"
+                className="object-cover object-[center_60%]"
                 sizes="(max-width: 1024px) 100vw, 45vw"
               />
             </div>
