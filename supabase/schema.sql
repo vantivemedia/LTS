@@ -298,3 +298,20 @@ create policy "Public can read analytics events"
 create index if not exists analytics_events_created_at_idx on analytics_events (created_at desc);
 create index if not exists analytics_events_type_idx       on analytics_events (event_type);
 create index if not exists analytics_events_page_idx       on analytics_events (page);
+
+-- ── Leads table (lead magnet / guidebook) ─────────────────────
+-- Written by /api/guidebook/unlock with the service-role key. RLS is on with no public
+-- policies, so leads are NOT readable or writable from the browser.
+create table if not exists leads (
+  id            uuid        default gen_random_uuid() primary key,
+  created_at    timestamptz default now() not null,
+
+  parent_name   text        not null,
+  athlete_name  text        not null,
+  email         text        not null,
+  source        text        not null default 'guidebook'
+);
+
+alter table leads enable row level security;
+
+create index if not exists leads_created_at_idx on leads (created_at desc);
