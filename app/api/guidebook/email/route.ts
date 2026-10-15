@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { GUIDEBOOK_FILENAME, escapeHtml, guidebookExists, readGuidebook, verifyToken } from "@/lib/guidebook";
+import { GUIDEBOOK_FILENAME, guidebookExists, readGuidebook, verifyToken } from "@/lib/guidebook";
 
 export async function POST(request: Request) {
   try {
@@ -24,10 +24,15 @@ export async function POST(request: Request) {
       subject: "Your copy of The Next Rep Player Guide",
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
-          <p>Hi ${escapeHtml(lead.parentName || "there")},</p>
-          <p>Thanks for your interest in LTS Elite Prep! Your free copy of <strong>The Next Rep Player Guide</strong> is attached to this email as a PDF.</p>
-          <p>If you have any questions or want to see how we train, reply to this email or visit <a href="https://www.ltseliteprep.ca">ltseliteprep.ca</a>.</p>
-          <p style="margin-top:40px;">Best regards,<br><strong>Paolo</strong><br>LTS ELITE PREP Team</p>
+          <p>Thank you for your interest in LTS Elite Prep!</p>
+          <p>Every great athlete starts with a commitment to getting better, and we&rsquo;re excited to help your athlete take that next step.</p>
+          <p>Your complimentary copy of <strong>The Next Rep Player Guide</strong> is attached to this email.</p>
+          <p>Inside, you&rsquo;ll discover practical insights to help your athlete approach training with greater purpose, confidence, and intention.</p>
+          <p><strong>What&rsquo;s next?</strong></p>
+          <p>If you&rsquo;re interested in seeing how we put these principles into practice, we&rsquo;d love to introduce you to our training programs.</p>
+          <p>Simply reply to this email or visit <a href="https://www.ltseliteprep.ca">ltseliteprep.ca</a> to learn more.</p>
+          <p>See you on the court!</p>
+          <p style="margin-top:32px;">LTS Elite Prep Team</p>
         </div>
       `,
       attachments: [{ filename: GUIDEBOOK_FILENAME, content: readGuidebook() }],
