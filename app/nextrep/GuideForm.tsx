@@ -106,18 +106,14 @@ export default function GuideForm() {
               ))}
             </ul>
 
-            <div className="relative rounded-3xl overflow-hidden aspect-[16/10] border border-white/5 hidden lg:block">
+            <div className="relative rounded-3xl overflow-hidden aspect-[4/5] max-w-md border border-white/5 hidden lg:block">
               <Image
-                src="/images/phase-2-training.jpg"
-                alt="LTS Elite Prep athletes at The Hoop"
+                src="/images/nextrep-hero.jpg"
+                alt="LTS Elite Prep athlete in a ball handling stance at The Hoop"
                 fill
-                className="object-cover object-[center_35%]"
+                className="object-cover object-[center_55%]"
                 sizes="(max-width: 1024px) 100vw, 45vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              <p className="absolute bottom-4 left-5 text-white/70 text-xs font-bold">
-                Paolo Labrador &middot; Douglas College Royals Asst. Coach &middot; Magee Secondary Head Coach
-              </p>
             </div>
           </div>
 
