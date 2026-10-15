@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Please enter a valid email address" }, { status: 400 });
     }
     if (!guidebookExists()) {
-      return NextResponse.json({ error: "The guidebook is not available yet. Please check back soon." }, { status: 503 });
+      return NextResponse.json({ error: "The guide is not available yet. Please check back soon." }, { status: 503 });
     }
 
     let saved = false;
@@ -59,9 +59,9 @@ export async function POST(request: Request) {
         await resend.emails.send({
           from: "LTS System <info@ltseliteprep.ca>",
           to: "paolo@ltseliteprep.ca",
-          subject: `New guidebook lead: ${athleteName}`,
+          subject: `New Next Rep guide lead: ${athleteName}`,
           html: `
-            <h2 style="font-family:sans-serif;">New Guidebook Lead</h2>
+            <h2 style="font-family:sans-serif;">New Player Guide Lead (The Next Rep)</h2>
             <p style="font-family:sans-serif;"><strong>Parent:</strong> ${escapeHtml(parentName)}</p>
             <p style="font-family:sans-serif;"><strong>Athlete:</strong> ${escapeHtml(athleteName)}</p>
             <p style="font-family:sans-serif;"><strong>Email:</strong> ${escapeHtml(email)}</p>

@@ -21,11 +21,11 @@ export async function POST(request: Request) {
     const { error } = await resend.emails.send({
       from: "LTS ELITE PREP <info@ltseliteprep.ca>",
       to: lead.email,
-      subject: "Your LTS Elite Prep Guidebook",
+      subject: "Your copy of The Next Rep Player Guide",
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
           <p>Hi ${escapeHtml(lead.parentName || "there")},</p>
-          <p>Thanks for your interest in LTS Elite Prep! Your free guidebook is attached to this email as a PDF.</p>
+          <p>Thanks for your interest in LTS Elite Prep! Your free copy of <strong>The Next Rep Player Guide</strong> is attached to this email as a PDF.</p>
           <p>If you have any questions or want to see how we train, reply to this email or visit <a href="https://www.ltseliteprep.ca">ltseliteprep.ca</a>.</p>
           <p style="margin-top:40px;">Best regards,<br><strong>Paolo</strong><br>LTS ELITE PREP Team</p>
         </div>

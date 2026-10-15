@@ -11,9 +11,10 @@ const INPUT_CLASS =
 const LABEL_CLASS = "text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block";
 
 const PERKS = [
-  "Free PDF guidebook from Coach Paolo",
-  "Download it instantly, or have it sent to your inbox",
-  "From the coaches behind LTS Elite Prep",
+  "A simple 3 step system: Recognize, Reset, Respond",
+  "Real game examples: missed shots, turnovers, and bigger defenders",
+  "How to read the game so it feels slower",
+  "A page to fill in and save for your next game",
 ];
 
 export default function GuideForm() {
@@ -81,17 +82,17 @@ export default function GuideForm() {
         <div className="lg:grid lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:items-center">
           {/* ── Left: pitch ── */}
           <div>
-            <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-3">Free Guidebook</p>
+            <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-3">Free Player Guide</p>
             <h1
               className="text-5xl sm:text-6xl mb-5 uppercase tracking-tighter leading-none"
               style={{ fontFamily: '"Vanguard CF Heavy Oblique", sans-serif' }}
             >
-              The LTS
+              The Next
               <br />
-              <span className="text-white/20">Guidebook</span>
+              <span className="text-white/20">Rep</span>
             </h1>
             <p className="text-white/40 text-lg leading-relaxed mb-8 max-w-md">
-              A free PDF guidebook from Coach Paolo and the LTS Elite Prep team. Enter your info to unlock it.
+              One bad play does not define you. What you do next does. A free 6 page playbook for basketball players from LTS Elite Prep. Enter your info to unlock it.
             </p>
 
             <ul className="space-y-3 mb-8">

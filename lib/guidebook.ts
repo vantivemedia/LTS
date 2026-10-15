@@ -6,7 +6,7 @@ import path from "path";
 // unlock flow — a direct URL to the file doesn't exist. Drop the PDF here to switch the
 // /guide page from "coming soon" to live.
 export const GUIDEBOOK_PATH = path.join(process.cwd(), "private", "lts-guidebook.pdf");
-export const GUIDEBOOK_FILENAME = "LTS-Elite-Prep-Guidebook.pdf";
+export const GUIDEBOOK_FILENAME = "The-Next-Rep-Player-Guide-2026.pdf";
 
 export function guidebookExists() {
   return existsSync(GUIDEBOOK_PATH);
