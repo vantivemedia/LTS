@@ -89,7 +89,7 @@ export default function GuideForm() {
             >
               The Next
               <br />
-              <span className="text-white/20">Rep</span>
+              <span className="text-white">Rep</span>
             </h1>
             <p className="text-white/40 text-lg leading-relaxed mb-8 max-w-md">
               One bad play does not define you. What you do next does. A free 6 page playbook for basketball players from LTS Elite Prep. Enter your info to unlock it.
