@@ -20,13 +20,13 @@ export const metadata: Metadata = {
     siteName: "LTS Elite Prep",
     type: "website",
     locale: "en_CA",
-    images: [{ url: "/images/nextrep-og-v3.jpg", width: 1200, height: 630, alt: "The Next Rep: free guide book from LTS Elite Prep, coach Paolo working with players at The Hoop" }],
+    images: [{ url: "/images/nextrep-og-v4.jpg", width: 1200, height: 630, alt: "The Next Rep: a 100% free guide book from LTS Elite Prep" }],
   },
   twitter: {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    images: ["/images/nextrep-og-v3.jpg"],
+    images: ["/images/nextrep-og-v4.jpg"],
   },
 };
 

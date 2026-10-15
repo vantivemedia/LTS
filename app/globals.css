@@ -95,6 +95,28 @@ p, li, span, label, a {
   100% { box-shadow: 0 0 0 0 rgba(7,60,141,0);    }
 }
 
+/* /nextrep landing page */
+@keyframes form-glow {
+  0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.32), 0 0 28px rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); }
+  70%  { box-shadow: 0 0 0 16px rgba(255,255,255,0), 0 0 44px rgba(255,255,255,0);    border-color: rgba(255,255,255,0.12); }
+  100% { box-shadow: 0 0 0 0 rgba(255,255,255,0),    0 0 28px rgba(255,255,255,0);    border-color: rgba(255,255,255,0.12); }
+}
+@keyframes btn-pulse {
+  0%, 100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(255,255,255,0.55); }
+  50%      { transform: scale(1.025); box-shadow: 0 0 0 12px rgba(255,255,255,0); }
+}
+@keyframes fadeInSlow {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.animate-form-glow    { animation: form-glow 2.2s ease-out infinite; }
+.animate-btn-pulse    { animation: btn-pulse 1.6s ease-in-out infinite; }
+.animate-fade-in-slow { animation: fadeInSlow 1.8s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-form-glow, .animate-btn-pulse { animation: none; }
+  .animate-fade-in-slow { animation: none; opacity: 1; }
+}
+
 .animate-fade-up  { animation: fadeUp  0.7s ease-out forwards; }
 .animate-fade-in  { animation: fadeIn  0.5s ease-out forwards; }
 .animate-marquee  { animation: marquee 35s linear infinite;     }

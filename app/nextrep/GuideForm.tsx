@@ -22,6 +22,7 @@ export default function GuideForm() {
   const [athleteName, setAthleteName] = useState("");
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState(""); // honeypot
+  const [engaged, setEngaged] = useState(false); // stops the attention pulse once they start filling in the form
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -72,8 +73,21 @@ export default function GuideForm() {
   }
 
   return (
-    <div className="min-h-screen bg-black pt-32 pb-24 px-5">
-      <div className="max-w-5xl mx-auto">
+    <div className="relative overflow-hidden min-h-screen bg-black pt-32 pb-24 px-5">
+      {/* phones/tablets: the photo fades in behind the header and melts into the black page below */}
+      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-[640px] lg:hidden pointer-events-none animate-fade-in-slow">
+        <Image
+          src="/images/nextrep-hero-v3.jpg"
+          alt=""
+          fill
+          priority
+          className="object-cover object-[center_72%]"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/50 to-black" />
+      </div>
+
+      <div className="relative max-w-5xl mx-auto">
         <Link href="/" className="inline-flex items-center gap-2 text-white/30 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
           <ArrowLeft className="w-3 h-3" /> Back
         </Link>
@@ -81,7 +95,12 @@ export default function GuideForm() {
         <div className="lg:grid lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:items-center">
           {/* ── Left: pitch ── */}
           <div>
-            <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-3">Free Player Guide</p>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="inline-flex items-center bg-white text-black font-black text-xs uppercase tracking-widest px-3.5 py-1.5 rounded-full">
+                100% Free
+              </span>
+              <span className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em]">Guide Book</span>
+            </div>
             <h1
               className="text-5xl sm:text-6xl mb-5 uppercase tracking-tighter leading-none"
               style={{ fontFamily: '"Vanguard CF Heavy Oblique", sans-serif' }}
@@ -90,21 +109,9 @@ export default function GuideForm() {
               <br />
               <span className="text-white">Rep</span>
             </h1>
-            <p className="text-white/40 text-lg leading-relaxed mb-8 max-w-md">
-              One bad play does not define you. What you do next does. A free 6 page playbook for basketball players from LTS Elite Prep. Enter your info to unlock it.
+            <p className="text-white/70 lg:text-white/40 text-lg leading-relaxed mb-8 max-w-md">
+              One bad play does not define you. What you do next does. Get your <strong className="text-white font-black">free</strong> 6 page playbook for basketball players from LTS Elite Prep. Enter your info to unlock it.
             </p>
-
-            {/* photo for phones/tablets (desktop shows the taller version below) */}
-            <div className="relative rounded-3xl overflow-hidden aspect-[4/3] border border-white/5 mb-8 lg:hidden">
-              <Image
-                src="/images/nextrep-hero-v2.jpg"
-                alt="Coach Paolo working with LTS Elite Prep athletes at The Hoop"
-                fill
-                priority
-                className="object-cover object-[center_62%]"
-                sizes="(max-width: 1024px) 100vw, 45vw"
-              />
-            </div>
 
             <ul className="space-y-3 mb-8">
               {PERKS.map((p) => (
@@ -119,10 +126,10 @@ export default function GuideForm() {
 
             <div className="relative rounded-3xl overflow-hidden aspect-[4/5] max-w-md border border-white/5 hidden lg:block">
               <Image
-                src="/images/nextrep-hero-v2.jpg"
-                alt="Coach Paolo working with LTS Elite Prep athletes at The Hoop"
+                src="/images/nextrep-hero-v3.jpg"
+                alt="Coach Paolo talking with LTS Elite Prep athletes at The Hoop"
                 fill
-                className="object-cover object-[center_60%]"
+                className="object-cover object-[center_72%]"
                 sizes="(max-width: 1024px) 100vw, 45vw"
               />
             </div>
@@ -130,16 +137,16 @@ export default function GuideForm() {
 
           {/* ── Right: gate / unlocked ── */}
           <div className="mt-10 lg:mt-0">
-            <div className="bg-[#111] p-6 sm:p-8 rounded-3xl border border-white/5">
+            <div className={`bg-[#111] p-6 sm:p-8 rounded-3xl border border-white/10 ${!token && !engaged ? "animate-form-glow" : ""}`}>
               {!token ? (
-                <form onSubmit={handleUnlock} className="space-y-5">
+                <form onSubmit={handleUnlock} onFocusCapture={() => setEngaged(true)} className="space-y-5">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-11 h-11 rounded-xl bg-white/5 flex items-center justify-center">
                       <Lock className="w-5 h-5 text-white/60" />
                     </div>
                     <div>
-                      <p className="font-black uppercase tracking-wide">Unlock the Guide</p>
-                      <p className="text-xs text-white/30">Takes about 10 seconds</p>
+                      <p className="font-black uppercase tracking-wide">Get Your Free Guide</p>
+                      <p className="text-xs text-white/40">Free &middot; Takes about 10 seconds</p>
                     </div>
                   </div>
 
@@ -198,9 +205,11 @@ export default function GuideForm() {
                   <button
                     type="submit"
                     disabled={!parentName || !athleteName || !email || loading}
-                    className="w-full bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30"
+                    className={`w-full bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30 ${
+                      parentName && athleteName && email && !loading ? "animate-btn-pulse" : ""
+                    }`}
                   >
-                    {loading ? "UNLOCKING..." : "UNLOCK THE GUIDE"}
+                    {loading ? "UNLOCKING..." : "GET MY FREE GUIDE"}
                     {!loading && <ArrowRight className="w-5 h-5" />}
                   </button>
                   <p className="text-center text-xs text-white/20">
@@ -212,7 +221,7 @@ export default function GuideForm() {
                   <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-5">
                     <Check className="w-8 h-8 text-black" />
                   </div>
-                  <h2 className="text-2xl font-black uppercase mb-2">Guide Unlocked</h2>
+                  <h2 className="text-2xl font-black uppercase mb-2">Your Free Guide Is Unlocked</h2>
                   <p className="text-white/40 text-sm mb-7">Choose how you would like to get it.</p>
 
                   <div className="space-y-3">
