@@ -41,7 +41,7 @@ export async function POST(request: Request) {
         saved = true;
         await supabase.from("analytics_events").insert({
           event_type: "form_submit",
-          page: "/guide",
+          page: "/nextrep",
           label: "guidebook_unlock",
           session_id: "server",
           metadata: {},

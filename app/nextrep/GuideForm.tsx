@@ -44,7 +44,7 @@ export default function GuideForm() {
       const d = await res.json();
       if (!res.ok) throw new Error(d.error || "Something went wrong");
       if (!d.token) throw new Error("Something went wrong. Please try again.");
-      trackEvent("button_click", "/guide", "guidebook_unlocked");
+      trackEvent("button_click", "/nextrep", "guidebook_unlocked");
       setSentTo(d.email || email);
       setToken(d.token);
     } catch (err: any) {
@@ -211,7 +211,7 @@ export default function GuideForm() {
                   <div className="space-y-3">
                     <a
                       href={`/api/guidebook/download?token=${encodeURIComponent(token)}`}
-                      onClick={() => trackEvent("button_click", "/guide", "guidebook_download")}
+                      onClick={() => trackEvent("button_click", "/nextrep", "guidebook_download")}
                       className="w-full bg-white text-black font-black py-4 rounded-2xl flex items-center justify-center gap-2 hover:bg-white/90 transition-all active:scale-95"
                     >
                       <Download className="w-5 h-5" />
@@ -245,7 +245,7 @@ export default function GuideForm() {
                     <p className="text-white/40 text-sm mb-4">Ready to train with us?</p>
                     <Link
                       href="/phase-2"
-                      onClick={() => trackEvent("button_click", "/guide", "guidebook_to_phase2")}
+                      onClick={() => trackEvent("button_click", "/nextrep", "guidebook_to_phase2")}
                       className="inline-flex items-center gap-2 text-white font-black text-xs uppercase tracking-wide hover:text-white/70 transition-colors"
                     >
                       <FileText className="w-4 h-4" />

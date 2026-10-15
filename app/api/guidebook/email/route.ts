@@ -41,7 +41,7 @@ export async function POST(request: Request) {
       const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
       await supabase.from("analytics_events").insert({
         event_type: "button_click",
-        page: "/guide",
+        page: "/nextrep",
         label: "guidebook_emailed",
         session_id: "server",
         metadata: {},

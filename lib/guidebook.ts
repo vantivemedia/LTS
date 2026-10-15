@@ -4,7 +4,7 @@ import path from "path";
 
 // The guidebook lives in /private (not /public) so it can only be reached through the
 // unlock flow — a direct URL to the file doesn't exist. Drop the PDF here to switch the
-// /guide page from "coming soon" to live.
+// /nextrep page from "coming soon" to live.
 export const GUIDEBOOK_PATH = path.join(process.cwd(), "private", "lts-guidebook.pdf");
 export const GUIDEBOOK_FILENAME = "The-Next-Rep-Player-Guide-2026.pdf";
 
