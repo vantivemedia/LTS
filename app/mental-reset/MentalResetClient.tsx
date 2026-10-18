@@ -142,8 +142,8 @@ export default function MentalResetClient({ serifClass }: { serifClass: string }
           </div>
 
           <div className="mx-auto max-w-sm sm:max-w-md md:max-w-lg mt-5 flex items-start justify-between gap-4 text-left">
-            <p className="text-2xl sm:text-4xl font-black uppercase leading-[0.95]">Friday,<br className="sm:hidden" /> Oct 23</p>
-            <p className="text-2xl sm:text-4xl font-black uppercase leading-[0.95] text-right">The Hoop<br />Richmond</p>
+            <p className="text-2xl sm:text-4xl font-black uppercase leading-[0.95]">Friday,<br />Oct 23</p>
+            <p className="text-2xl sm:text-4xl font-black uppercase leading-[0.95] text-right">The Hoop<br />Vancouver</p>
           </div>
 
           <a
