@@ -18,11 +18,6 @@ const paperStyle: React.CSSProperties = {
   backgroundSize: "3.5px 3.5px",
   color: INK,
 };
-const halftoneOverlay: React.CSSProperties = {
-  backgroundImage: "radial-gradient(rgba(40,28,18,0.55) 0.9px, transparent 1.4px)",
-  backgroundSize: "3.5px 3.5px",
-  mixBlendMode: "multiply",
-};
 
 const CAPACITY = 10;
 
@@ -138,7 +133,6 @@ export default function MentalResetClient({ serifClass }: { serifClass: string }
               className="object-cover object-[center_72%] sepia-[0.25] contrast-[1.05]"
               sizes="(max-width: 640px) 90vw, 512px"
             />
-            <div className="absolute inset-0 pointer-events-none" style={halftoneOverlay} />
           </div>
 
           <div className="mx-auto max-w-sm sm:max-w-md md:max-w-lg mt-5 flex items-start justify-between gap-4 text-left">
