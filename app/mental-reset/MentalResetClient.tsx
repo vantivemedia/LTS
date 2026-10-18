@@ -8,8 +8,8 @@ import { trackEvent, getSessionId, getAttribution } from "@/lib/analytics";
 
 // ── Poster palette (sampled from the graphic) ─────────────────
 const INK = "#1a110c";
-const RED = "#c71c24";
-const PAPER = "#e8ddc7";
+const RED = "#a9001c";
+const PAPER = "#fdf4dc";
 
 // halftone-dot "paper" texture, like the graphic
 const paperStyle: React.CSSProperties = {
@@ -42,7 +42,7 @@ const LEARN = [
 const GRADES = [7, 8, 9, 10, 11, 12];
 
 const FIELD =
-  "w-full bg-[#f4ecda] border-2 rounded-xl px-5 py-3.5 font-bold outline-none focus:bg-white transition-colors placeholder:text-[#1a110c]/30";
+  "w-full bg-[#fffbee] border-2 rounded-xl px-5 py-3.5 font-bold outline-none focus:bg-white transition-colors placeholder:text-[#1a110c]/30";
 const LABEL = "text-[11px] font-black uppercase tracking-[0.18em] mb-1.5 block";
 
 function sessionForGrade(g: number): 1 | 2 | null {
@@ -149,7 +149,7 @@ export default function MentalResetClient({ serifClass }: { serifClass: string }
           <a
             href="#register"
             onClick={() => trackEvent("button_click", "/mental-reset", "mental_reset_cta_top")}
-            className="inline-flex items-center justify-center gap-2 mt-8 text-[#f4ecda] font-black uppercase tracking-wide text-sm px-8 py-4 rounded-full active:scale-95 transition-transform"
+            className="inline-flex items-center justify-center gap-2 mt-8 text-[#fdf4dc] font-black uppercase tracking-wide text-sm px-8 py-4 rounded-full active:scale-95 transition-transform"
             style={{ background: INK }}
           >
             Reserve a Spot <ArrowRight className="w-4 h-4" />
@@ -174,7 +174,7 @@ export default function MentalResetClient({ serifClass }: { serifClass: string }
             <h2 className="text-3xl sm:text-4xl mb-5 text-center">Workshop Details</h2>
             <div className="grid sm:grid-cols-2 gap-4">
               {SESSIONS.map((s) => (
-                <div key={s.n} className="p-5 rounded-2xl" style={{ border: `2px solid ${INK}`, background: "rgba(244,236,218,0.6)" }}>
+                <div key={s.n} className="p-5 rounded-2xl" style={{ border: `2px solid ${INK}`, background: "rgba(255,251,238,0.6)" }}>
                   <div className="flex items-center justify-between gap-2 mb-3">
                     <p className="text-[11px] font-black uppercase tracking-[0.18em]">Session {s.n}</p>
                     {spotsBadge(s.n)}
@@ -207,7 +207,7 @@ export default function MentalResetClient({ serifClass }: { serifClass: string }
           </section>
 
           {/* ── Academy special ─────────────────────────── */}
-          <section className="mt-12 rounded-2xl p-6 sm:p-8 text-center" style={{ background: INK, color: "#f4ecda" }}>
+          <section className="mt-12 rounded-2xl p-6 sm:p-8 text-center" style={{ background: INK, color: "#fdf4dc" }}>
             <p className="text-[11px] font-black uppercase tracking-[0.2em] opacity-60 mb-2">Workshop + Academy Special</p>
             <p className="text-5xl sm:text-6xl font-black leading-none" style={{ fontFamily: "var(--font-anton), Anton, sans-serif" }}>
               $125 <span className="text-xl sm:text-2xl opacity-50 line-through font-bold">$140</span>
@@ -223,7 +223,7 @@ export default function MentalResetClient({ serifClass }: { serifClass: string }
             <p className="text-center text-sm font-semibold mb-6 opacity-70">Registration is limited to {CAPACITY} athletes per session.</p>
 
             {done ? (
-              <div className="text-center rounded-2xl p-7" style={{ border: `2px solid ${INK}`, background: "rgba(244,236,218,0.7)" }}>
+              <div className="text-center rounded-2xl p-7" style={{ border: `2px solid ${INK}`, background: "rgba(255,251,238,0.7)" }}>
                 <div className="w-14 h-14 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ background: RED }}>
                   <Check className="w-7 h-7 text-white" />
                 </div>
@@ -231,7 +231,7 @@ export default function MentalResetClient({ serifClass }: { serifClass: string }
                 <p className="leading-relaxed mb-4">
                   <strong>{done.athlete}</strong> is registered for <strong>{SESSIONS[done.session - 1].grades} · {SESSIONS[done.session - 1].time}</strong> on Friday, October 23.
                 </p>
-                <div className="rounded-xl p-4 text-sm text-left max-w-sm mx-auto" style={{ background: INK, color: "#f4ecda" }}>
+                <div className="rounded-xl p-4 text-sm text-left max-w-sm mx-auto" style={{ background: INK, color: "#fdf4dc" }}>
                   <p className="font-black uppercase tracking-wider text-[11px] opacity-60 mb-2">To confirm your spot</p>
                   <p>E-transfer <strong>${done.price}</strong> to <strong>info@ltseliteprep.ca</strong> within 48 hours. Note: &ldquo;{done.athlete} — Mental Reset&rdquo;.</p>
                 </div>
@@ -239,7 +239,7 @@ export default function MentalResetClient({ serifClass }: { serifClass: string }
                 <Link href="/" className="inline-block mt-6 font-black uppercase text-sm underline underline-offset-4">Back to home</Link>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl p-5 sm:p-8" style={{ border: `2px solid ${INK}`, background: "rgba(244,236,218,0.6)" }}>
+              <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl p-5 sm:p-8" style={{ border: `2px solid ${INK}`, background: "rgba(255,251,238,0.6)" }}>
                 <div>
                   <label className={LABEL}>Athlete Name</label>
                   <input required type="text" value={athleteName} onChange={(e) => setAthleteName(e.target.value)} placeholder="Jordan Smith" className={FIELD} style={{ borderColor: INK }} />
@@ -260,7 +260,7 @@ export default function MentalResetClient({ serifClass }: { serifClass: string }
                 </div>
 
                 {sessionInfo && (
-                  <div className="rounded-xl px-4 py-3 text-sm font-bold flex items-center justify-between gap-3 flex-wrap" style={{ background: sessionFull ? "rgba(199,28,36,0.12)" : "rgba(26,17,12,0.07)", border: `1.5px dashed ${sessionFull ? RED : INK}` }}>
+                  <div className="rounded-xl px-4 py-3 text-sm font-bold flex items-center justify-between gap-3 flex-wrap" style={{ background: sessionFull ? "rgba(169,0,28,0.12)" : "rgba(26,17,12,0.07)", border: `1.5px dashed ${sessionFull ? RED : INK}` }}>
                     <span>
                       Your session: {sessionInfo.grades} · {sessionInfo.time}
                     </span>
@@ -285,9 +285,9 @@ export default function MentalResetClient({ serifClass }: { serifClass: string }
 
                 <label
                   className="flex items-start gap-3 rounded-xl p-4 cursor-pointer transition-colors"
-                  style={{ border: `2px solid ${withAcademy ? RED : INK}`, background: withAcademy ? "rgba(199,28,36,0.08)" : "transparent" }}
+                  style={{ border: `2px solid ${withAcademy ? RED : INK}`, background: withAcademy ? "rgba(169,0,28,0.08)" : "transparent" }}
                 >
-                  <input type="checkbox" checked={withAcademy} onChange={(e) => setWithAcademy(e.target.checked)} className="mt-1 w-5 h-5 accent-[#c71c24]" />
+                  <input type="checkbox" checked={withAcademy} onChange={(e) => setWithAcademy(e.target.checked)} className="mt-1 w-5 h-5 accent-[#a9001c]" />
                   <span className="leading-snug">
                     <span className="block font-black uppercase tracking-wide">Add LTS Academy that evening (5:30 – 7:00 PM)</span>
                     <span className="block text-sm opacity-75">Workshop + Academy for $125 instead of $140.</span>
@@ -301,7 +301,7 @@ export default function MentalResetClient({ serifClass }: { serifClass: string }
                 <button
                   type="submit"
                   disabled={loading || sessionFull || !athleteName || !grade || !school || !parentName || !parentEmail || !parentPhone}
-                  className="w-full font-black uppercase tracking-wide py-4 rounded-full flex items-center justify-center gap-2 text-[#f4ecda] disabled:opacity-40 active:scale-[0.99] transition-transform"
+                  className="w-full font-black uppercase tracking-wide py-4 rounded-full flex items-center justify-center gap-2 text-[#fdf4dc] disabled:opacity-40 active:scale-[0.99] transition-transform"
                   style={{ background: INK }}
                 >
                   {loading ? "Reserving..." : `Reserve My Spot — $${price}`}

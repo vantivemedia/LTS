@@ -158,9 +158,9 @@ export async function POST(request: Request) {
             subject: `Action Required: Complete your Mental Reset registration — ${athleteName}`,
             html: `
               <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
-                <div style="background:#e8ddc7;padding:28px 32px;border-radius:16px 16px 0 0;">
+                <div style="background:#fdf4dc;padding:28px 32px;border-radius:16px 16px 0 0;">
                   <p style="color:#1a110c;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 8px;">LTS ELITE PREP · The Next Rep</p>
-                  <h1 style="color:#1a110c;font-size:30px;font-weight:900;margin:0;text-transform:uppercase;letter-spacing:-0.02em;">The <span style="color:#c71c24;font-style:italic;font-family:Georgia,serif;text-transform:none;">Mental</span> Reset</h1>
+                  <h1 style="color:#1a110c;font-size:30px;font-weight:900;margin:0;text-transform:uppercase;letter-spacing:-0.02em;">The <span style="color:#a9001c;font-style:italic;font-family:Georgia,serif;text-transform:none;">Mental</span> Reset</h1>
                   <p style="color:#5a4a3a;font-size:12px;margin:6px 0 0;">Friday, October 23, 2026 · ${escapeHtml(LOCATION.split(" — ")[0])}</p>
                 </div>
 

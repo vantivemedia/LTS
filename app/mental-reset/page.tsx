@@ -21,13 +21,13 @@ export const metadata: Metadata = {
     siteName: "LTS Elite Prep",
     type: "website",
     locale: "en_CA",
-    images: [{ url: "/images/mental-reset-og.jpg", width: 1200, height: 630, alt: "The Next Rep: The Mental Reset. Friday, October 23 at The Hoop." }],
+    images: [{ url: "/images/mental-reset-og-v2.jpg", width: 1200, height: 630, alt: "The Next Rep: The Mental Reset. Friday, October 23 at The Hoop." }],
   },
   twitter: {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    images: ["/images/mental-reset-og.jpg"],
+    images: ["/images/mental-reset-og-v2.jpg"],
   },
 };
 
