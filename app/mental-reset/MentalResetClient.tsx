@@ -113,35 +113,35 @@ export default function MentalResetClient({ serifClass }: { serifClass: string }
   };
 
   return (
-    <div className="min-h-screen bg-black pt-28 pb-20 px-3 sm:px-5">
-      <div className="max-w-3xl mx-auto rounded-[22px] overflow-hidden shadow-2xl" style={paperStyle}>
+    <div className="min-h-screen bg-black pt-24 pb-10 px-1.5 sm:px-3">
+      <div className="max-w-6xl mx-auto rounded-[22px] overflow-hidden shadow-2xl" style={paperStyle}>
         {/* ── Poster ─────────────────────────────────────── */}
-        <header className="px-5 sm:px-10 pt-10 sm:pt-14 text-center">
+        <header className="px-5 sm:px-12 pt-10 sm:pt-16 text-center">
           <p className="font-black uppercase tracking-[0.12em] text-sm sm:text-lg mb-1">The Next Rep:</p>
           <h1 className="flex flex-nowrap items-baseline justify-center gap-x-2.5 sm:gap-x-5 leading-[0.95]" style={{ color: INK }}>
-            <span className="text-[2.1rem] sm:text-7xl tracking-tight">The</span>
+            <span className="text-[2.1rem] sm:text-7xl md:text-8xl tracking-tight">The</span>
             <span
-              className={`${serifClass} normal-case text-[2.8rem] sm:text-[6.5rem] font-bold tracking-tight`}
+              className={`${serifClass} normal-case text-[2.8rem] sm:text-[6.5rem] md:text-[8.5rem] font-bold tracking-tight`}
               style={{ color: RED }}
             >
               Mental
             </span>
-            <span className="text-[2.1rem] sm:text-7xl tracking-tight">Reset</span>
+            <span className="text-[2.1rem] sm:text-7xl md:text-8xl tracking-tight">Reset</span>
           </h1>
 
-          <div className="relative mx-auto mt-8 sm:mt-10 max-w-sm sm:max-w-md aspect-[4/5] overflow-hidden" style={{ border: `3px solid ${INK}` }}>
+          <div className="relative mx-auto mt-8 sm:mt-10 max-w-sm sm:max-w-md md:max-w-lg aspect-[4/5] overflow-hidden" style={{ border: `3px solid ${INK}` }}>
             <Image
               src="/images/nextrep-hero-v3.jpg"
               alt="Coach Paolo talking with athletes at The Hoop"
               fill
               priority
               className="object-cover object-[center_72%] sepia-[0.25] contrast-[1.05]"
-              sizes="(max-width: 640px) 90vw, 448px"
+              sizes="(max-width: 640px) 90vw, 512px"
             />
             <div className="absolute inset-0 pointer-events-none" style={halftoneOverlay} />
           </div>
 
-          <div className="mx-auto max-w-sm sm:max-w-md mt-5 flex items-start justify-between gap-4 text-left">
+          <div className="mx-auto max-w-sm sm:max-w-md md:max-w-lg mt-5 flex items-start justify-between gap-4 text-left">
             <p className="text-2xl sm:text-4xl font-black uppercase leading-[0.95]">Friday,<br className="sm:hidden" /> Oct 23</p>
             <p className="text-2xl sm:text-4xl font-black uppercase leading-[0.95] text-right">The Hoop<br />Richmond</p>
           </div>
@@ -156,7 +156,7 @@ export default function MentalResetClient({ serifClass }: { serifClass: string }
           </a>
         </header>
 
-        <div className="px-5 sm:px-10 pb-12 sm:pb-14">
+        <div className="px-5 sm:px-12 md:px-20 pb-12 sm:pb-16">
           {/* ── Intro ───────────────────────────────────── */}
           <section className="mt-12 text-center max-w-xl mx-auto">
             <p className="text-lg leading-relaxed font-medium">
