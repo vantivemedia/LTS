@@ -34,6 +34,7 @@ const NAV_LINKS: NavLink[] = [
     ],
   },
   { href: "/pro", label: "LTS PRO" },
+  { href: "/mental-reset", label: "Camp" },
   { href: "/college-contact", label: "College" },
   { href: "/policies", label: "Policies" },
   { href: "/admin", label: "Admin" },
@@ -88,7 +89,7 @@ export default function Navbar() {
         </Link>
 
         {/* ── デスクトップナビ ── */}
-        <nav className="hidden md:flex items-center gap-4 lg:gap-8 whitespace-nowrap">
+        <nav className="hidden lg:flex items-center gap-4 xl:gap-8 whitespace-nowrap">
           {NAV_LINKS.map((link) =>
             link.children ? (
               <div
@@ -146,7 +147,7 @@ export default function Navbar() {
 
         {/* ── モバイルハンバーガー ── */}
         <button
-          className="md:hidden p-2 text-white/50 hover:text-white transition-colors relative z-50"
+          className="lg:hidden p-2 text-white/50 hover:text-white transition-colors relative z-50"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -156,9 +157,9 @@ export default function Navbar() {
 
       {/* ── モバイルドロワー ── */}
       <div className={`
-        md:hidden overflow-hidden transition-all duration-300
+        lg:hidden overflow-y-auto overscroll-contain transition-all duration-300
         bg-[#0a0a0a]/98 nav-glass border-b border-white/5
-        ${menuOpen ? "max-h-[780px] opacity-100" : "max-h-0 opacity-0 pointer-events-none"}
+        ${menuOpen ? "max-h-[calc(100dvh-4.75rem)] opacity-100" : "max-h-0 opacity-0 pointer-events-none"}
       `}>
         <nav className="flex flex-col px-5 pt-2 pb-8 gap-1">
           {NAV_LINKS.map((link) =>
