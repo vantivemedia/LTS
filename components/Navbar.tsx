@@ -34,7 +34,6 @@ const NAV_LINKS: NavLink[] = [
     ],
   },
   { href: "/pro", label: "LTS PRO" },
-  { href: "/mental-reset", label: "Camp" },
   { href: "/college-contact", label: "College" },
   { href: "/policies", label: "Policies" },
   { href: "/admin", label: "Admin" },
