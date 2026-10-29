@@ -17,13 +17,13 @@ export const metadata: Metadata = {
     siteName: "LTS Elite Prep",
     type: "website",
     locale: "en_CA",
-    images: [{ url: "/images/surrey-og-v3.jpg", width: 1200, height: 630, alt: "Transition to High School Basketball in Surrey, November 3, 10 and 17" }],
+    images: [{ url: "/images/surrey-og-v4.jpg", width: 1200, height: 630, alt: "Transition to High School Basketball in Surrey, November 3, 10 and 17" }],
   },
   twitter: {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    images: ["/images/surrey-og-v3.jpg"],
+    images: ["/images/surrey-og-v4.jpg"],
   },
 };
 

@@ -6,8 +6,8 @@ import Image from "next/image";
 import { ArrowRight, Check, Clock, MapPin } from "lucide-react";
 import { trackEvent, getSessionId, getAttribution } from "@/lib/analytics";
 
-// Minimal + liquid glass: the photo is a soft fixed backdrop, content sits on frosted panels.
-const SANS = { fontFamily: "var(--font-inter), system-ui, sans-serif", textTransform: "none" as const };
+// Matches the rest of the site (black + white). Liquid glass is used sparingly: the info card
+// over the photo, the plan toggle, and the sticky phone bar.
 
 const SESSIONS = [
   { id: "nov3", day: "Tue", date: "Nov 3", iso: "2026-11-03" },
@@ -19,7 +19,9 @@ const DROP_IN = 65;
 const ALL_THREE = 150;
 const GRADES = [7, 8, 9];
 
-const LABEL = "text-[11px] font-medium text-white/60 uppercase tracking-[0.2em] mb-2 block";
+const INPUT =
+  "w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-4 text-white font-bold outline-none focus:border-white/20 transition-colors";
+const LABEL = "text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block";
 
 export default function SurreyClient() {
   const [athleteName, setAthleteName] = useState("");
@@ -34,10 +36,10 @@ export default function SurreyClient() {
   const [error, setError] = useState("");
   const [done, setDone] = useState<{ athlete: string; email: string; price: number; dates: string } | null>(null);
 
-  // Sticky phone bar: appears once the intro is scrolled past, hides while the form is on screen.
-  const introRef = useRef<HTMLElement>(null);
-  const formRef = useRef<HTMLElement>(null);
-  const [introVisible, setIntroVisible] = useState(true);
+  // Sticky phone bar: appears once the hero is scrolled past, hides while the form is on screen.
+  const heroRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+  const [heroVisible, setHeroVisible] = useState(true);
   const [formVisible, setFormVisible] = useState(false);
   useEffect(() => {
     const watch = (el: Element | null, set: (v: boolean) => void, rootMargin = "0px") => {
@@ -46,7 +48,7 @@ export default function SurreyClient() {
       io.observe(el);
       return () => io.disconnect();
     };
-    const a = watch(introRef.current, setIntroVisible);
+    const a = watch(heroRef.current, setHeroVisible);
     const b = watch(formRef.current, setFormVisible, "0px 0px -50% 0px");
     return () => { a(); b(); };
   }, []);
@@ -87,218 +89,241 @@ export default function SurreyClient() {
     }
   }
 
-  const showBar = !introVisible && !formVisible && !done;
+  const showBar = !heroVisible && !formVisible && !done;
 
   return (
-    <div className="relative min-h-screen text-white bg-black overflow-x-clip">
-      {/* ── Backdrop: soft photo + drifting light ───────────────── */}
-      <div aria-hidden="true" className="fixed inset-0 pointer-events-none">
-        <Image
-          src="/images/fall-academy-training.jpg"
-          alt=""
-          fill
-          priority
-          className="object-cover object-[center_40%] scale-110 blur-[2px]"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-black/55" />
-        <div className="lg-blob absolute -top-24 -left-24 w-[28rem] h-[28rem] rounded-full bg-sky-300/20 blur-[90px]" />
-        <div className="lg-blob absolute bottom-0 right-0 w-[30rem] h-[30rem] rounded-full bg-violet-300/20 blur-[100px]" style={{ animationDelay: "-6s" }} />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
-      </div>
+    <div className="min-h-screen bg-black pt-32 pb-28 lg:pb-24 px-5">
+      <div className="max-w-4xl mx-auto">
+        {/* ── Hero ─────────────────────────────────────── */}
+        <div ref={heroRef} className="mb-14 lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:items-center">
+          <div>
+            <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-3">Surrey &middot; Grades 7 to 9</p>
+            <h1
+              className="text-5xl sm:text-6xl mb-4 uppercase tracking-tighter leading-none"
+              style={{ fontFamily: '"Vanguard CF Heavy Oblique", sans-serif' }}
+            >
+              Transition to
+              <br />
+              High School
+            </h1>
+            <p className="text-white/50 text-sm font-bold uppercase tracking-widest mb-4">Basketball Training Series</p>
+            <p className="text-white/40 text-lg leading-relaxed mb-8 max-w-md">
+              Three opportunities to train, compete, and prepare for the demands of high school basketball.
+              Designed specifically for Grade 7 to 9 athletes preparing for the next level.
+            </p>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-5 pt-32 pb-28 lg:pb-24 lg:grid lg:grid-cols-[1fr_30rem] lg:gap-14 lg:items-start">
-        {/* ── Left: intro + details ─────────────────────────────── */}
-        <section ref={introRef} className="mb-10 lg:mb-0">
-          <p className="text-xs font-medium uppercase tracking-[0.3em] text-white/60 mb-5">LTS Elite Prep &middot; Surrey</p>
-          <h1
-            className="text-[2.9rem] sm:text-7xl leading-[1.02] font-semibold mb-5"
-            style={{ ...SANS, letterSpacing: "-0.035em" }}
-          >
-            Transition to
-            <br />
-            High School
-          </h1>
-          <p className="text-white/70 text-lg leading-relaxed max-w-md mb-10">
-            A three night basketball training series for Grade 7 to 9 athletes preparing for the next level.
-          </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <a
+                href="#register"
+                onClick={() => trackEvent("button_click", "/surrey", "surrey_cta_top")}
+                className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
+              >
+                Register Now <ArrowRight className="w-4 h-4" />
+              </a>
+              <a
+                href="#pricing"
+                className="inline-flex items-center justify-center gap-2 bg-[#111] border border-white/10 text-white font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:border-white/30 transition-all active:scale-95"
+              >
+                See Pricing
+              </a>
+            </div>
+          </div>
 
-          <div className="lg-glass rounded-[2rem] p-6 sm:p-8 max-w-xl">
-            <div className="relative space-y-6">
-              <div>
-                <p className={LABEL}>Dates &middot; 8:00 &ndash; 9:30 PM</p>
-                <div className="grid grid-cols-3 gap-2.5">
+          {/* photo with a frosted glass info card (the one place glass leads) */}
+          <div className="mt-10 lg:mt-0 relative rounded-3xl overflow-hidden aspect-[4/5] border border-white/5">
+            <Image
+              src="/images/fall-academy-training.jpg"
+              alt="LTS Elite Prep athletes in a live 1-on-1 drill"
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 40vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+            <div className="absolute inset-x-3 bottom-3 sm:inset-x-4 sm:bottom-4">
+            <div
+              className="lg-glass rounded-2xl p-4 sm:p-5"
+              style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.14), rgba(0,0,0,0.38))" }}
+            >
+              <div className="relative">
+                <div className="grid grid-cols-3 gap-2 mb-3.5">
                   {SESSIONS.map((s) => (
-                    <div key={s.id} className="lg-glass-soft rounded-2xl py-3.5 text-center">
-                      <p className="text-[11px] uppercase tracking-widest text-white/60">{s.day}</p>
-                      <p className="text-lg sm:text-xl font-semibold tracking-tight">{s.date}</p>
+                    <div key={s.id} className="lg-glass-soft rounded-xl py-2 text-center">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-white/60">{s.day}</p>
+                      <p className="text-base sm:text-lg font-black leading-tight">{s.date}</p>
                     </div>
                   ))}
                 </div>
-              </div>
-
-              <div className="flex items-start gap-3 text-white/80 text-sm leading-relaxed">
-                <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-white/50" />
-                <span>Princess Margaret Secondary School, Surrey</span>
-              </div>
-              <div className="flex items-start gap-3 text-white/80 text-sm leading-relaxed">
-                <Clock className="w-4 h-4 mt-0.5 shrink-0 text-white/50" />
-                <span>Three opportunities to train, compete, and prepare for the demands of high school basketball. Limited spots.</span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2.5 pt-1">
-                <div className="lg-glass-soft rounded-2xl p-4">
-                  <p className="text-[11px] uppercase tracking-widest text-white/60 mb-1">Drop-in</p>
-                  <p className="text-3xl font-semibold tracking-tight">$65</p>
-                  <p className="text-xs text-white/50 mt-0.5">per night</p>
-                </div>
-                <div className="rounded-2xl p-4 bg-white/90 text-black shadow-[0_8px_30px_rgba(255,255,255,0.15)]">
-                  <p className="text-[11px] uppercase tracking-widest text-black/60 mb-1">All 3 sessions</p>
-                  <p className="text-3xl font-semibold tracking-tight">$150</p>
-                  <p className="text-xs text-black/60 mt-0.5">save $45</p>
-                </div>
+                <p className="flex items-center gap-2 text-xs sm:text-sm text-white/85 mb-1.5">
+                  <Clock className="w-3.5 h-3.5 shrink-0 text-white/60" /> 8:00 &ndash; 9:30 PM
+                </p>
+                <p className="flex items-center gap-2 text-xs sm:text-sm text-white/85">
+                  <MapPin className="w-3.5 h-3.5 shrink-0 text-white/60" /> Princess Margaret Secondary, Surrey
+                </p>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* ── Right: registration ───────────────────────────────── */}
-        <section ref={formRef} id="register" className="lg:sticky lg:top-28 scroll-mt-24">
-          <div className="lg-glass rounded-[2rem] p-6 sm:p-8">
-            <div className="relative">
-              {done ? (
-                <div className="text-center py-2">
-                  <div className="w-14 h-14 rounded-full bg-white text-black flex items-center justify-center mx-auto mb-5">
-                    <Check className="w-7 h-7" />
-                  </div>
-                  <h2 className="text-2xl font-semibold mb-3" style={{ ...SANS, letterSpacing: "-0.02em" }}>You&rsquo;re registered</h2>
-                  <p className="text-white/70 leading-relaxed mb-5 text-sm">
-                    <strong className="text-white">{done.athlete}</strong> is signed up for {done.dates} at Princess Margaret Secondary, 8:00 &ndash; 9:30 PM.
-                  </p>
-                  <div className="lg-glass-soft rounded-2xl p-5 text-sm text-left">
-                    <p className="text-[11px] uppercase tracking-widest text-white/50 mb-2">To confirm your spot</p>
-                    <p className="text-white/85 leading-relaxed">
-                      E-transfer <strong className="text-white">${done.price}</strong> to <strong className="text-white">info@ltseliteprep.ca</strong> within 48 hours. Note: &ldquo;{done.athlete} &mdash; Surrey&rdquo;.
-                    </p>
-                  </div>
-                  <p className="text-white/40 text-xs mt-4">We sent the details to {done.email}.</p>
-                  <Link href="/" className="inline-block mt-5 text-white/60 hover:text-white text-xs uppercase tracking-widest underline underline-offset-4">Back to home</Link>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="mb-2">
-                    <h2 className="text-2xl font-semibold" style={{ ...SANS, letterSpacing: "-0.02em" }}>Register your athlete</h2>
-                    <p className="text-white/50 text-sm mt-1">Limited spots. Takes about a minute.</p>
-                  </div>
-
-                  <div>
-                    <label className={LABEL}>Athlete name</label>
-                    <input required type="text" placeholder="Jordan Smith" value={athleteName} onChange={(e) => setAthleteName(e.target.value)} className="lg-input" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className={LABEL}>Grade</label>
-                      <select required value={grade} onChange={(e) => setGrade(e.target.value)} className="lg-input">
-                        <option value="">Select</option>
-                        {GRADES.map((g) => <option key={g} value={g}>Grade {g}</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <label className={LABEL}>School</label>
-                      <input required type="text" placeholder="Your school" value={school} onChange={(e) => setSchool(e.target.value)} className="lg-input" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className={LABEL}>Parent name</label>
-                    <input required type="text" placeholder="Michael Smith" value={parentName} onChange={(e) => setParentName(e.target.value)} className="lg-input" />
-                  </div>
-                  <div>
-                    <label className={LABEL}>Parent email</label>
-                    <input required type="email" placeholder="parent@example.com" value={parentEmail} onChange={(e) => setParentEmail(e.target.value)} className="lg-input" />
-                  </div>
-                  <div>
-                    <label className={LABEL}>Parent phone</label>
-                    <input required type="tel" placeholder="604-000-0000" value={parentPhone} onChange={(e) => setParentPhone(e.target.value)} className="lg-input" />
-                  </div>
-
-                  <div>
-                    <label className={LABEL}>Plan</label>
-                    <div className="lg-glass-soft rounded-full p-1 grid grid-cols-2 gap-1">
-                      {([
-                        { id: "all", title: "All 3 · $150" },
-                        { id: "dropin", title: "Drop-in · $65" },
-                      ] as const).map((o) => (
-                        <button
-                          key={o.id}
-                          type="button"
-                          onClick={() => setPlan(o.id)}
-                          className={`rounded-full py-2.5 text-sm font-medium transition-all ${
-                            plan === o.id ? "bg-white text-black shadow-lg" : "text-white/70 hover:text-white"
-                          }`}
-                        >
-                          {o.title}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {plan === "dropin" && (
-                    <div>
-                      <label className={LABEL}>Which nights?</label>
-                      <div className="space-y-2">
-                        {SESSIONS.map((s) => {
-                          const available = open.some((o) => o.id === s.id);
-                          const on = dates.includes(s.id);
-                          return (
-                            <button
-                              key={s.id}
-                              type="button"
-                              disabled={!available}
-                              onClick={() => toggle(s.id)}
-                              className={`w-full flex items-center justify-between rounded-2xl px-4 py-3.5 text-left border transition-all disabled:opacity-30 ${
-                                on ? "bg-white/90 text-black border-white" : "lg-glass-soft text-white hover:bg-white/10"
-                              }`}
-                            >
-                              <span className="font-medium">{s.day}, {s.date} <span className={`text-xs ml-2 ${on ? "text-black/50" : "text-white/50"}`}>8:00 &ndash; 9:30 PM</span></span>
-                              <span className={`w-5 h-5 rounded-full border flex items-center justify-center ${on ? "bg-black border-black" : "border-white/30"}`}>
-                                {on && <Check className="w-3 h-3 text-white" />}
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                      {dates.length === SESSIONS.length && (
-                        <p className="text-xs text-white/60 mt-2">All three nights is our $150 series price, so we&rsquo;ve applied it.</p>
-                      )}
-                    </div>
-                  )}
-
-                  {error && (
-                    <div className="bg-red-500/15 border border-red-400/30 text-red-200 text-sm font-medium p-3.5 rounded-2xl text-center">{error}</div>
-                  )}
-
-                  <button
-                    type="submit"
-                    disabled={!canSubmit || loading}
-                    className="w-full bg-white text-black font-semibold py-4 rounded-full flex items-center justify-center gap-2 disabled:opacity-40 hover:bg-white/90 active:scale-[0.99] transition-all shadow-[0_10px_40px_rgba(255,255,255,0.18)]"
-                  >
-                    {loading ? "Registering..." : `Register${price ? ` · $${price}` : ""}`}
-                    {!loading && <ArrowRight className="w-4 h-4" />}
-                  </button>
-
-                  <p className="text-center text-[11px] text-white/40 leading-relaxed">
-                    You&rsquo;ll receive an e-transfer invoice by email. Please send payment within 48 hours to hold your spot.
-                    All sales are final, and no-shows without 24 hours&rsquo; notice are still charged.{" "}
-                    <Link href="/policies" className="underline hover:text-white/70">Cancellation policy</Link>.
-                  </p>
-                </form>
-              )}
             </div>
           </div>
-        </section>
+        </div>
+
+        {/* ── Pricing ──────────────────────────────────── */}
+        <div id="pricing" className="mb-14 scroll-mt-28">
+          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Pricing</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="bg-[#111] border border-white/5 rounded-2xl p-6">
+              <p className="text-xs uppercase tracking-widest font-bold mb-2 text-white/30">Drop-In</p>
+              <p className="text-3xl font-black mb-2">$65</p>
+              <p className="text-xs leading-relaxed text-white/40">Per session. Pick any night that works.</p>
+            </div>
+            <div className="bg-white text-black rounded-2xl p-6 relative">
+              <span className="absolute -top-3 right-4 bg-black text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
+                Best Value
+              </span>
+              <p className="text-xs uppercase tracking-widest font-bold mb-2 text-black/50">All 3 Sessions</p>
+              <p className="text-3xl font-black mb-2">$150</p>
+              <p className="text-xs leading-relaxed text-black/60">Nov 3, 10 &amp; 17. Save $45 versus three drop-ins.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Register ─────────────────────────────────── */}
+        <div id="register" className="scroll-mt-28">
+          <div className="text-center mb-8">
+            <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Limited Spots</p>
+            <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight">Register Your Athlete</h2>
+          </div>
+
+          <div ref={formRef} className="bg-[#111] p-6 sm:p-10 rounded-3xl border border-white/5 max-w-2xl mx-auto">
+            {done ? (
+              <div className="text-center">
+                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-5">
+                  <Check className="w-8 h-8 text-black" />
+                </div>
+                <h3 className="text-2xl font-black uppercase mb-3">You&rsquo;re registered</h3>
+                <p className="text-white/50 leading-relaxed mb-5">
+                  <strong className="text-white">{done.athlete}</strong> is signed up for {done.dates} at Princess Margaret Secondary, 8:00 &ndash; 9:30 PM.
+                </p>
+                <div className="bg-black border border-white/10 rounded-2xl p-5 text-sm text-left max-w-sm mx-auto">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-2">To confirm your spot</p>
+                  <p className="text-white/80 leading-relaxed">
+                    E-transfer <strong className="text-white">${done.price}</strong> to <strong className="text-white">info@ltseliteprep.ca</strong> within 48 hours. Note: &ldquo;{done.athlete} &mdash; Surrey&rdquo;.
+                  </p>
+                </div>
+                <p className="text-white/30 text-xs mt-4">We sent the details to {done.email}.</p>
+                <Link href="/" className="inline-block mt-6 text-white/50 hover:text-white text-xs font-bold uppercase underline underline-offset-4">Back to home</Link>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div>
+                  <label className={LABEL}>Athlete Name</label>
+                  <input required type="text" placeholder="JORDAN SMITH" value={athleteName} onChange={(e) => setAthleteName(e.target.value)} className={INPUT} />
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className={LABEL}>Grade</label>
+                    <select required value={grade} onChange={(e) => setGrade(e.target.value)} className={INPUT}>
+                      <option value="">SELECT GRADE</option>
+                      {GRADES.map((g) => <option key={g} value={g}>GRADE {g}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className={LABEL}>School</label>
+                    <input required type="text" placeholder="YOUR SCHOOL" value={school} onChange={(e) => setSchool(e.target.value)} className={INPUT} />
+                  </div>
+                </div>
+                <div>
+                  <label className={LABEL}>Parent Name</label>
+                  <input required type="text" placeholder="MICHAEL SMITH" value={parentName} onChange={(e) => setParentName(e.target.value)} className={INPUT} />
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className={LABEL}>Parent Email</label>
+                    <input required type="email" placeholder="PARENT@EXAMPLE.COM" value={parentEmail} onChange={(e) => setParentEmail(e.target.value)} className={INPUT} />
+                  </div>
+                  <div>
+                    <label className={LABEL}>Parent Phone</label>
+                    <input required type="tel" placeholder="604-000-0000" value={parentPhone} onChange={(e) => setParentPhone(e.target.value)} className={INPUT} />
+                  </div>
+                </div>
+
+                <div>
+                  <label className={LABEL}>Choose Your Plan</label>
+                  <div className="lg-glass-soft rounded-full p-1 grid grid-cols-2 gap-1">
+                    {([
+                      { id: "all", title: `All 3 · $${ALL_THREE}` },
+                      { id: "dropin", title: `Drop-In · $${DROP_IN}` },
+                    ] as const).map((o) => (
+                      <button
+                        key={o.id}
+                        type="button"
+                        onClick={() => setPlan(o.id)}
+                        className={`rounded-full py-3 text-sm font-black uppercase tracking-wide transition-all ${
+                          plan === o.id ? "bg-white text-black shadow-lg" : "text-white/60 hover:text-white"
+                        }`}
+                      >
+                        {o.title}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {plan === "dropin" && (
+                  <div>
+                    <label className={LABEL}>Which Nights?</label>
+                    <div className="space-y-2">
+                      {SESSIONS.map((s) => {
+                        const available = open.some((o) => o.id === s.id);
+                        const on = dates.includes(s.id);
+                        return (
+                          <button
+                            key={s.id}
+                            type="button"
+                            disabled={!available}
+                            onClick={() => toggle(s.id)}
+                            className={`w-full flex items-center justify-between rounded-2xl px-5 py-4 border text-left transition-all disabled:opacity-30 ${
+                              on ? "bg-white text-black border-white" : "bg-[#0a0a0a] text-white border-white/5 hover:border-white/20"
+                            }`}
+                          >
+                            <span className="font-black">{s.day}, {s.date} <span className={`font-bold text-xs ml-2 ${on ? "text-black/50" : "text-white/40"}`}>8:00 &ndash; 9:30 PM</span></span>
+                            <span className={`w-5 h-5 rounded-md border flex items-center justify-center ${on ? "bg-black border-black" : "border-white/20"}`}>
+                              {on && <Check className="w-3.5 h-3.5 text-white" />}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {dates.length === SESSIONS.length && (
+                      <p className="text-xs text-white/50 mt-2">All three nights is our $150 series price, so we&rsquo;ve applied it.</p>
+                    )}
+                  </div>
+                )}
+
+                {error && (
+                  <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold p-4 rounded-xl text-center">{error}</div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={!canSubmit || loading}
+                  className="w-full bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30 mt-2"
+                >
+                  {loading ? "REGISTERING..." : `REGISTER${price ? ` — $${price}` : ""}`}
+                  {!loading && <ArrowRight className="w-5 h-5" />}
+                </button>
+
+                <p className="text-center text-xs text-white/20 leading-relaxed">
+                  You&rsquo;ll receive an e-transfer invoice by email. Please send payment within 48 hours to hold your spot.
+                  All sales are final, and no-shows without 24 hours&rsquo; notice are still charged. See our{" "}
+                  <Link href="/policies" className="underline hover:text-white/40">cancellation policy</Link>.
+                </p>
+              </form>
+            )}
+          </div>
+        </div>
       </div>
 
-      {/* ── Sticky register bar (phones) ──────────────────────────── */}
+      {/* ── Sticky register bar (phones), frosted glass ──────────── */}
       <div
         className={`fixed inset-x-0 bottom-0 z-40 p-3 lg:hidden transition-transform duration-300 ${showBar ? "translate-y-0" : "translate-y-full"}`}
         aria-hidden={!showBar}
@@ -307,10 +332,10 @@ export default function SurreyClient() {
           href="#register"
           tabIndex={showBar ? 0 : -1}
           onClick={() => trackEvent("button_click", "/surrey", "surrey_cta_sticky")}
-          className="lg-glass flex items-center justify-center gap-2 font-semibold py-3.5 rounded-full active:scale-95 transition-transform"
+          className="lg-glass flex items-center justify-center gap-2 font-black text-sm uppercase tracking-wide py-4 rounded-full active:scale-95 transition-transform"
         >
           <span className="relative flex items-center gap-2">
-            Register <span className="text-white/60 font-medium">from $65</span> <ArrowRight className="w-4 h-4" />
+            Register <span className="text-white/60 font-bold">from $65</span> <ArrowRight className="w-4 h-4" />
           </span>
         </a>
       </div>
