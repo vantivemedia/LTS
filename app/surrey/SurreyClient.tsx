@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Check, Clock, MapPin } from "lucide-react";
 import { trackEvent, getSessionId, getAttribution } from "@/lib/analytics";
+import { DotPattern } from "@/components/ui/dot-pattern";
 
 // Matches the rest of the site (black + white). Liquid glass is used sparingly: the info card
 // over the photo, the plan toggle, and the sticky phone bar.
@@ -92,8 +93,17 @@ export default function SurreyClient() {
   const showBar = !heroVisible && !formVisible && !done;
 
   return (
-    <div className="min-h-screen bg-black pt-32 pb-28 lg:pb-24 px-5">
-      <div className="max-w-4xl mx-auto">
+    <div className="relative overflow-hidden min-h-screen bg-black pt-32 pb-28 lg:pb-24 px-5">
+      {/* faint dot grid behind the hero, fading out from behind the headline */}
+      <DotPattern
+        width={26}
+        height={26}
+        cx={1}
+        cy={1}
+        cr={1}
+        className="h-[780px] fill-white/20 md:fill-white/30 [mask-image:radial-gradient(560px_circle_at_28%_34%,white,transparent)]"
+      />
+      <div className="relative z-10 max-w-4xl mx-auto">
         {/* ── Hero ─────────────────────────────────────── */}
         <div ref={heroRef} className="mb-14 lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:items-center">
           <div>
@@ -188,13 +198,22 @@ export default function SurreyClient() {
         </div>
 
         {/* ── Register ─────────────────────────────────── */}
-        <div id="register" className="scroll-mt-28">
-          <div className="text-center mb-8">
+        <div id="register" className="relative scroll-mt-28">
+          {/* a softer dot glow behind the form heading */}
+          <DotPattern
+            width={26}
+            height={26}
+            cx={1}
+            cy={1}
+            cr={1}
+            className="-top-24 h-[360px] fill-white/20 md:fill-white/30 [mask-image:radial-gradient(380px_circle_at_50%_40%,white,transparent)]"
+          />
+          <div className="relative text-center mb-8">
             <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Limited Spots</p>
             <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight">Register Your Athlete</h2>
           </div>
 
-          <div ref={formRef} className="bg-[#111] p-6 sm:p-10 rounded-3xl border border-white/5 max-w-2xl mx-auto">
+          <div ref={formRef} className="relative bg-[#111] p-6 sm:p-10 rounded-3xl border border-white/5 max-w-2xl mx-auto">
             {done ? (
               <div className="text-center">
                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-5">
