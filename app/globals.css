@@ -95,6 +95,65 @@ p, li, span, label, a {
   100% { box-shadow: 0 0 0 0 rgba(7,60,141,0);    }
 }
 
+/* ── Liquid glass (/surrey) ─────────────────────────────── */
+.lg-glass {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05));
+  -webkit-backdrop-filter: blur(28px) saturate(175%);
+  backdrop-filter: blur(28px) saturate(175%);
+  border: 1px solid rgba(255,255,255,0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.42),
+    inset 0 -1px 0 rgba(255,255,255,0.06),
+    0 28px 70px -16px rgba(0,0,0,0.55);
+}
+/* soft specular highlight sweeping in from the top-left corner */
+.lg-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(120% 70% at 0% 0%, rgba(255,255,255,0.26), transparent 48%);
+  opacity: 0.8;
+}
+.lg-glass-soft {
+  background: rgba(255,255,255,0.07);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.22);
+}
+.lg-input {
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 1rem;
+  padding: 0.95rem 1.15rem;
+  color: #fff;
+  font-weight: 500;
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.lg-input::placeholder { color: rgba(255,255,255,0.35); }
+.lg-input:focus {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 0 4px rgba(255,255,255,0.08);
+}
+.lg-input option { color: #111; }
+@keyframes lg-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(40px, -30px, 0) scale(1.12); }
+}
+.lg-blob { animation: lg-drift 16s ease-in-out infinite alternate; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .lg-glass { background: rgba(20,20,24,0.82); }
+  .lg-glass-soft { background: rgba(255,255,255,0.1); }
+}
+@media (prefers-reduced-motion: reduce) { .lg-blob { animation: none; } }
+
 /* /nextrep landing page */
 @keyframes form-glow {
   0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.32), 0 0 28px rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); }
