@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, Check, MapPin } from "lucide-react";
 import { trackEvent } from "@/lib/analytics";
+import ProBooking from "./ProBooking";
 
 const SKILLS = [
   "Ball Handling",
@@ -132,11 +133,11 @@ export default function ProPage() {
               </p>
 
               <a
-                href="#request"
-                onClick={() => trackEvent("button_click", "/pro", "pro_request_scroll")}
+                href="#book"
+                onClick={() => trackEvent("button_click", "/pro", "pro_book_scroll")}
                 className="inline-flex items-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
               >
-                Request a Session
+                Book a Session
                 <ArrowRight className="w-4 h-4" />
               </a>
 
@@ -173,12 +174,13 @@ export default function ProPage() {
           <div className="mb-14">
             <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Scheduling</p>
             <div className="bg-[#111] border border-white/5 rounded-2xl p-5">
-              <p className="font-black text-white uppercase tracking-wide mb-1">By Request</p>
+              <p className="font-black text-white uppercase tracking-wide mb-1">Book Your Time Online</p>
               <p className="text-white/40 text-sm leading-relaxed">
-                LTS PRO has no fixed dates. Send us your availability and Coach Paolo will confirm a time that works for you.
+                Pick a 60 or 90 minute session, choose a day, and click into an open time slot. Your time is held as soon as you book.
               </p>
               <p className="text-white/60 text-sm leading-relaxed mt-3">
-                <span className="font-black text-white">Tuesdays:</span> private and semi-private sessions are available on Tuesdays by request.
+                <span className="font-black text-white">Tuesdays:</span> private and semi-private sessions are available.
+                Can&rsquo;t find a time that works? <a href="#request" className="underline hover:text-white">Send us your availability.</a>
               </p>
             </div>
           </div>
@@ -201,11 +203,11 @@ export default function ProPage() {
               ))}
             </div>
             <a
-              href="#request"
-              onClick={() => trackEvent("button_click", "/pro", "pro_request_scroll")}
+              href="#book"
+              onClick={() => trackEvent("button_click", "/pro", "pro_book_scroll")}
               className="inline-flex items-center justify-center gap-2 w-full bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
             >
-              Request a Session
+              Book a Session
               <ArrowRight className="w-4 h-4" />
             </a>
           </div>
@@ -228,13 +230,25 @@ export default function ProPage() {
         </div>
       </div>
 
-      {/* ── Request Form ── */}
-      <div id="request" className="max-w-4xl mx-auto mt-20 scroll-mt-28">
+      {/* ── Book a time slot ── */}
+      <div id="book" className="max-w-3xl mx-auto mt-20 scroll-mt-28">
         <div className="text-center mb-8">
-          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">By Request</p>
+          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Open Times</p>
+          <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">Book a Session</h2>
+          <p className="text-white/40 text-sm max-w-md mx-auto">
+            Choose your session length, then click a day and time. PRO pass holders just need their email.
+          </p>
+        </div>
+        <ProBooking />
+      </div>
+
+      {/* ── Request form (fallback when no time works) ── */}
+      <div id="request" className="max-w-4xl mx-auto mt-24 scroll-mt-28">
+        <div className="text-center mb-8">
+          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Need a Different Time?</p>
           <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">Request a Session</h2>
           <p className="text-white/40 text-sm max-w-md mx-auto">
-            Already have a PRO pass? Choose &ldquo;I Have a PRO Pass&rdquo; and just enter your email. Tell us what works for you and Coach Paolo will confirm a time.
+            Don&rsquo;t see a time that works? Tell us what does and Coach Paolo will confirm one. PRO pass holders can choose &ldquo;I Have a PRO Pass&rdquo; and just enter their email.
           </p>
         </div>
 

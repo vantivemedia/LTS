@@ -290,7 +290,8 @@ function RevenueTab() {
     for (const b of bookings) {
       if ((b.message || "").startsWith("PASS USAGE") || b.status === "cancelled") continue;
       if ((b.email || "").toLowerCase().includes(DEV_EMAIL)) continue;
-      const price = BOOKING_PRICES[b.program];
+      // LTS PRO is $85 for 60 minutes and $105 for 90 (the booking message records the length)
+      const price = b.program === "pro" && /90 min/i.test(b.message || "") ? 105 : BOOKING_PRICES[b.program];
       if (price == null || !b.created_at) continue;
       const key = b.created_at.slice(0, 7);
       const m = getMonth(key);

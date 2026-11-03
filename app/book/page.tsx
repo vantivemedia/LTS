@@ -311,14 +311,14 @@ function BookPageInner() {
               <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
             </Link>
 
-            {/* LTS PRO — by request */}
+            {/* LTS PRO — book a time slot */}
             <Link
               href="/pro"
               className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
             >
               <div>
-                <h3 className="font-black text-xl uppercase text-white mb-1">LTS PRO — Request a Session</h3>
-                <p className="text-sm text-white/40">Private training by request · PRO pass holders request here too</p>
+                <h3 className="font-black text-xl uppercase text-white mb-1">LTS PRO — Book a Session</h3>
+                <p className="text-sm text-white/40">Private training · click into an open time · PRO pass holders book here too</p>
               </div>
               <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
             </Link>
