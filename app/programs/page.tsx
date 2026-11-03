@@ -84,7 +84,7 @@ const PROGRAMS = [
     schedule: "Book online · Open time slots",
     location: "Richmond, BC",
     groupSize: "Private 1:1 · Semi-private up to 6",
-    price: "Private $85 · Semi-private $105",
+    price: "Private $85 · Semi-private from $65",
     color: "from-orange-500/20 to-amber-500/10",
     borderColor: "border-orange-500/20",
     href: "/pro",
@@ -98,7 +98,8 @@ const PROGRAMS = [
     ],
     details: [
       "Private (1-on-1), 60 minutes — $85",
-      "Semi-private (up to 6 athletes), 90 minutes — $105",
+      "Semi-private (up to 6 athletes), 60 minutes — $65",
+      "Semi-private (up to 6 athletes), 90 minutes — $85",
       "Led by Coach Paolo Labrador",
       "Pick a day and time that works for you",
     ],

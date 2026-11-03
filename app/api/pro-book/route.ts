@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { escapeHtml, isValidEmail, sanitizeAttribution } from "@/lib/guidebook";
 import {
-  PRO_LENGTHS, PRO_STEP, formatTime, longDate, pacificNow, parseTimeLabel,
-  slotInfo, timeLabel, toMinutes, type ProLength, type ProTaken,
+  PRO_PRODUCTS, PRO_STEP, formatTime, kindFromBooking, longDate, pacificNow, parseTimeLabel,
+  slotInfo, timeLabel, toMinutes, type ProProductId, type ProTaken,
 } from "@/lib/pro-slots";
 
 const LOCATION = "The Hoop — 11111 Twigg Pl #1061, Richmond, BC";
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const date = String(body.date || "");
     const start = Number(body.start);
-    const length = Number(body.length) as ProLength;
+    const productId = String(body.product || "") as ProProductId;
     const hasPass = !!body.hasPass;
     const details = String(body.details || "").trim().slice(0, 500);
     let athleteName = String(body.athleteName || "").trim();
@@ -23,8 +23,9 @@ export async function POST(request: Request) {
     let phone = String(body.phone || "").trim();
     const email = String(body.email || "").trim().toLowerCase();
 
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isInteger(start) || !(length in PRO_LENGTHS)) {
-      return NextResponse.json({ error: "Please choose a session length, date and time" }, { status: 400 });
+    const product = PRO_PRODUCTS[productId];
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isInteger(start) || !product) {
+      return NextResponse.json({ error: "Please choose a session type, date and time" }, { status: 400 });
     }
     if (!email || !isValidEmail(email)) {
       return NextResponse.json({ error: "Please enter a valid email address" }, { status: 400 });
@@ -35,6 +36,7 @@ export async function POST(request: Request) {
     if (start % PRO_STEP !== 0) {
       return NextResponse.json({ error: "That start time is not available" }, { status: 400 });
     }
+    const { length, price, capacity, kind, name: sessionType } = product;
     const end = start + length;
 
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
@@ -59,7 +61,7 @@ export async function POST(request: Request) {
     // Capacity / overlap check against existing PRO bookings that day
     const { data: existing } = await supabase
       .from("bookings")
-      .select("preferred_time, email, name")
+      .select("preferred_time, message, email, name")
       .eq("program", "pro")
       .eq("preferred_date", date)
       .neq("status", "cancelled");
@@ -67,12 +69,13 @@ export async function POST(request: Request) {
     for (const b of existing || []) {
       const r = parseTimeLabel(b.preferred_time);
       if (!r) continue;
-      const k = `${r[0]}|${r[1]}`;
-      const cur = counts.get(k) || { date, start: r[0], end: r[1], count: 0 };
+      const k = kindFromBooking(b.message, r[0], r[1]);
+      const key = `${r[0]}|${r[1]}|${k}`;
+      const cur = counts.get(key) || { date, start: r[0], end: r[1], kind: k, count: 0 };
       cur.count += 1;
-      counts.set(k, cur);
+      counts.set(key, cur);
     }
-    const info = slotInfo(date, start, end, [...counts.values()]);
+    const info = slotInfo(date, start, end, kind, [...counts.values()]);
     if (!info.available) {
       return NextResponse.json(
         { error: "Sorry, that time was just booked. Please choose another.", code: "SLOT_TAKEN" },
@@ -112,12 +115,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: `${athleteName} is already booked for that time.` }, { status: 409 });
     }
 
-    const { price, name: sessionType, capacity } = PRO_LENGTHS[length];
     const label = timeLabel(start, end);
-    // "PASS USAGE" prefix keeps pass bookings out of the revenue totals; "90 min" lets revenue use the $105 price.
+    // "PASS USAGE" prefix keeps pass bookings out of the revenue totals. The message also records the
+    // session type + length + price, which the admin revenue report and the slot logic read back.
+    const summary = `LTS PRO · ${sessionType.toLowerCase()} · ${length} min`;
     const message = hasPass
-      ? `PASS USAGE\nLTS PRO · ${sessionType.toLowerCase()} · ${length} min${details ? `\n${details}` : ""}`
-      : `LTS PRO · ${sessionType.toLowerCase()} · ${length} min · $${price}${details ? `\n${details}` : ""}`;
+      ? `PASS USAGE\n${summary}${details ? `\n${details}` : ""}`
+      : `${summary} · $${price}${details ? `\n${details}` : ""}`;
 
     const { error: insertError } = await supabase.from("bookings").insert({
       name: athleteName,
@@ -152,7 +156,7 @@ export async function POST(request: Request) {
       page: "/pro",
       label: "pro_booking",
       session_id: typeof body.sessionId === "string" && body.sessionId ? body.sessionId.slice(0, 64) : "server",
-      metadata: { ...sanitizeAttribution(body.attribution), length, hasPass },
+      metadata: { ...sanitizeAttribution(body.attribution), product: productId, hasPass },
     });
 
     if (process.env.RESEND_API_KEY) {
@@ -181,7 +185,7 @@ export async function POST(request: Request) {
             html: `
               <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
                 <p>Hi ${p},</p>
-                <p><strong>${a}</strong> is booked for an LTS PRO ${sessionType.toLowerCase()} session${capacity > 1 ? " (small group, up to " + capacity + " athletes)" : ""}.</p>
+                <p><strong>${a}</strong> is booked for an LTS PRO ${sessionType.toLowerCase()} session${capacity > 1 ? ` (small group, up to ${capacity} athletes)` : ""}.</p>
                 <div style="margin:24px 0;padding:20px;background:#f9f9f9;border-radius:12px;border:1px solid #eee;">
                   <p style="margin:6px 0;"><strong>When:</strong> ${when}</p>
                   <p style="margin:6px 0;"><strong>Session:</strong> ${sessionType}, ${length} minutes</p>
@@ -201,11 +205,11 @@ export async function POST(request: Request) {
             html: `
               <h2>New LTS PRO Booking</h2>
               <p><strong>${a}</strong>${grade ? ` (Grade ${escapeHtml(grade)}, ${escapeHtml(school)})` : ""}</p>
-              <p><strong>When:</strong> ${when} · ${sessionType} (${length} min)${capacity > 1 ? " · " + (info.booked + 1) + " of " + capacity + " spots filled" : ""}</p>
+              <p><strong>When:</strong> ${when} · ${sessionType} (${length} min)${capacity > 1 ? ` · ${info.booked + 1} of ${capacity} spots filled` : ""}</p>
               <p><strong>Parent:</strong> ${p} · ${escapeHtml(email)}${phone ? ` · ${escapeHtml(phone)}` : ""}</p>
-              <p><strong>Payment:</strong> ${hasPass ? `Pass holder, ${sessionsLeft} session(s) left after this one${length === 90 ? ". 90 minute session: confirm whether a top-up is due." : "."}` : `E-transfer pending, $${price}.00`}</p>
+              <p><strong>Payment:</strong> ${hasPass ? `Pass holder, ${sessionsLeft} session(s) left after this one.` : `E-transfer pending, $${price}.00`}</p>
               ${details ? `<p><strong>Notes:</strong> ${escapeHtml(details)}</p>` : ""}
-              <p style="color:#666;font-size:13px;">${capacity > 1 ? "Semi-private: up to " + capacity + " athletes can share this time." : "Private session: this time is now fully booked."}</p>
+              <p style="color:#666;font-size:13px;">${capacity > 1 ? `Semi-private: up to ${capacity} athletes can share this time.` : "Private session: this time is now fully booked."}</p>
             `,
           }),
         ]);
@@ -214,7 +218,7 @@ export async function POST(request: Request) {
       }
     }
 
-    return NextResponse.json({ success: true, date, label, length, price, hasPass, sessionsLeft });
+    return NextResponse.json({ success: true, date, label, product: productId, sessionType, length, price, hasPass, sessionsLeft });
   } catch (err) {
     console.error("PRO booking API error:", err);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

@@ -1,22 +1,27 @@
 // LTS PRO bookable time slots, shared by the booking page and the API routes.
 //
 // Coach Paolo adds availability "windows" (e.g. Tuesday 4:00-6:00 PM) as classes with
-// program = "pro" (Admin -> Schedule). Families book a 60 or 90 minute session that starts on a
-// 30-minute mark inside a window.
-//   60 min = Private ($85): one athlete, the time is exclusive.
-//   90 min = Semi-private ($105): up to 6 athletes can share the exact same session.
-// Any other overlapping time is treated as taken so the coach is never double-booked.
+// program = "pro" (Admin -> Schedule). Families book a session that starts on a 30-minute mark
+// inside a window. There are three products:
+//   Private, 60 min  ($85): one athlete, the time is exclusive.
+//   Semi-private, 60 min ($65) and 90 min ($85): up to 6 athletes share the exact same session.
+// A private session and a semi-private session can't share a time, and any other overlapping
+// time is treated as taken, so the coach is never double-booked.
 
 export const PRO_STEP = 30;
-export const PRO_LENGTHS = {
-  60: { label: "60 minutes", name: "Private", price: 85, capacity: 1, blurb: "1-on-1 with Coach Paolo" },
-  90: { label: "90 minutes", name: "Semi-private", price: 105, capacity: 6, blurb: "Small group, up to 6 athletes" },
+
+export const PRO_PRODUCTS = {
+  "private-60": { kind: "private", name: "Private", length: 60, price: 85, capacity: 1, blurb: "1-on-1 with Coach Paolo" },
+  "semi-60": { kind: "semi", name: "Semi-private", length: 60, price: 65, capacity: 6, blurb: "Small group, up to 6 athletes" },
+  "semi-90": { kind: "semi", name: "Semi-private", length: 90, price: 85, capacity: 6, blurb: "Small group, up to 6 athletes" },
 } as const;
-export type ProLength = keyof typeof PRO_LENGTHS;
+export type ProProductId = keyof typeof PRO_PRODUCTS;
+export type ProKind = "private" | "semi";
+export const PRO_PRODUCT_IDS = Object.keys(PRO_PRODUCTS) as ProProductId[];
 export const PRO_TIMEZONE = "America/Vancouver";
 
 export type ProWindow = { id: string; date: string; start: number; end: number };
-export type ProTaken = { date: string; start: number; end: number; count: number };
+export type ProTaken = { date: string; start: number; end: number; kind: ProKind; count: number };
 export type SlotInfo = { available: boolean; booked: number; left: number; capacity: number };
 
 export function toMinutes(t: string): number {
@@ -43,6 +48,14 @@ export function parseTimeLabel(label?: string | null): [number, number] | null {
   return [conv(m[1], m[2], m[3]), conv(m[4], m[5], m[6])];
 }
 
+// Which kind of session a saved booking is. New bookings say "private" or "semi-private" in the
+// message; anything older falls back to its length (90 min was always the group session).
+export function kindFromBooking(message: string | null | undefined, start: number, end: number): ProKind {
+  if (/semi-private/i.test(message || "")) return "semi";
+  if (/\bprivate\b/i.test(message || "")) return "private";
+  return end - start >= 90 ? "semi" : "private";
+}
+
 // Valid start times (minutes) for a session of `length` minutes inside a window.
 export function startsFor(w: { start: number; end: number }, length: number): number[] {
   const out: number[] = [];
@@ -50,13 +63,17 @@ export function startsFor(w: { start: number; end: number }, length: number): nu
   return out;
 }
 
-export function slotInfo(date: string, start: number, end: number, taken: ProTaken[]): SlotInfo {
-  const capacity = PRO_LENGTHS[(end - start) as ProLength]?.capacity ?? 1;
+export function slotInfo(date: string, start: number, end: number, kind: ProKind, taken: ProTaken[]): SlotInfo {
+  const capacity = kind === "semi" ? 6 : 1;
   let booked = 0;
   for (const t of taken) {
     if (t.date !== date) continue;
-    if (t.start === start && t.end === end) booked += t.count;
-    else if (t.start < end && start < t.end) return { available: false, booked: 0, left: 0, capacity }; // overlaps a different session
+    if (t.start === start && t.end === end) {
+      if (t.kind !== kind) return { available: false, booked: 0, left: 0, capacity }; // same time, other session type
+      booked += t.count;
+    } else if (t.start < end && start < t.end) {
+      return { available: false, booked: 0, left: 0, capacity }; // overlaps a different session
+    }
   }
   const left = Math.max(0, capacity - booked);
   return { available: left > 0, booked, left, capacity };

@@ -71,8 +71,8 @@ const PROGRAMS = [
     desc: "Premium private (1-on-1) and semi-private (up to 6 athletes) training with Coach Paolo, customized to the athlete’s position, skill level, and goals. Pick an open time slot and book online.",
     features: [
       "Individualized skill development",
-      "Private (60 min) or semi-private (90 min)",
-      "Private $85 · Semi-private $105",
+      "Private (60 min) or semi-private (60 or 90 min)",
+      "Private $85 · Semi-private from $65",
       "Click into open time slots online",
     ],
     href: "/pro",

@@ -17,8 +17,9 @@ const SKILLS = [
 ];
 
 const OPTIONS = [
-  { id: "60", length: "Private · 60 Minutes", price: "$85", desc: "One athlete, one coach. Fully individualized 1-on-1 training." },
-  { id: "90", length: "Semi-Private · 90 Minutes", price: "$105", desc: "Train alongside a small group of up to 6 athletes. Extended session with more reps.", featured: true },
+  { id: "private-60", length: "Private · 60 Minutes", price: "$85", desc: "One athlete, one coach. Fully individualized 1-on-1 training." },
+  { id: "semi-60", length: "Semi-Private · 60 Minutes", price: "$65", desc: "Train with a small group of up to 6 athletes. A focused one-hour session." },
+  { id: "semi-90", length: "Semi-Private · 90 Minutes", price: "$85", desc: "Small group of up to 6 athletes. Extended session with more reps.", featured: true },
 ];
 
 const INPUT_CLASS =
@@ -33,7 +34,7 @@ export default function ProPage() {
   const [parentName, setParentName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [sessionLength, setSessionLength] = useState("60");
+  const [sessionLength, setSessionLength] = useState("private-60");
   const [availability, setAvailability] = useState("");
   const [details, setDetails] = useState("");
   const [loading, setLoading] = useState(false);
@@ -155,11 +156,11 @@ export default function ProPage() {
             <div className="grid grid-cols-2 gap-3 mb-6">
               <div className="bg-[#111] border border-white/5 rounded-2xl p-5 text-center">
                 <p className="text-3xl font-black mb-1">1 : 1</p>
-                <p className="text-xs text-white/30 uppercase tracking-widest font-bold">Private &middot; 60 min</p>
+                <p className="text-xs text-white/30 uppercase tracking-widest font-bold">Private &middot; 60 min &middot; $85</p>
               </div>
               <div className="bg-[#111] border border-white/5 rounded-2xl p-5 text-center">
                 <p className="text-3xl font-black mb-1">Up to 6</p>
-                <p className="text-xs text-white/30 uppercase tracking-widest font-bold">Semi-Private &middot; 90 min</p>
+                <p className="text-xs text-white/30 uppercase tracking-widest font-bold">Semi-Private &middot; 60 or 90 min &middot; $65 / $85</p>
               </div>
             </div>
             <p className="text-white/40 text-sm mb-4">
@@ -180,7 +181,7 @@ export default function ProPage() {
             <div className="bg-[#111] border border-white/5 rounded-2xl p-5">
               <p className="font-black text-white uppercase tracking-wide mb-1">Book Your Time Online</p>
               <p className="text-white/40 text-sm leading-relaxed">
-                Choose a private (60 min) or semi-private (90 min) session, pick a day, and click into an open time slot. Your time is held as soon as you book.
+                Choose a private or semi-private session, pick a day, and click into an open time slot. Your time is held as soon as you book.
               </p>
               <p className="text-white/60 text-sm leading-relaxed mt-3">
                 <span className="font-black text-white">Tuesdays:</span> private and semi-private sessions are available.
@@ -192,7 +193,7 @@ export default function ProPage() {
           {/* Pricing */}
           <div>
             <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Pricing</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
               {OPTIONS.map((o) => (
                 <div
                   key={o.id}
@@ -261,7 +262,7 @@ export default function ProPage() {
             <div className="grid grid-cols-2 gap-3">
               {[
                 { value: true, title: "I Have a PRO Pass", sub: "Just need your email" },
-                { value: false, title: "New Request", sub: "$85 / 60 min · $105 / 90 min" },
+                { value: false, title: "New Request", sub: "Private $85 · Semi-private from $65" },
               ].map((o) => (
                 <button
                   key={o.title}
@@ -373,7 +374,7 @@ export default function ProPage() {
 
             <div>
               <label className={LABEL_CLASS}>Session Length</label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {OPTIONS.map((o) => (
                   <button
                     key={o.id}

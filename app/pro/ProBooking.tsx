@@ -5,8 +5,8 @@ import Link from "next/link";
 import { ArrowRight, Check, Clock, Loader2 } from "lucide-react";
 import { trackEvent, getSessionId, getAttribution } from "@/lib/analytics";
 import {
-  PRO_LENGTHS, formatTime, longDate, slotInfo, startsFor,
-  type ProLength, type ProTaken, type ProWindow,
+  PRO_PRODUCTS, PRO_PRODUCT_IDS, formatTime, longDate, slotInfo, startsFor,
+  type ProProductId, type ProTaken, type ProWindow,
 } from "@/lib/pro-slots";
 
 const INPUT =
@@ -15,12 +15,12 @@ const LABEL = "text-[10px] font-black text-white/30 uppercase tracking-widest mb
 
 type Data = { windows: ProWindow[]; taken: ProTaken[]; now: { date: string; minutes: number } };
 type Option = { windowId: string; start: number; end: number; booked: number; left: number; capacity: number };
-type Done = { athlete: string; email: string; date: string; label: string; length: number; price: number; hasPass: boolean; sessionsLeft: number | null };
+type Done = { athlete: string; email: string; date: string; label: string; sessionType: string; length: number; price: number; hasPass: boolean; sessionsLeft: number | null };
 
 export default function ProBooking() {
   const [data, setData] = useState<Data | null>(null);
   const [loadError, setLoadError] = useState("");
-  const [length, setLength] = useState<ProLength>(60);
+  const [productId, setProductId] = useState<ProProductId>("private-60");
   const [date, setDate] = useState("");
   const [start, setStart] = useState<number | null>(null);
 
@@ -48,7 +48,10 @@ export default function ProBooking() {
   }
   useEffect(() => { load(); }, []);
 
-  // Every bookable start time for the chosen session length, grouped by date.
+  const product = PRO_PRODUCTS[productId];
+  const { length, price, kind, name: sessionType } = product;
+
+  // Every bookable start time for the chosen session, grouped by date.
   const byDate = useMemo(() => {
     const map = new Map<string, Option[]>();
     if (!data) return map;
@@ -56,7 +59,7 @@ export default function ProBooking() {
       for (const s of startsFor(w, length)) {
         const e = s + length;
         if (w.date === data.now.date && s <= data.now.minutes) continue; // already started today
-        const info = slotInfo(w.date, s, e, data.taken);
+        const info = slotInfo(w.date, s, e, kind, data.taken);
         if (!info.available) continue;
         const list = map.get(w.date) || [];
         list.push({ windowId: w.id, start: s, end: e, booked: info.booked, left: info.left, capacity: info.capacity });
@@ -65,14 +68,13 @@ export default function ProBooking() {
     }
     for (const list of map.values()) list.sort((a, b) => a.start - b.start);
     return new Map([...map.entries()].sort(([a], [b]) => a.localeCompare(b)));
-  }, [data, length]);
+  }, [data, length, kind]);
 
   const dates = [...byDate.keys()];
   const options = byDate.get(date) || [];
   const picked = options.find((o) => o.start === start) || null;
-  const { price, name: sessionType } = PRO_LENGTHS[length];
 
-  // Drop a chosen date/time that no longer exists (e.g. after switching length or a refresh).
+  // Drop a chosen date/time that no longer exists (e.g. after switching session type or a refresh).
   useEffect(() => {
     if (date && !byDate.has(date)) { setDate(""); setStart(null); }
     else if (start !== null && !options.some((o) => o.start === start)) setStart(null);
@@ -90,7 +92,7 @@ export default function ProBooking() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          date, start: picked.start, length, hasPass, athleteName, school, grade, parentName, email, phone, details,
+          date, start: picked.start, product: productId, hasPass, athleteName, school, grade, parentName, email, phone, details,
           sessionId: getSessionId(), attribution: getAttribution(),
         }),
       });
@@ -101,7 +103,10 @@ export default function ProBooking() {
         throw new Error(d.error || "Booking failed");
       }
       trackEvent("button_click", "/pro", "pro_booked");
-      setDone({ athlete: athleteName || "your athlete", email, date: d.date, label: d.label, length: d.length, price: d.price, hasPass: d.hasPass, sessionsLeft: d.sessionsLeft });
+      setDone({
+        athlete: athleteName || "your athlete", email, date: d.date, label: d.label,
+        sessionType: d.sessionType, length: d.length, price: d.price, hasPass: d.hasPass, sessionsLeft: d.sessionsLeft,
+      });
     } catch (err: any) {
       setError(err.message || "Something went wrong. Please email info@ltseliteprep.ca");
     } finally {
@@ -119,7 +124,7 @@ export default function ProBooking() {
         <p className="text-white/60 leading-relaxed mb-1">
           <strong className="text-white">{longDate(done.date)}</strong>
         </p>
-        <p className="text-white/60 mb-5">{done.label} &middot; {done.length === 90 ? "Semi-private" : "Private"}, {done.length} min &middot; The Hoop, Richmond</p>
+        <p className="text-white/60 mb-5">{done.label} &middot; {done.sessionType}, {done.length} min &middot; The Hoop, Richmond</p>
         {done.hasPass ? (
           <p className="text-white/50 text-sm">1 session taken from your LTS PRO pass{done.sessionsLeft !== null ? ` (${done.sessionsLeft} left)` : ""}.</p>
         ) : (
@@ -138,23 +143,24 @@ export default function ProBooking() {
 
   return (
     <div className="bg-[#111] border border-white/5 rounded-3xl p-6 sm:p-10">
-      {/* 1. length */}
+      {/* 1. session type */}
       <p className={LABEL}>1. Session type</p>
-      <div className="grid grid-cols-2 gap-3 mb-8">
-        {(Object.keys(PRO_LENGTHS) as unknown as ProLength[]).map((l) => {
-          const on = Number(l) === length;
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
+        {PRO_PRODUCT_IDS.map((id) => {
+          const p = PRO_PRODUCTS[id];
+          const on = id === productId;
           return (
             <button
-              key={l}
+              key={id}
               type="button"
-              onClick={() => setLength(Number(l) as ProLength)}
+              onClick={() => setProductId(id)}
               className={`rounded-2xl px-5 py-4 text-left border transition-all ${on ? "bg-white text-black border-white" : "bg-[#0a0a0a] text-white border-white/5 hover:border-white/20"}`}
             >
-              <span className="block font-black uppercase text-sm">{PRO_LENGTHS[Number(l) as ProLength].name}</span>
+              <span className="block font-black uppercase text-sm">{p.name}</span>
               <span className={`block text-xs font-bold ${on ? "text-black/60" : "text-white/50"}`}>
-                {PRO_LENGTHS[Number(l) as ProLength].label} &middot; ${PRO_LENGTHS[Number(l) as ProLength].price}
+                {p.length} min &middot; ${p.price}
               </span>
-              <span className={`block text-[11px] mt-1 ${on ? "text-black/50" : "text-white/30"}`}>{PRO_LENGTHS[Number(l) as ProLength].blurb}</span>
+              <span className={`block text-[11px] mt-1 ${on ? "text-black/50" : "text-white/30"}`}>{p.blurb}</span>
             </button>
           );
         })}
@@ -167,7 +173,7 @@ export default function ProBooking() {
       )}
       {loadError && <p className="text-red-400 text-sm font-bold mb-8">{loadError}</p>}
       {data && dates.length === 0 && (
-        <p className="text-white/50 text-sm mb-8">No open times right now for a {sessionType.toLowerCase()} session. Send us your availability with the request form below.</p>
+        <p className="text-white/50 text-sm mb-8">No open times right now for a {sessionType.toLowerCase()} {length} minute session. Try another session type, or send us your availability with the request form below.</p>
       )}
       {dates.length > 0 && (
         <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5 mb-8">
@@ -252,7 +258,6 @@ export default function ProBooking() {
               <input required type="email" placeholder="PARENT@EXAMPLE.COM" value={email} onChange={(e) => setEmail(e.target.value)} className={INPUT} />
               <p className="text-[10px] text-white/25 mt-2 leading-relaxed">
                 Use the email you bought your pass with. One session is taken from your pass when you book.
-                {length === 90 ? " 90 minute sessions may include a small top-up; Coach Paolo will confirm." : ""}
               </p>
             </div>
           ) : (

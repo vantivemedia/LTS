@@ -17,7 +17,10 @@ export async function POST(request: Request) {
     }
 
     // LTS PRO has no fixed schedule — every session is requested and confirmed by Coach Paolo.
-    const lengthLabel = sessionLength === "90" ? "Semi-private, 90 minutes ($105)" : "Private, 60 minutes ($85)";
+    const lengthLabel =
+      sessionLength === "semi-90" ? "Semi-private, 90 minutes ($85)"
+      : sessionLength === "semi-60" ? "Semi-private, 60 minutes ($65)"
+      : "Private, 60 minutes ($85)";
 
     let passNote = "";
     if (hasPass) {

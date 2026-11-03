@@ -290,8 +290,7 @@ function RevenueTab() {
     for (const b of bookings) {
       if ((b.message || "").startsWith("PASS USAGE") || b.status === "cancelled") continue;
       if ((b.email || "").toLowerCase().includes(DEV_EMAIL)) continue;
-      // LTS PRO is $85 for 60 minutes and $105 for 90 (the booking message records the length)
-      const price = b.program === "pro" && /90 min/i.test(b.message || "") ? 105 : BOOKING_PRICES[b.program];
+      const price = b.program === "pro" ? proBookingPrice(b.message) : BOOKING_PRICES[b.program];
       if (price == null || !b.created_at) continue;
       const key = b.created_at.slice(0, 7);
       const m = getMonth(key);
@@ -1057,6 +1056,18 @@ const PACKAGE_LABELS: Record<string, string> = {
 // Friendly label per camp_id, used to split the flat registrations list into
 // per-event groups — camp_name has been inconsistent across events, so camp_id
 // (set server-side at registration time) is the reliable grouping key.
+// LTS PRO: private 60 min $85, semi-private 60 min $65, semi-private 90 min $85. The booking message
+// records which one was booked ("LTS PRO · semi-private · 60 min · $65"); request-form rows quote the price
+// in their "Session length" line; anything older falls back to the original $85.
+function proBookingPrice(message?: string | null): number {
+  const m = message || "";
+  const quoted = /Session length:[^\n]*\(\$(\d+)\)/.exec(m);
+  if (quoted) return Number(quoted[1]);
+  const t = /LTS PRO · (private|semi-private) · (\d+) min/.exec(m);
+  if (t) return t[1] === "private" ? 85 : t[2] === "90" ? 85 : 65;
+  return BOOKING_PRICES["pro"] ?? 85;
+}
+
 const CAMP_LABELS: Record<string, string> = {
   "blueprint-2026-july": "Blueprint Series (Jul)",
   "blueprint-workshop-aug12": "Blueprint Workshop (Aug 12)",
