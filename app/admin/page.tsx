@@ -760,7 +760,7 @@ function ScheduleTab() {
               className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#F97316]/50 focus:outline-none disabled:opacity-50"
             />
             {program === "pro" && (
-              <p className="text-[10px] text-white/30 mt-1.5">LTS PRO sessions are capped at 2 players.</p>
+              <p className="text-[10px] text-white/30 mt-1.5">LTS PRO: enter your full availability window (e.g. 4:00 to 6:00 PM). Families book a private (60 min, 1 athlete) or semi-private (90 min, up to 6) session inside it.</p>
             )}
           </div>
           <div className="sm:col-span-2 pt-2">

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Check, Clock, Loader2 } from "lucide-react";
 import { trackEvent, getSessionId, getAttribution } from "@/lib/analytics";
 import {
-  PRO_LENGTHS, formatTime, longDate, slotState, startsFor,
+  PRO_LENGTHS, formatTime, longDate, slotInfo, startsFor,
   type ProLength, type ProTaken, type ProWindow,
 } from "@/lib/pro-slots";
 
@@ -14,7 +14,7 @@ const INPUT =
 const LABEL = "text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block";
 
 type Data = { windows: ProWindow[]; taken: ProTaken[]; now: { date: string; minutes: number } };
-type Option = { windowId: string; start: number; end: number; state: "open" | "one-left" };
+type Option = { windowId: string; start: number; end: number; booked: number; left: number; capacity: number };
 type Done = { athlete: string; email: string; date: string; label: string; length: number; price: number; hasPass: boolean; sessionsLeft: number | null };
 
 export default function ProBooking() {
@@ -56,10 +56,10 @@ export default function ProBooking() {
       for (const s of startsFor(w, length)) {
         const e = s + length;
         if (w.date === data.now.date && s <= data.now.minutes) continue; // already started today
-        const state = slotState(w.date, s, e, data.taken);
-        if (state === "taken") continue;
+        const info = slotInfo(w.date, s, e, data.taken);
+        if (!info.available) continue;
         const list = map.get(w.date) || [];
-        list.push({ windowId: w.id, start: s, end: e, state });
+        list.push({ windowId: w.id, start: s, end: e, booked: info.booked, left: info.left, capacity: info.capacity });
         map.set(w.date, list);
       }
     }
@@ -70,7 +70,7 @@ export default function ProBooking() {
   const dates = [...byDate.keys()];
   const options = byDate.get(date) || [];
   const picked = options.find((o) => o.start === start) || null;
-  const price = PRO_LENGTHS[length].price;
+  const { price, name: sessionType } = PRO_LENGTHS[length];
 
   // Drop a chosen date/time that no longer exists (e.g. after switching length or a refresh).
   useEffect(() => {
@@ -119,7 +119,7 @@ export default function ProBooking() {
         <p className="text-white/60 leading-relaxed mb-1">
           <strong className="text-white">{longDate(done.date)}</strong>
         </p>
-        <p className="text-white/60 mb-5">{done.label} &middot; {done.length} min &middot; The Hoop, Richmond</p>
+        <p className="text-white/60 mb-5">{done.label} &middot; {done.length === 90 ? "Semi-private" : "Private"}, {done.length} min &middot; The Hoop, Richmond</p>
         {done.hasPass ? (
           <p className="text-white/50 text-sm">1 session taken from your LTS PRO pass{done.sessionsLeft !== null ? ` (${done.sessionsLeft} left)` : ""}.</p>
         ) : (
@@ -139,7 +139,7 @@ export default function ProBooking() {
   return (
     <div className="bg-[#111] border border-white/5 rounded-3xl p-6 sm:p-10">
       {/* 1. length */}
-      <p className={LABEL}>1. Session length</p>
+      <p className={LABEL}>1. Session type</p>
       <div className="grid grid-cols-2 gap-3 mb-8">
         {(Object.keys(PRO_LENGTHS) as unknown as ProLength[]).map((l) => {
           const on = Number(l) === length;
@@ -150,8 +150,11 @@ export default function ProBooking() {
               onClick={() => setLength(Number(l) as ProLength)}
               className={`rounded-2xl px-5 py-4 text-left border transition-all ${on ? "bg-white text-black border-white" : "bg-[#0a0a0a] text-white border-white/5 hover:border-white/20"}`}
             >
-              <span className="block font-black uppercase text-sm">{PRO_LENGTHS[Number(l) as ProLength].label}</span>
-              <span className={`block text-xs font-bold ${on ? "text-black/50" : "text-white/40"}`}>${PRO_LENGTHS[Number(l) as ProLength].price}</span>
+              <span className="block font-black uppercase text-sm">{PRO_LENGTHS[Number(l) as ProLength].name}</span>
+              <span className={`block text-xs font-bold ${on ? "text-black/60" : "text-white/50"}`}>
+                {PRO_LENGTHS[Number(l) as ProLength].label} &middot; ${PRO_LENGTHS[Number(l) as ProLength].price}
+              </span>
+              <span className={`block text-[11px] mt-1 ${on ? "text-black/50" : "text-white/30"}`}>{PRO_LENGTHS[Number(l) as ProLength].blurb}</span>
             </button>
           );
         })}
@@ -164,7 +167,7 @@ export default function ProBooking() {
       )}
       {loadError && <p className="text-red-400 text-sm font-bold mb-8">{loadError}</p>}
       {data && dates.length === 0 && (
-        <p className="text-white/50 text-sm mb-8">No open times right now for {PRO_LENGTHS[length].label}. Send us your availability with the request form below.</p>
+        <p className="text-white/50 text-sm mb-8">No open times right now for a {sessionType.toLowerCase()} session. Send us your availability with the request form below.</p>
       )}
       {dates.length > 0 && (
         <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5 mb-8">
@@ -203,8 +206,10 @@ export default function ProBooking() {
                   className={`rounded-2xl py-3 px-2 text-center border transition-all ${on ? "bg-white text-black border-white" : "bg-[#0a0a0a] text-white border-white/5 hover:border-white/20"}`}
                 >
                   <span className="block font-black text-sm">{formatTime(o.start)}</span>
-                  {o.state === "one-left" && (
-                    <span className={`block text-[10px] font-bold mt-0.5 ${on ? "text-black/50" : "text-white/40"}`}>1 spot left</span>
+                  {o.booked > 0 && (
+                    <span className={`block text-[10px] font-bold mt-0.5 ${on ? "text-black/50" : "text-white/40"}`}>
+                      {o.left} spot{o.left === 1 ? "" : "s"} left
+                    </span>
                   )}
                 </button>
               );
@@ -212,8 +217,8 @@ export default function ProBooking() {
           </div>
           {picked && (
             <p className="flex items-center gap-2 text-white/50 text-xs mb-8">
-              <Clock className="w-3.5 h-3.5" /> {formatTime(picked.start)} &ndash; {formatTime(picked.end)} &middot; {length} min
-              {picked.state === "one-left" ? " · shared with one other athlete" : ""}
+              <Clock className="w-3.5 h-3.5" /> {formatTime(picked.start)} &ndash; {formatTime(picked.end)} &middot; {sessionType}, {length} min
+              {picked.capacity > 1 ? (picked.booked > 0 ? ` · small group, ${picked.booked} of ${picked.capacity} spots taken` : ` · small group, up to ${picked.capacity} athletes`) : " · just your athlete"}
             </p>
           )}
           {!picked && <div className="mb-8" />}
@@ -227,7 +232,7 @@ export default function ProBooking() {
           <div className="grid grid-cols-2 gap-3">
             {[
               { v: true, title: "I Have a PRO Pass", sub: "Just need your email" },
-              { v: false, title: "Single Session", sub: `$${price} per session` },
+              { v: false, title: "Single Session", sub: `$${price} · ${sessionType.toLowerCase()}` },
             ].map((o) => (
               <button
                 key={o.title}

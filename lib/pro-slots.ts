@@ -2,21 +2,22 @@
 //
 // Coach Paolo adds availability "windows" (e.g. Tuesday 4:00-6:00 PM) as classes with
 // program = "pro" (Admin -> Schedule). Families book a 60 or 90 minute session that starts on a
-// 30-minute mark inside a window. Up to 2 athletes can share the exact same session (LTS PRO is
-// 1:2); any other overlapping time is treated as taken so the coach is never double-booked.
+// 30-minute mark inside a window.
+//   60 min = Private ($85): one athlete, the time is exclusive.
+//   90 min = Semi-private ($105): up to 6 athletes can share the exact same session.
+// Any other overlapping time is treated as taken so the coach is never double-booked.
 
 export const PRO_STEP = 30;
-export const PRO_CAPACITY = 2;
 export const PRO_LENGTHS = {
-  60: { label: "60 minutes", price: 85 },
-  90: { label: "90 minutes", price: 105 },
+  60: { label: "60 minutes", name: "Private", price: 85, capacity: 1, blurb: "1-on-1 with Coach Paolo" },
+  90: { label: "90 minutes", name: "Semi-private", price: 105, capacity: 6, blurb: "Small group, up to 6 athletes" },
 } as const;
 export type ProLength = keyof typeof PRO_LENGTHS;
 export const PRO_TIMEZONE = "America/Vancouver";
 
 export type ProWindow = { id: string; date: string; start: number; end: number };
 export type ProTaken = { date: string; start: number; end: number; count: number };
-export type SlotState = "open" | "one-left" | "taken";
+export type SlotInfo = { available: boolean; booked: number; left: number; capacity: number };
 
 export function toMinutes(t: string): number {
   const [h, m] = t.split(":").map(Number);
@@ -49,15 +50,16 @@ export function startsFor(w: { start: number; end: number }, length: number): nu
   return out;
 }
 
-export function slotState(date: string, start: number, end: number, taken: ProTaken[]): SlotState {
-  let identical = 0;
+export function slotInfo(date: string, start: number, end: number, taken: ProTaken[]): SlotInfo {
+  const capacity = PRO_LENGTHS[(end - start) as ProLength]?.capacity ?? 1;
+  let booked = 0;
   for (const t of taken) {
     if (t.date !== date) continue;
-    if (t.start === start && t.end === end) identical += t.count;
-    else if (t.start < end && start < t.end) return "taken"; // overlaps a different session
+    if (t.start === start && t.end === end) booked += t.count;
+    else if (t.start < end && start < t.end) return { available: false, booked: 0, left: 0, capacity }; // overlaps a different session
   }
-  if (identical >= PRO_CAPACITY) return "taken";
-  return identical >= 1 ? "one-left" : "open";
+  const left = Math.max(0, capacity - booked);
+  return { available: left > 0, booked, left, capacity };
 }
 
 // Today's date + minutes since midnight in Pacific time (the gym's clock, not the visitor's).

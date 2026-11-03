@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { escapeHtml, isValidEmail, sanitizeAttribution } from "@/lib/guidebook";
 import {
-  PRO_CAPACITY, PRO_LENGTHS, PRO_STEP, formatTime, longDate, pacificNow, parseTimeLabel,
-  slotState, timeLabel, toMinutes, type ProLength, type ProTaken,
+  PRO_LENGTHS, PRO_STEP, formatTime, longDate, pacificNow, parseTimeLabel,
+  slotInfo, timeLabel, toMinutes, type ProLength, type ProTaken,
 } from "@/lib/pro-slots";
 
 const LOCATION = "The Hoop — 11111 Twigg Pl #1061, Richmond, BC";
@@ -72,7 +72,8 @@ export async function POST(request: Request) {
       cur.count += 1;
       counts.set(k, cur);
     }
-    if (slotState(date, start, end, [...counts.values()]) === "taken") {
+    const info = slotInfo(date, start, end, [...counts.values()]);
+    if (!info.available) {
       return NextResponse.json(
         { error: "Sorry, that time was just booked. Please choose another.", code: "SLOT_TAKEN" },
         { status: 409 }
@@ -111,12 +112,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: `${athleteName} is already booked for that time.` }, { status: 409 });
     }
 
-    const price = PRO_LENGTHS[length].price;
+    const { price, name: sessionType, capacity } = PRO_LENGTHS[length];
     const label = timeLabel(start, end);
     // "PASS USAGE" prefix keeps pass bookings out of the revenue totals; "90 min" lets revenue use the $105 price.
     const message = hasPass
-      ? `PASS USAGE\nLTS PRO · ${length} min${details ? `\n${details}` : ""}`
-      : `LTS PRO · ${length} min · $${price}${details ? `\n${details}` : ""}`;
+      ? `PASS USAGE\nLTS PRO · ${sessionType.toLowerCase()} · ${length} min${details ? `\n${details}` : ""}`
+      : `LTS PRO · ${sessionType.toLowerCase()} · ${length} min · $${price}${details ? `\n${details}` : ""}`;
 
     const { error: insertError } = await supabase.from("bookings").insert({
       name: athleteName,
@@ -180,10 +181,10 @@ export async function POST(request: Request) {
             html: `
               <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
                 <p>Hi ${p},</p>
-                <p><strong>${a}</strong> is booked for an LTS PRO private session.</p>
+                <p><strong>${a}</strong> is booked for an LTS PRO ${sessionType.toLowerCase()} session${capacity > 1 ? " (small group, up to " + capacity + " athletes)" : ""}.</p>
                 <div style="margin:24px 0;padding:20px;background:#f9f9f9;border-radius:12px;border:1px solid #eee;">
                   <p style="margin:6px 0;"><strong>When:</strong> ${when}</p>
-                  <p style="margin:6px 0;"><strong>Length:</strong> ${length} minutes</p>
+                  <p style="margin:6px 0;"><strong>Session:</strong> ${sessionType}, ${length} minutes</p>
                   <p style="margin:6px 0;"><strong>Location:</strong> ${escapeHtml(LOCATION)}</p>
                   ${hasPass ? "" : `<p style="margin:6px 0;"><strong>Amount due:</strong> $${price}.00</p>`}
                 </div>
@@ -200,11 +201,11 @@ export async function POST(request: Request) {
             html: `
               <h2>New LTS PRO Booking</h2>
               <p><strong>${a}</strong>${grade ? ` (Grade ${escapeHtml(grade)}, ${escapeHtml(school)})` : ""}</p>
-              <p><strong>When:</strong> ${when} · ${length} min</p>
+              <p><strong>When:</strong> ${when} · ${sessionType} (${length} min)${capacity > 1 ? " · " + (info.booked + 1) + " of " + capacity + " spots filled" : ""}</p>
               <p><strong>Parent:</strong> ${p} · ${escapeHtml(email)}${phone ? ` · ${escapeHtml(phone)}` : ""}</p>
               <p><strong>Payment:</strong> ${hasPass ? `Pass holder, ${sessionsLeft} session(s) left after this one${length === 90 ? ". 90 minute session: confirm whether a top-up is due." : "."}` : `E-transfer pending, $${price}.00`}</p>
               ${details ? `<p><strong>Notes:</strong> ${escapeHtml(details)}</p>` : ""}
-              <p style="color:#666;font-size:13px;">Up to ${PRO_CAPACITY} athletes can share the same time.</p>
+              <p style="color:#666;font-size:13px;">${capacity > 1 ? "Semi-private: up to " + capacity + " athletes can share this time." : "Private session: this time is now fully booked."}</p>
             `,
           }),
         ]);

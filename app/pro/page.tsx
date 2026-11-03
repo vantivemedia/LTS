@@ -17,8 +17,8 @@ const SKILLS = [
 ];
 
 const OPTIONS = [
-  { id: "60", length: "60 Minutes", price: "$85", desc: "Focused one-hour private session." },
-  { id: "90", length: "90 Minutes", price: "$105", desc: "Extended session for deeper work and more reps.", featured: true },
+  { id: "60", length: "Private · 60 Minutes", price: "$85", desc: "One athlete, one coach. Fully individualized 1-on-1 training." },
+  { id: "90", length: "Semi-Private · 90 Minutes", price: "$105", desc: "Train alongside a small group of up to 6 athletes. Extended session with more reps.", featured: true },
 ];
 
 const INPUT_CLASS =
@@ -152,10 +152,14 @@ export default function ProPage() {
           {/* Training Format */}
           <div className="mb-14">
             <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Training Format</p>
-            <div className="mb-6">
+            <div className="grid grid-cols-2 gap-3 mb-6">
               <div className="bg-[#111] border border-white/5 rounded-2xl p-5 text-center">
-                <p className="text-3xl font-black mb-1">1 : 2</p>
-                <p className="text-xs text-white/30 uppercase tracking-widest font-bold">Coach : Athlete</p>
+                <p className="text-3xl font-black mb-1">1 : 1</p>
+                <p className="text-xs text-white/30 uppercase tracking-widest font-bold">Private &middot; 60 min</p>
+              </div>
+              <div className="bg-[#111] border border-white/5 rounded-2xl p-5 text-center">
+                <p className="text-3xl font-black mb-1">Up to 6</p>
+                <p className="text-xs text-white/30 uppercase tracking-widest font-bold">Semi-Private &middot; 90 min</p>
               </div>
             </div>
             <p className="text-white/40 text-sm mb-4">
@@ -176,7 +180,7 @@ export default function ProPage() {
             <div className="bg-[#111] border border-white/5 rounded-2xl p-5">
               <p className="font-black text-white uppercase tracking-wide mb-1">Book Your Time Online</p>
               <p className="text-white/40 text-sm leading-relaxed">
-                Pick a 60 or 90 minute session, choose a day, and click into an open time slot. Your time is held as soon as you book.
+                Choose a private (60 min) or semi-private (90 min) session, pick a day, and click into an open time slot. Your time is held as soon as you book.
               </p>
               <p className="text-white/60 text-sm leading-relaxed mt-3">
                 <span className="font-black text-white">Tuesdays:</span> private and semi-private sessions are available.
@@ -236,7 +240,7 @@ export default function ProPage() {
           <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Open Times</p>
           <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">Book a Session</h2>
           <p className="text-white/40 text-sm max-w-md mx-auto">
-            Choose your session length, then click a day and time. PRO pass holders just need their email.
+            Choose private or semi-private, then click a day and time. PRO pass holders just need their email.
           </p>
         </div>
         <ProBooking />
