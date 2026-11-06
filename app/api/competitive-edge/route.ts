@@ -8,8 +8,7 @@ import { escapeHtml, isValidEmail, sanitizeAttribution } from "@/lib/guidebook";
 const CAMP_ID = "next-rep-competitive-edge-nov11";
 const CAPACITY = 12;
 const PRICE = 85;
-// Venue wasn't included with the announcement copy; leave empty until it's confirmed.
-const LOCATION = "";
+const LOCATION = "The Hoop — 11111 Twigg Pl #1061, Richmond, BC";
 
 const SESSIONS = {
   1: { label: "Session 1 · Grades 7–9 · 11:00 AM – 12:30 PM", time: "11:00 AM – 12:30 PM", grades: "Grades 7–9" },
@@ -158,7 +157,7 @@ export async function POST(request: Request) {
                 <div style="background:#000;padding:28px 32px;border-radius:16px 16px 0 0;">
                   <p style="color:#fff;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 8px;">The Next Rep Workshop Series · Workshop III</p>
                   <h1 style="color:#fff;font-size:28px;font-weight:900;margin:0;text-transform:uppercase;letter-spacing:-0.02em;">The Competitive Edge</h1>
-                  <p style="color:rgba(255,255,255,0.55);font-size:12px;margin:6px 0 0;">Wednesday, November 11, 2026</p>
+                  <p style="color:rgba(255,255,255,0.55);font-size:12px;margin:6px 0 0;">Wednesday, November 11, 2026 · The Hoop, Richmond</p>
                 </div>
 
                 <div style="background:#f9f9f9;padding:28px 32px;">

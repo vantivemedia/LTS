@@ -3,7 +3,7 @@ import CompetitiveEdgeClient from "./CompetitiveEdgeClient";
 
 const TITLE = "The Competitive Edge: The Next Rep Workshop III";
 const DESCRIPTION =
-  "Your response is your competitive edge. A mental performance workshop with competitive basketball training for Grades 7–12. Wednesday, November 11. $85 per athlete, 12 athletes per group.";
+  "Your response is your competitive edge. A mental performance workshop with competitive basketball training for Grades 7–12. Wednesday, November 11 at The Hoop in Richmond. $85 per athlete, 12 athletes per group.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.ltseliteprep.ca"),

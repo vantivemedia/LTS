@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Check, Clock, Users } from "lucide-react";
+import { ArrowRight, Check, Clock, MapPin, Users } from "lucide-react";
 import { trackEvent, getSessionId, getAttribution } from "@/lib/analytics";
 
 // White is the main colour; black carries the weight; dark red is a quiet accent (numbers, thin rules,
@@ -137,6 +137,9 @@ export default function CompetitiveEdgeClient() {
           <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "rgba(11,11,11,0.5)" }}>
             Wednesday, November 11 &middot; Grades 7&ndash;12
           </p>
+          <p className="mt-1.5 flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "rgba(11,11,11,0.5)" }}>
+            <MapPin className="w-3.5 h-3.5" /> The Hoop &middot; Richmond, BC
+          </p>
         </header>
 
         {/* ── Intro + photo ──────────────────────────── */}
@@ -204,6 +207,9 @@ export default function CompetitiveEdgeClient() {
                 Wednesday, November 11, 2026
               </p>
               <p className="text-xs font-bold uppercase tracking-[0.25em] mt-2" style={{ color: "#b3434f" }}>Remembrance Day</p>
+              <p className="flex items-center justify-center gap-2 text-sm font-bold mt-4 text-white/85">
+                <MapPin className="w-4 h-4 shrink-0" /> The Hoop &mdash; 11111 Twigg Pl #1061, Richmond, BC
+              </p>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-px" style={{ background: "rgba(11,11,11,0.12)" }}>
@@ -278,7 +284,7 @@ export default function CompetitiveEdgeClient() {
                 <h3 className="text-3xl mb-3">You&rsquo;re on the list</h3>
                 <p className="leading-relaxed mb-5 text-white/80">
                   <strong className="text-white">{done.athlete}</strong> is registered for{" "}
-                  <strong className="text-white">{GROUPS[done.group - 1].grades} · {GROUPS[done.group - 1].time}</strong> on Wednesday, November 11.
+                  <strong className="text-white">{GROUPS[done.group - 1].grades} · {GROUPS[done.group - 1].time}</strong> on Wednesday, November 11, at The Hoop in Richmond.
                 </p>
                 <div className="rounded-2xl p-5 text-sm text-left max-w-sm mx-auto" style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.18)" }}>
                   <p className="font-black uppercase tracking-wider text-[11px] mb-2" style={{ color: "#b3434f" }}>To confirm your spot</p>
