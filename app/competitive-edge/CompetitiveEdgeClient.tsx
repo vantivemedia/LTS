@@ -129,7 +129,7 @@ export default function CompetitiveEdgeClient() {
           <a
             href="#register"
             onClick={() => trackEvent("button_click", "/competitive-edge", "competitive_edge_cta_top")}
-            className="inline-flex items-center justify-center gap-2 mt-9 text-white font-black uppercase tracking-wide text-sm px-9 py-4 rounded-full active:scale-95 transition-transform hover:bg-black"
+            className="animate-ce-pulse inline-flex items-center justify-center gap-2 mt-9 text-white font-black uppercase tracking-wide text-sm px-9 py-4 rounded-full active:scale-95 hover:bg-black"
             style={{ background: INK }}
           >
             Register Now <ArrowRight className="w-4 h-4" />
