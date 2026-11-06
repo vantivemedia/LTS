@@ -1051,6 +1051,7 @@ const PACKAGE_LABELS: Record<string, string> = {
   "mental-reset-academy": "Mental Reset + Academy",
   "surrey-all-3": "Surrey: All 3 Sessions",
   "surrey-dropin": "Surrey: Drop-In",
+  "competitive-edge": "Competitive Edge Workshop",
 };
 
 // Friendly label per camp_id, used to split the flat registrations list into
@@ -1076,6 +1077,7 @@ const CAMP_LABELS: Record<string, string> = {
   "pop-up-camp-sept30": "Pop-Up Camp (Sept 30)",
   "next-rep-mental-reset-oct23": "Mental Reset Workshop (Oct 23)",
   "transition-hs-surrey-nov": "Transition to HS: Surrey (Nov)",
+  "next-rep-competitive-edge-nov11": "Competitive Edge Workshop (Nov 11)",
 };
 
 const SESSION_LABELS: Record<string, string> = {
