@@ -154,16 +154,8 @@ export default function CompetitiveEdgeClient() {
             <p className="text-base sm:text-lg leading-relaxed mb-5" style={{ color: "rgba(11,11,11,0.75)" }}>
               But what separates athletes isn&rsquo;t simply their ability to perform when things are going well.
             </p>
-            <p className="text-xl sm:text-2xl font-black leading-snug mb-8 pl-4 border-l-4" style={{ borderColor: RED }}>
+            <p className="text-xl sm:text-2xl font-black leading-snug pl-4 border-l-4" style={{ borderColor: RED }}>
               It&rsquo;s how they respond when things aren&rsquo;t.
-            </p>
-            <p className="text-base leading-relaxed mb-4" style={{ color: "rgba(11,11,11,0.75)" }}>
-              LTS Elite Prep is proud to introduce the third installment of The Next Rep Workshop Series:{" "}
-              <strong style={{ color: INK }}>THE COMPETITIVE EDGE.</strong>
-            </p>
-            <p className="text-base leading-relaxed" style={{ color: "rgba(11,11,11,0.75)" }}>
-              The Next Rep is our ongoing initiative dedicated to developing the person behind the player, with an emphasis on
-              mental performance, self-esteem, confidence, and personal growth.
             </p>
           </div>
 
