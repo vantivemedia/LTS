@@ -99,6 +99,8 @@ export default function CompetitiveEdgeClient() {
   const spotsBadge = (n: 1 | 2) => {
     const l = left(n);
     if (l === null) return null;
+    // Older group (Grades 10-12): no spots-left count shown, only "Full" once it fills
+    if (n === 2 && l > 0) return null;
     if (l === 0) return <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full text-white" style={{ background: INK }}>Full</span>;
     if (l <= 4) return <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full border-2" style={{ borderColor: RED, color: RED }}>Only {l} left</span>;
     return <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full border-2" style={{ borderColor: INK }}>{l} spots left</span>;
