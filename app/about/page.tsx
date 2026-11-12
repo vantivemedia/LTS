@@ -138,19 +138,12 @@ export default function AboutPage() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         {/* Hero */}
         <div className="text-center mb-20 reveal">
-          <span
-            className="inline-flex items-center gap-2
-                       text-xs font-semibold tracking-widest uppercase
-                       border border-white/10 text-white/50
-                       rounded-full px-3.5 py-1.5 mb-5"
-          >
-            About Us
-          </span>
+          <p className="inline-flex items-center gap-3 text-xs font-semibold tracking-[0.25em] uppercase text-white/60 mb-5"><span className="h-px w-8 bg-white/35" />About Us</p>
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-4">
             More Than a{" "}
             <span className="text-white">Program</span>
           </h1>
-          <p className="text-white/40 text-lg max-w-xl mx-auto">
+          <p className="text-white/60 text-lg max-w-xl mx-auto">
             We&rsquo;re a community of coaches and athletes united by a love for
             basketball and a commitment to growth.
           </p>
@@ -159,18 +152,11 @@ export default function AboutPage() {
         {/* Story */}
         <section className="mb-24 reveal">
           <div className="max-w-3xl mx-auto">
-            <span
-              className="inline-flex items-center gap-2
-                         text-xs font-semibold tracking-widest uppercase
-                         border border-white/10 text-white/50
-                         rounded-full px-3.5 py-1.5 mb-5"
-            >
-              {STORY.title}
-            </span>
+            <p className="inline-flex items-center gap-3 text-xs font-semibold tracking-[0.25em] uppercase text-white/60 mb-5"><span className="h-px w-8 bg-white/35" />{STORY.title}</p>
             {STORY.paragraphs.map((p, i) => (
               <p
                 key={i}
-                className="text-white/50 text-lg leading-relaxed mb-5 last:mb-0"
+                className="text-white/70 text-lg leading-relaxed mb-5 last:mb-0"
               >
                 {p}
               </p>
@@ -186,12 +172,12 @@ export default function AboutPage() {
               { src: "/images/SBU02221.jpg", alt: "Dribble practice" },
               { src: "/images/DSC00881.jpg", alt: "Layup training" },
             ].map((img, i) => (
-              <div key={i} className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/5">
+              <div key={i} className="relative aspect-[4/3] rounded-md overflow-hidden border border-white/5">
                 <Image
                   src={img.src}
                   alt={img.alt}
                   fill
-                  className="object-cover hover:scale-105 transition-transform duration-700"
+                  className="object-cover transition-transform duration-700"
                   sizes="(max-width: 640px) 100vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
@@ -213,16 +199,16 @@ export default function AboutPage() {
                 key={title}
                 style={{ transitionDelay: `${i * 80}ms` }}
                 className="reveal card card-warm bg-[#111] border border-white/10
-                           rounded-2xl p-6 text-center"
+                           rounded-md p-6 text-center"
               >
                 <div
-                  className="w-12 h-12 rounded-xl bg-white/5
+                  className="w-12 h-12 rounded-sm bg-white/5
                               flex items-center justify-center mx-auto mb-4"
                 >
                   <Icon className="w-5 h-5 text-white" />
                 </div>
                 <h3 className="font-extrabold text-lg mb-2">{title}</h3>
-                <p className="text-white/40 text-sm leading-relaxed">{desc}</p>
+                <p className="text-white/60 text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -230,12 +216,12 @@ export default function AboutPage() {
 
         {/* PACT */}
         <section className="mb-24">
-          <div className="bg-[#060606] border border-white/5 rounded-3xl p-8 sm:p-12 reveal">
+          <div className="bg-[#060606] border border-white/5 rounded-md p-8 sm:p-12 reveal">
             <div className="text-center mb-10">
               <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-3">
                 The <span className="text-white">PACT</span>
               </h2>
-              <p className="text-white/40 max-w-lg mx-auto">
+              <p className="text-white/60 max-w-lg mx-auto">
                 Our guiding philosophy. Every athlete at LTS makes a personal
                 commitment to their own development.
               </p>
@@ -246,13 +232,13 @@ export default function AboutPage() {
                 <div
                   key={letter}
                   style={{ transitionDelay: `${i * 60}ms` }}
-                  className="reveal bg-[#111] border border-white/10 rounded-2xl p-6"
+                  className="reveal bg-[#111] border border-white/10 rounded-md p-6"
                 >
                   <span className="text-4xl font-extrabold text-white leading-none">
                     {letter}
                   </span>
                   <p className="font-extrabold text-lg mt-2 mb-2">{word}</p>
-                  <p className="text-white/40 text-sm leading-relaxed">
+                  <p className="text-white/60 text-sm leading-relaxed">
                     {desc}
                   </p>
                 </div>
@@ -264,18 +250,11 @@ export default function AboutPage() {
         {/* Coaches */}
         <section className="mb-24">
           <div className="text-center mb-12 reveal">
-            <span
-              className="inline-flex items-center gap-2
-                         text-xs font-semibold tracking-widest uppercase
-                         border border-white/10 text-white/50
-                         rounded-full px-3.5 py-1.5 mb-5"
-            >
-              Coaching Staff
-            </span>
+            <p className="inline-flex items-center gap-3 text-xs font-semibold tracking-[0.25em] uppercase text-white/60 mb-5"><span className="h-px w-8 bg-white/35" />Coaching Staff</p>
             <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
               Meet the Team
             </h2>
-            <p className="text-white/40 mt-3 max-w-lg mx-auto">
+            <p className="text-white/60 mt-3 max-w-lg mx-auto">
               Real players turned real coaches. They know what it takes because
               they&rsquo;ve been there.
             </p>
@@ -286,7 +265,7 @@ export default function AboutPage() {
               <div
                 key={coach.name}
                 style={{ transitionDelay: `${i * 80}ms` }}
-                className="reveal bg-[#111] border border-white/7 rounded-2xl overflow-hidden"
+                className="reveal bg-[#111] border border-white/7 rounded-md overflow-hidden"
               >
                 <div className="flex flex-col md:flex-row">
                   {/* Photo */}
@@ -317,7 +296,7 @@ export default function AboutPage() {
                       <h3 className="text-3xl font-extrabold mb-1">
                         {coach.name}
                       </h3>
-                      <p className="text-white/40 font-bold text-xs tracking-[0.2em] uppercase">
+                      <p className="text-white/60 font-bold text-xs tracking-[0.2em] uppercase">
                         {coach.role}
                       </p>
                     </div>
@@ -332,7 +311,7 @@ export default function AboutPage() {
                       {coach.highlights.map((h) => (
                         <span
                           key={h}
-                          className="bg-white/5 border border-white/10 text-white/30
+                          className="bg-white/5 border border-white/10 text-white/50
                                      text-[10px] font-bold tracking-widest uppercase
                                      px-3 py-1.5 rounded-md"
                         >
@@ -350,21 +329,21 @@ export default function AboutPage() {
         {/* CTA */}
         <section className="text-center reveal">
           <div
-            className="bg-gradient-to-br from-[#111] to-[#0a0a0a]
-                        border border-white/7 rounded-3xl p-12"
+            className="bg-[#111]
+                        border border-white/7 rounded-md p-12"
           >
             <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">
               Come{" "}
-              <span className="gradient-text">Train With Us</span>
+              <span className="text-white">Train With Us</span>
             </h2>
-            <p className="text-white/40 text-lg mb-8 max-w-lg mx-auto">
+            <p className="text-white/60 text-lg mb-8 max-w-lg mx-auto">
               Your first session is free. Come meet the coaches, see the vibe,
               and find out if LTS is the right fit for you.
             </p>
             <Link
               href="/book"
               className="btn-accent inline-flex items-center gap-2
-                         font-bold text-lg px-10 py-4 rounded-2xl
+                         font-bold text-lg px-10 py-4 rounded-md
                          active:scale-95 group"
             >
               JOIN A SESSION

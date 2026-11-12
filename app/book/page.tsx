@@ -85,21 +85,21 @@ function Calendar({
   const monthName = currentMonth.toLocaleString("en-US", { month: "long", year: "numeric" });
 
   return (
-    <div className="bg-[#111] border border-white/5 rounded-2xl p-6">
+    <div className="bg-[#111] border border-white/5 rounded-md p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="font-bold text-white uppercase tracking-widest text-xs">{monthName}</h3>
         <div className="flex gap-1">
           <button
             type="button"
             onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
-            className="p-2 hover:bg-white/5 rounded-lg text-white/40 transition-colors"
+            className="p-2 hover:bg-white/5 rounded-lg text-white/60 transition-colors"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             type="button"
             onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
-            className="p-2 hover:bg-white/5 rounded-lg text-white/40 transition-colors"
+            className="p-2 hover:bg-white/5 rounded-lg text-white/60 transition-colors"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
@@ -107,7 +107,7 @@ function Calendar({
       </div>
       <div className="grid grid-cols-7 gap-1 text-center mb-2">
         {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
-          <span key={i} className="text-[10px] font-black text-white/20 py-2">{d}</span>
+          <span key={i} className="text-[10px] font-black text-white/40 py-2">{d}</span>
         ))}
       </div>
       <div className="grid grid-cols-7 gap-1">
@@ -258,11 +258,11 @@ function BookPageInner() {
             <Check className="w-10 h-10 text-black" />
           </div>
           <h2 className="text-4xl font-black mb-4 uppercase">You're Booked</h2>
-          <p className="text-white/40 mb-10 leading-relaxed">
+          <p className="text-white/60 mb-10 leading-relaxed">
             Check your email — if you have an active pass, 1 session was deducted automatically.
             Otherwise, you'll receive payment instructions for your drop-in.
           </p>
-          <Link href="/" className="bg-white text-black font-bold px-10 py-4 rounded-2xl">
+          <Link href="/" className="bg-white text-black font-bold px-10 py-4 rounded-md">
             BACK TO HOME
           </Link>
         </div>
@@ -276,13 +276,13 @@ function BookPageInner() {
       <div className="min-h-screen bg-black pt-32 pb-20 px-5">
         <div className="max-w-xl mx-auto">
           <div className="mb-12 text-center">
-            <Link href="/" className="inline-flex items-center gap-2 text-white/30 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
+            <Link href="/" className="inline-flex items-center gap-2 text-white/50 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
               <ArrowLeft className="w-3 h-3" /> Back
             </Link>
             <h1 className="text-5xl font-black mb-3 uppercase tracking-tighter">
-              Book <span className="text-white/20">Session</span>
+              Book <span className="text-white/40">Session</span>
             </h1>
-            <p className="text-white/40 text-sm">Choose your session type, then pick a date.</p>
+            <p className="text-white/60 text-sm">Choose your session type, then pick a date.</p>
           </div>
 
           <div className="space-y-3">
@@ -290,7 +290,7 @@ function BookPageInner() {
             <button
               type="button"
               onClick={() => { setProgramType("phase-2"); setStep(2); }}
-              className="w-full text-left p-6 rounded-2xl border bg-white text-black border-white transition-all group flex items-center justify-between"
+              className="w-full text-left p-6 rounded-md border bg-white text-black border-white transition-all group flex items-center justify-between"
             >
               <div>
                 <h3 className="font-black text-xl uppercase mb-1">Fall Academy — Phase 2</h3>
@@ -302,25 +302,25 @@ function BookPageInner() {
             {/* Buy Phase 2 Package */}
             <Link
               href="/buy-pass?program=phase-2"
-              className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
+              className="w-full text-left p-6 rounded-md border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
             >
               <div>
                 <h3 className="font-black text-xl uppercase text-white mb-1">Buy Phase 2 Package</h3>
-                <p className="text-sm text-white/40">5 or 10 sessions — from $249.99</p>
+                <p className="text-sm text-white/60">5 or 10 sessions — from $249.99</p>
               </div>
-              <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
+              <ArrowRight className="w-5 h-5 text-white/50 group-hover:text-white transition-colors" />
             </Link>
 
             {/* LTS PRO — book a time slot */}
             <Link
               href="/pro"
-              className="w-full text-left p-6 rounded-2xl border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
+              className="w-full text-left p-6 rounded-md border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
             >
               <div>
                 <h3 className="font-black text-xl uppercase text-white mb-1">LTS PRO — Book a Session</h3>
-                <p className="text-sm text-white/40">Private training · click into an open time · PRO pass holders book here too</p>
+                <p className="text-sm text-white/60">Private training · click into an open time · PRO pass holders book here too</p>
               </div>
-              <ArrowRight className="w-5 h-5 text-white/30 group-hover:text-white transition-colors" />
+              <ArrowRight className="w-5 h-5 text-white/50 group-hover:text-white transition-colors" />
             </Link>
           </div>
         </div>
@@ -334,18 +334,18 @@ function BookPageInner() {
       <div className="min-h-screen bg-black pt-32 pb-20 px-5">
         <div className="max-w-xl mx-auto">
           <div className="mb-10 text-center">
-            <button onClick={() => setStep(1)} className="inline-flex items-center gap-2 text-white/30 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
+            <button onClick={() => setStep(1)} className="inline-flex items-center gap-2 text-white/50 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
               <ArrowLeft className="w-3 h-3" /> Back
             </button>
             <h1 className="text-4xl font-black mb-2 uppercase tracking-tighter">
               {programType === "pro" ? "LTS PRO" : programType === "fall-academy" ? "Fall Academy" : programType === "phase-2" ? "Fall Academy — Phase 2" : "Choose Session"}
             </h1>
-            <p className="text-white/40 text-sm">Select a date and session from the schedule below.</p>
+            <p className="text-white/60 text-sm">Select a date and session from the schedule below.</p>
           </div>
 
           <div className="space-y-6">
             <div>
-              <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-3 flex items-center gap-2">
+              <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-3 flex items-center gap-2">
                 <CalendarIcon className="w-3 h-3" /> Available Dates
               </label>
               <Calendar
@@ -356,14 +356,14 @@ function BookPageInner() {
             </div>
 
             <div>
-              <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4 block">
+              <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-4 block">
                 {preferredDate
                   ? `Sessions — ${new Date(preferredDate + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", weekday: "short" })}`
                   : "Sessions"}
               </label>
               {!preferredDate ? (
-                <div className="text-center py-12 border border-dashed border-white/10 rounded-2xl">
-                  <p className="text-white/20 text-xs font-bold uppercase tracking-widest">Select a date above to see available times</p>
+                <div className="text-center py-12 border border-dashed border-white/10 rounded-md">
+                  <p className="text-white/40 text-xs font-bold uppercase tracking-widest">Select a date above to see available times</p>
                 </div>
               ) : sessionsForDate.length > 0 ? (
                 <div className="space-y-2">
@@ -404,21 +404,21 @@ function BookPageInner() {
                   })}
                 </div>
               ) : (
-                <div className="text-center py-12 border border-dashed border-white/10 rounded-2xl">
-                  <p className="text-white/20 text-xs font-bold uppercase tracking-widest">No sessions on this date</p>
+                <div className="text-center py-12 border border-dashed border-white/10 rounded-md">
+                  <p className="text-white/40 text-xs font-bold uppercase tracking-widest">No sessions on this date</p>
                 </div>
               )}
             </div>
 
             <div className="flex gap-3 pt-2">
-              <button type="button" onClick={() => setStep(1)} className="w-1/3 bg-[#111] text-white/50 font-bold py-5 rounded-2xl border border-white/5">
+              <button type="button" onClick={() => setStep(1)} className="w-1/3 bg-[#111] text-white/70 font-bold py-5 rounded-md border border-white/5">
                 BACK
               </button>
               <button
                 type="button"
                 onClick={() => setStep(3)}
                 disabled={!preferredDate || !preferredTime}
-                className="flex-1 bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30"
+                className="flex-1 bg-white text-black font-black py-5 rounded-md flex items-center justify-center gap-2 disabled:opacity-30"
               >
                 YOUR INFO <ArrowRight className="w-5 h-5" />
               </button>
@@ -434,12 +434,12 @@ function BookPageInner() {
     <div className="min-h-screen bg-black pt-32 pb-20 px-5">
       <div className="max-w-xl mx-auto">
         <div className="mb-10 text-center">
-          <button onClick={() => setStep(2)} className="inline-flex items-center gap-2 text-white/30 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
+          <button onClick={() => setStep(2)} className="inline-flex items-center gap-2 text-white/50 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
             <ArrowLeft className="w-3 h-3" /> Back
           </button>
           <h1 className="text-4xl font-black mb-2 uppercase tracking-tighter">Your Info</h1>
           {preferredDate && (
-            <p className="text-white/40 text-sm mt-2">
+            <p className="text-white/60 text-sm mt-2">
               {new Date(preferredDate + "T00:00:00").toLocaleDateString("en-US", {
                 weekday: "long", month: "long", day: "numeric",
               })}
@@ -475,7 +475,7 @@ function BookPageInner() {
         </div>
 
         {hasPass === null && (
-          <p className="text-center text-white/20 text-xs font-bold uppercase tracking-widest py-8 border border-dashed border-white/10 rounded-2xl mb-6">
+          <p className="text-center text-white/40 text-xs font-bold uppercase tracking-widest py-8 border border-dashed border-white/10 rounded-md mb-6">
             Choose an option above to continue
           </p>
         )}
@@ -484,20 +484,20 @@ function BookPageInner() {
           <form onSubmit={handleSubmit} className="space-y-5">
             {hasPass ? (
               <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Email Address</label>
+                <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2 block">Email Address</label>
                 <input
                   required
                   type="email"
                   placeholder="JORDAN@EXAMPLE.COM"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  className="w-full bg-[#111] border border-white/5 rounded-md px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                 />
                 <p className="text-[10px] text-white/25 mt-2 leading-relaxed">
                   Use the same email you bought your pass with — we'll match it automatically and deduct 1 session.
                 </p>
                 {programType === "phase-2" && (
-                  <p className="text-[10px] text-white/40 mt-1.5 leading-relaxed">
+                  <p className="text-[10px] text-white/60 mt-1.5 leading-relaxed">
                     Sessions left over from your Fall Academy Phase 1 pass carry over automatically, and are used first.
                   </p>
                 )}
@@ -505,98 +505,98 @@ function BookPageInner() {
             ) : (
               <>
                 <div>
-                  <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Athlete Full Name</label>
+                  <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2 block">Athlete Full Name</label>
                   <input
                     required
                     type="text"
                     placeholder="JORDAN SMITH"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                    className="w-full bg-[#111] border border-white/5 rounded-md px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                   />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">School</label>
+                    <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2 block">School</label>
                     <input
                       required
                       type="text"
                       placeholder="RICHMOND SECONDARY"
                       value={school}
                       onChange={(e) => setSchool(e.target.value)}
-                      className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                      className="w-full bg-[#111] border border-white/5 rounded-md px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Grade</label>
+                    <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2 block">Grade</label>
                     <input
                       required
                       type="text"
                       placeholder="GRADE 10"
                       value={grade}
                       onChange={(e) => setGrade(e.target.value)}
-                      className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                      className="w-full bg-[#111] border border-white/5 rounded-md px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Name</label>
+                  <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2 block">Parent Name</label>
                   <input
                     required
                     type="text"
                     placeholder="MICHAEL SMITH"
                     value={parentName}
                     onChange={(e) => setParentName(e.target.value)}
-                    className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                    className="w-full bg-[#111] border border-white/5 rounded-md px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Phone Number</label>
+                  <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2 block">Parent Phone Number</label>
                   <input
                     required
                     type="tel"
                     placeholder="604-000-0000"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                    className="w-full bg-[#111] border border-white/5 rounded-md px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Email Address</label>
+                  <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2 block">Email Address</label>
                   <input
                     required
                     type="email"
                     placeholder="JORDAN@EXAMPLE.COM"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-[#111] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                    className="w-full bg-[#111] border border-white/5 rounded-md px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                   />
                 </div>
               </>
             )}
 
             {error && (
-              <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold p-4 rounded-xl text-center">
+              <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold p-4 rounded-sm text-center">
                 {error}
               </div>
             )}
 
             <div className="flex gap-3 pt-2">
-              <button type="button" onClick={() => setStep(2)} className="w-1/3 bg-[#111] text-white/50 font-bold py-5 rounded-2xl border border-white/5">
+              <button type="button" onClick={() => setStep(2)} className="w-1/3 bg-[#111] text-white/70 font-bold py-5 rounded-md border border-white/5">
                 BACK
               </button>
               <button
                 type="submit"
                 disabled={hasPass ? !email || loading : !name || !parentName || !email || !phone || !school || !grade || loading}
-                className="flex-1 bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30"
+                className="flex-1 bg-white text-black font-black py-5 rounded-md flex items-center justify-center gap-2 disabled:opacity-30"
               >
                 {loading ? "BOOKING..." : "CONFIRM BOOKING"}
                 {!loading && <ArrowRight className="w-5 h-5" />}
               </button>
             </div>
-            <p className="text-center text-xs text-white/20 pt-1">
+            <p className="text-center text-xs text-white/40 pt-1">
               No-shows without 24 hours&rsquo; notice are still charged. See our{" "}
-              <Link href="/policies" className="underline hover:text-white/40">cancellation policy</Link>.
+              <Link href="/policies" className="underline hover:text-white/60">cancellation policy</Link>.
             </p>
           </form>
         )}

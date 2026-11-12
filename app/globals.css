@@ -1,8 +1,8 @@
 /* ============================================================
    Global Styles — LTS Elite Prep
-   - Font: Syne (headings) + Inter (body)
-   - Palette: Premium Monochrome (Black & White)
-   - High-end, minimalist development aesthetic
+   - Fonts: Anton (display) + Inter (body)
+   - Palette: black and white, hairline rules, square corners
+   - Poster/editorial feel: flat surfaces, no glow, no gradient text
    ============================================================ */
 
 @import "tailwindcss";
@@ -44,8 +44,8 @@ body {
   font-family: var(--font-inter), "Inter", system-ui, sans-serif;
   font-size: 16px;
   font-weight: 400;
-  line-height: 1.7;
-  letter-spacing: 0.01em;
+  line-height: 1.65;
+  letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -203,19 +203,17 @@ p, li, span, label, a {
 
 /* ── Card hover lift ──────────────────────────────────────── */
 .card {
-  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 .card:hover {
-  transform: translateY(-8px);
   border-color: var(--border-hover) !important;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
 }
 
 /* ── Scroll-reveal animation ──────────────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateY(14px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 .reveal.visible {
   opacity: 1;
@@ -224,22 +222,17 @@ p, li, span, label, a {
 
 /* ── Accent gradient text ─────────────────────────────────── */
 .gradient-text {
-  background: linear-gradient(135deg, #ffffff, #666666);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #ffffff;
 }
 
 /* ── Accent button styles ─────────────────────────────────── */
 .btn-accent {
   background: #ffffff;
   color: #000000;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 .btn-accent:hover {
-  background: #f0f0f0;
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
-  transform: translateY(-1px);
+  background: #d9d9d9;
 }
 
 /* ── Admin status badges ──────────────────────────────────── */
@@ -251,4 +244,15 @@ p, li, span, label, a {
 .selection-white ::selection {
   background-color: white;
   color: black;
+}
+
+/* Keyboard focus */
+:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up, .animate-fade-in, .animate-marquee, .animate-float, .animate-pulse-ring { animation: none; opacity: 1; }
+  .reveal { opacity: 1; transform: none; transition: none; }
 }

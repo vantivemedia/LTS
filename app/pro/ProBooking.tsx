@@ -116,7 +116,7 @@ export default function ProBooking() {
 
   if (done) {
     return (
-      <div className="bg-[#111] border border-white/5 rounded-3xl p-8 sm:p-10 text-center">
+      <div className="bg-[#111] border border-white/5 rounded-md p-8 sm:p-10 text-center">
         <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-5">
           <Check className="w-8 h-8 text-black" />
         </div>
@@ -126,23 +126,23 @@ export default function ProBooking() {
         </p>
         <p className="text-white/60 mb-5">{done.label} &middot; {done.sessionType}, {done.length} min &middot; The Hoop, Richmond</p>
         {done.hasPass ? (
-          <p className="text-white/50 text-sm">1 session taken from your LTS PRO pass{done.sessionsLeft !== null ? ` (${done.sessionsLeft} left)` : ""}.</p>
+          <p className="text-white/70 text-sm">1 session taken from your LTS PRO pass{done.sessionsLeft !== null ? ` (${done.sessionsLeft} left)` : ""}.</p>
         ) : (
-          <div className="bg-black border border-white/10 rounded-2xl p-5 text-sm text-left max-w-sm mx-auto">
-            <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-2">To confirm your time</p>
+          <div className="bg-black border border-white/10 rounded-md p-5 text-sm text-left max-w-sm mx-auto">
+            <p className="text-[10px] font-black uppercase tracking-widest text-white/60 mb-2">To confirm your time</p>
             <p className="text-white/80 leading-relaxed">
               E-transfer <strong className="text-white">${done.price}</strong> to <strong className="text-white">info@ltseliteprep.ca</strong> within 48 hours. Note: &ldquo;{done.athlete} &mdash; LTS PRO&rdquo;.
             </p>
           </div>
         )}
-        <p className="text-white/30 text-xs mt-4">Details are on their way to {done.email}.</p>
-        <Link href="/" className="inline-block mt-6 text-white/50 hover:text-white text-xs font-bold uppercase underline underline-offset-4">Back to home</Link>
+        <p className="text-white/50 text-xs mt-4">Details are on their way to {done.email}.</p>
+        <Link href="/" className="inline-block mt-6 text-white/70 hover:text-white text-xs font-bold uppercase underline underline-offset-4">Back to home</Link>
       </div>
     );
   }
 
   return (
-    <div className="bg-[#111] border border-white/5 rounded-3xl p-6 sm:p-10">
+    <div className="bg-[#111] border border-white/5 rounded-md p-6 sm:p-10">
       {/* 1. session type */}
       <p className={LABEL}>1. Session type</p>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
@@ -169,11 +169,11 @@ export default function ProBooking() {
       {/* 2. date */}
       <p className={LABEL}>2. Pick a day</p>
       {!data && !loadError && (
-        <p className="flex items-center gap-2 text-white/40 text-sm mb-8"><Loader2 className="w-4 h-4 animate-spin" /> Loading times...</p>
+        <p className="flex items-center gap-2 text-white/60 text-sm mb-8"><Loader2 className="w-4 h-4 animate-spin" /> Loading times...</p>
       )}
       {loadError && <p className="text-red-400 text-sm font-bold mb-8">{loadError}</p>}
       {data && dates.length === 0 && (
-        <p className="text-white/50 text-sm mb-8">No open times right now for a {sessionType.toLowerCase()} {length} minute session. Try another session type, or send us your availability with the request form below.</p>
+        <p className="text-white/70 text-sm mb-8">No open times right now for a {sessionType.toLowerCase()} {length} minute session. Try another session type, or send us your availability with the request form below.</p>
       )}
       {dates.length > 0 && (
         <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5 mb-8">
@@ -222,7 +222,7 @@ export default function ProBooking() {
             })}
           </div>
           {picked && (
-            <p className="flex items-center gap-2 text-white/50 text-xs mb-8">
+            <p className="flex items-center gap-2 text-white/70 text-xs mb-8">
               <Clock className="w-3.5 h-3.5" /> {formatTime(picked.start)} &ndash; {formatTime(picked.end)} &middot; {sessionType}, {length} min
               {picked.capacity > 1 ? (picked.booked > 0 ? ` · small group, ${picked.booked} of ${picked.capacity} spots taken` : ` · small group, up to ${picked.capacity} athletes`) : " · just your athlete"}
             </p>
@@ -298,19 +298,19 @@ export default function ProBooking() {
             <textarea rows={2} placeholder="POSITION, GOALS, SKILLS TO WORK ON" value={details} onChange={(e) => setDetails(e.target.value)} className={`${INPUT} resize-none`} />
           </div>
 
-          {error && <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold p-4 rounded-xl text-center">{error}</div>}
+          {error && <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold p-4 rounded-sm text-center">{error}</div>}
 
           <button
             type="submit"
             disabled={!canSubmit || submitting}
-            className="w-full bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30 mt-2"
+            className="w-full bg-white text-black font-black py-5 rounded-md flex items-center justify-center gap-2 disabled:opacity-30 mt-2"
           >
             {submitting ? "BOOKING..." : hasPass ? "BOOK WITH MY PASS" : `CONFIRM BOOKING — $${price}`}
             {!submitting && <ArrowRight className="w-5 h-5" />}
           </button>
-          <p className="text-center text-xs text-white/20 leading-relaxed">
+          <p className="text-center text-xs text-white/40 leading-relaxed">
             Single sessions are paid by e-transfer after booking. No-shows without 24 hours&rsquo; notice are still charged a session. See our{" "}
-            <Link href="/policies" className="underline hover:text-white/40">cancellation policy</Link>.
+            <Link href="/policies" className="underline hover:text-white/60">cancellation policy</Link>.
           </p>
         </form>
       )}

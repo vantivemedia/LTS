@@ -44,13 +44,13 @@ export default function FallProgrammingPage() {
       <div className="max-w-4xl mx-auto">
         {/* Hero */}
         <div className="mb-14">
-          <Link href="/" className="inline-flex items-center gap-2 text-white/30 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
+          <Link href="/" className="inline-flex items-center gap-2 text-white/50 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
             <ArrowLeft className="w-3 h-3" /> Back
           </Link>
 
           <Link
             href="/phase-2"
-            className="flex items-center justify-between gap-4 bg-white text-black rounded-2xl px-5 py-4 mb-10 hover:bg-white/90 transition-all"
+            className="flex items-center justify-between gap-4 bg-white text-black rounded-md px-5 py-4 mb-10 hover:bg-white/90 transition-all"
           >
             <span className="text-sm font-bold">
               Phase 1 has ended. Fall Academy Phase 2 runs October 9 – 30. Unused Phase 1 sessions carry over.
@@ -60,7 +60,7 @@ export default function FallProgrammingPage() {
 
           <div className="lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:items-center">
             <div>
-              <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-3">
+              <p className="text-[10px] font-black text-white/50 uppercase tracking-[0.3em] mb-3">
                 September 11 – October 3
               </p>
               <h1
@@ -69,17 +69,17 @@ export default function FallProgrammingPage() {
               >
                 Fall Academy
                 <br />
-                <span className="text-white/20">Phase 1</span>
+                <span className="text-white/40">Phase 1</span>
               </h1>
-              <p className="text-white/40 text-lg leading-relaxed mb-2">
+              <p className="text-white/60 text-lg leading-relaxed mb-2">
                 13 training opportunities. 19.5 hours of development. A flexible format built around busy school,
                 team, and family schedules.
               </p>
-              <p className="text-white/30 text-sm mb-2">
+              <p className="text-white/50 text-sm mb-2">
                 You do not need to attend every session — choose the package that fits your schedule, and pick the
                 dates that work best for you.
               </p>
-              <p className="flex items-center gap-1.5 text-white/40 text-sm mb-8">
+              <p className="flex items-center gap-1.5 text-white/60 text-sm mb-8">
                 <MapPin className="w-3.5 h-3.5 shrink-0" />
                 The Hoop — 11111 Twigg Pl #1061, Richmond, BC
               </p>
@@ -88,7 +88,7 @@ export default function FallProgrammingPage() {
                 <Link
                   href="/phase-2"
                   onClick={() => trackEvent("button_click", "/fall-programming", "fall_view_phase2")}
-                  className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
+                  className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-md hover:bg-white/90 transition-all active:scale-95"
                 >
                   View Phase 2
                   <ArrowRight className="w-4 h-4" />
@@ -96,7 +96,7 @@ export default function FallProgrammingPage() {
               </div>
             </div>
 
-            <div className="mt-10 lg:mt-0 relative rounded-3xl overflow-hidden aspect-[4/5] lg:aspect-[3/4] border border-white/5">
+            <div className="mt-10 lg:mt-0 relative rounded-md overflow-hidden aspect-[4/5] lg:aspect-[3/4] border border-white/5">
               <Image
                 src="/images/fall-academy-training.jpg"
                 alt="LTS Elite Prep athletes in a live 1-on-1 drill at The Hoop"
@@ -112,17 +112,17 @@ export default function FallProgrammingPage() {
 
         {/* Schedule */}
         <div className="mb-14">
-          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Phase 1 Schedule</p>
+          <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-4">Phase 1 Schedule</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {Object.entries(SCHEDULE).map(([month, sessions]) => (
               <div key={month}>
-                <p className="text-xs font-black text-white/50 uppercase tracking-widest mb-3">{month}</p>
-                <div className="divide-y divide-white/5 bg-[#111] border border-white/5 rounded-2xl overflow-hidden">
+                <p className="text-xs font-black text-white/70 uppercase tracking-widest mb-3">{month}</p>
+                <div className="divide-y divide-white/5 bg-[#111] border border-white/5 rounded-md overflow-hidden">
                   {sessions.map((s) => (
                     <div key={s.date} className="px-4 py-3">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-white/40 text-xs font-black uppercase tracking-wide">{s.day}, {s.date}</span>
-                        <span className="text-white/30 text-xs font-bold">{s.time}</span>
+                        <span className="text-white/60 text-xs font-black uppercase tracking-wide">{s.day}, {s.date}</span>
+                        <span className="text-white/50 text-xs font-bold">{s.time}</span>
                       </div>
                       <p className="text-white font-bold text-base leading-snug">{s.focus}</p>
                     </div>
@@ -135,17 +135,17 @@ export default function FallProgrammingPage() {
 
         {/* The Training */}
         <div className="mb-14">
-          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">The Training</p>
-          <p className="text-white/40 text-sm leading-relaxed mb-6 max-w-2xl">
+          <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-4">The Training</p>
+          <p className="text-white/60 text-sm leading-relaxed mb-6 max-w-2xl">
             Phase 1 progresses through four areas — skill development, shooting, finishing, footwork,
             decision-making, live play and competitive application. Each session has its own focus, so athletes
             still benefit even if they can&rsquo;t attend every date.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {PHASES.map((p, i) => (
-              <div key={p.letter} className="bg-[#111] border border-white/5 rounded-2xl p-5 text-center relative">
+              <div key={p.letter} className="bg-[#111] border border-white/5 rounded-md p-5 text-center relative">
                 <span className="text-3xl font-black block mb-1">{p.letter}</span>
-                <span className="text-xs font-bold uppercase tracking-widest text-white/40">{p.word}</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-white/60">{p.word}</span>
                 {i < PHASES.length - 1 && (
                   <span className="hidden sm:block absolute top-1/2 -right-2.5 -translate-y-1/2 text-white/15 text-lg">→</span>
                 )}
@@ -154,22 +154,22 @@ export default function FallProgrammingPage() {
           </div>
         </div>
 
-        <div className="bg-[#111] border border-white/5 rounded-2xl p-6 mb-14">
-          <p className="text-white/40 text-sm leading-relaxed">
+        <div className="bg-[#111] border border-white/5 rounded-md p-6 mb-14">
+          <p className="text-white/60 text-sm leading-relaxed">
             Phase 1 is the bridge into Fall Academy Phase 2 (October 9 – 30). Unused Phase 1 sessions carry over to Phase 2.
           </p>
         </div>
 
         {/* CTA */}
         <div className="text-center">
-          <p className="text-white/30 text-sm mb-5">
+          <p className="text-white/50 text-sm mb-5">
             Phase 1 has ended — join us for Fall Academy Phase 2.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/phase-2"
               onClick={() => trackEvent("button_click", "/fall-programming", "fall_view_phase2")}
-              className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-8 py-4 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
+              className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-8 py-4 rounded-md hover:bg-white/90 transition-all active:scale-95"
             >
               View Phase 2
               <ArrowRight className="w-4 h-4" />
@@ -177,7 +177,7 @@ export default function FallProgrammingPage() {
             <a
               href={MAILTO}
               onClick={() => trackEvent("button_click", "/fall-programming", "fall_reserve_email")}
-              className="inline-flex items-center justify-center gap-2 bg-[#111] border border-white/10 text-white font-black text-sm uppercase tracking-wide px-8 py-4 rounded-2xl hover:border-white/30 transition-all active:scale-95"
+              className="inline-flex items-center justify-center gap-2 bg-[#111] border border-white/10 text-white font-black text-sm uppercase tracking-wide px-8 py-4 rounded-md hover:border-white/30 transition-all active:scale-95"
             >
               <Mail className="w-4 h-4" />
               Email Coach Paolo

@@ -138,7 +138,7 @@ const PROGRAMS = [
 
 function InfoPill({ icon: Icon, text }: { icon: any; text: string }) {
   return (
-    <div className="flex items-center gap-2 text-white/50 bg-white/5 px-3 py-1.5 rounded-lg text-sm">
+    <div className="flex items-center gap-2 text-white/70 bg-white/5 px-3 py-1.5 rounded-lg text-sm">
       <Icon className="w-4 h-4" />
       {text}
     </div>
@@ -155,25 +155,18 @@ export default function ProgramsPage() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         {/* Header */}
         <div className="text-center mb-20 reveal">
-          <span
-            className="inline-flex items-center gap-2
-                       text-xs font-semibold tracking-widest uppercase
-                       border border-white/10 text-white/50
-                       rounded-full px-3.5 py-1.5 mb-5"
-          >
-            Our Programs
-          </span>
+          <p className="inline-flex items-center gap-3 text-xs font-semibold tracking-[0.25em] uppercase text-white/60 mb-5"><span className="h-px w-8 bg-white/35" />Our Programs</p>
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-4">
             Find Your <span className="text-white">Level</span>
           </h1>
-          <p className="text-white/40 text-lg max-w-xl mx-auto">
+          <p className="text-white/60 text-lg max-w-xl mx-auto">
             Three programs built for where you are — and where you want to go.
             Join the team today.
           </p>
         </div>
 
         {/* Hero Photo Banner */}
-        <div className="relative w-full h-64 sm:h-80 rounded-3xl overflow-hidden mb-20 reveal border border-white/5">
+        <div className="relative w-full h-64 sm:h-80 rounded-md overflow-hidden mb-20 reveal border border-white/5">
           <Image
             src="/images/SBU02221.jpg"
             alt="Basketball dribble training at LTS"
@@ -216,7 +209,7 @@ export default function ProgramsPage() {
                         {program.name}
                       </h2>
                     </div>
-                    <p className="text-white/50 text-lg">{program.tagline}</p>
+                    <p className="text-white/70 text-lg">{program.tagline}</p>
                   </div>
 
                   <div className="flex flex-wrap gap-3 lg:flex-col lg:items-end">
@@ -228,7 +221,7 @@ export default function ProgramsPage() {
                 </div>
 
                 {/* Description */}
-                <p className="text-white/50 leading-relaxed mb-8 max-w-3xl">
+                <p className="text-white/70 leading-relaxed mb-8 max-w-3xl">
                   {program.desc}
                 </p>
 
@@ -238,13 +231,13 @@ export default function ProgramsPage() {
                     <div
                       key={text}
                       className="flex items-center gap-3 bg-white/3 border border-white/5
-                                 rounded-xl px-4 py-3"
+                                 rounded-sm px-4 py-3"
                     >
                       <div
                         className="w-8 h-8 rounded-lg bg-white/5
                                     flex items-center justify-center shrink-0"
                       >
-                        <Icon className="w-4 h-4 text-white/50" />
+                        <Icon className="w-4 h-4 text-white/70" />
                       </div>
                       <span className="text-sm text-white/70">{text}</span>
                     </div>
@@ -252,7 +245,7 @@ export default function ProgramsPage() {
                 </div>
 
                 {/* Details */}
-                <div className="bg-white/2 border border-white/5 rounded-xl p-5 mb-8">
+                <div className="bg-white/2 border border-white/5 rounded-sm p-5 mb-8">
                   <p className="text-xs font-bold uppercase tracking-widest text-white/25 mb-3">
                     What&rsquo;s Included
                   </p>
@@ -260,7 +253,7 @@ export default function ProgramsPage() {
                     {program.details.map((d) => (
                       <li
                         key={d}
-                        className="flex items-center gap-2 text-sm text-white/50"
+                        className="flex items-center gap-2 text-sm text-white/70"
                       >
                         <span className="w-1.5 h-1.5 rounded-full bg-white/20 shrink-0" />
                         {d}
@@ -274,12 +267,12 @@ export default function ProgramsPage() {
                   <Link
                     href={program.href}
                     className="btn-accent inline-flex items-center justify-center gap-2
-                               font-bold px-8 py-3.5 rounded-xl group"
+                               font-bold px-8 py-3.5 rounded-sm group"
                   >
                     {program.cta}
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
-                  <span className="text-sm text-white/30 flex items-center">
+                  <span className="text-sm text-white/50 flex items-center">
                     {program.price}
                   </span>
                 </div>
@@ -292,7 +285,7 @@ export default function ProgramsPage() {
 
         {/* FAQ-style note */}
         <div className="mt-16 text-center reveal">
-          <p className="text-white/30 text-sm">
+          <p className="text-white/50 text-sm">
             Not sure which program is right for you?{" "}
             <Link href="/book" className="text-white hover:underline">
               Contact us

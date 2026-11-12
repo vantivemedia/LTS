@@ -41,19 +41,17 @@ export default function FallPromoModal() {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-md bg-[#111] border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl animate-fade-up"
+        className="relative w-full max-w-md bg-[#111] border border-white/10 rounded-md p-8 sm:p-10 animate-fade-up"
       >
         <button
           onClick={() => setOpen(false)}
           aria-label="Close"
-          className="absolute top-5 right-5 text-white/30 hover:text-white transition-colors"
+          className="absolute top-5 right-5 text-white/50 hover:text-white transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <span className="inline-flex items-center gap-2 text-xs font-black tracking-widest uppercase border border-white/10 text-white/50 rounded-full px-3.5 py-1.5 mb-5">
-          Phase 2 · Oct 9 – Oct 30
-        </span>
+        <p className="inline-flex items-center gap-3 text-xs font-semibold tracking-[0.25em] uppercase text-white/60 mb-5"><span className="h-px w-8 bg-white/35" />Phase 2 · Oct 9 – Oct 30</p>
 
         <h2
           className="text-4xl sm:text-5xl uppercase tracking-tighter leading-none mb-4"
@@ -62,14 +60,14 @@ export default function FallPromoModal() {
           Fall <span className="text-white">Academy</span>
         </h2>
 
-        <p className="text-white/50 leading-relaxed mb-6">
+        <p className="text-white/70 leading-relaxed mb-6">
           10 training opportunities, 15 hours of development — the next chapter of Fall Academy, built
           around busy school, team, and family schedules.
         </p>
 
         <div className="flex items-center gap-3 mb-8 text-sm">
           <span className="font-black text-white">$55/session</span>
-          <span className="text-white/20">·</span>
+          <span className="text-white/40">·</span>
           <span className="font-black text-white">10-Session Pass $449.99</span>
         </div>
 
@@ -80,14 +78,14 @@ export default function FallPromoModal() {
               trackEvent("button_click", "/", "fall_promo_click");
               setOpen(false);
             }}
-            className="flex-1 inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
+            className="flex-1 inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-md hover:bg-white/90 transition-all active:scale-95"
           >
             Explore Fall Academy
             <ArrowRight className="w-4 h-4" />
           </Link>
           <button
             onClick={() => setOpen(false)}
-            className="px-6 py-3.5 rounded-2xl text-sm font-bold text-white/40 hover:text-white transition-colors"
+            className="px-6 py-3.5 rounded-md text-sm font-bold text-white/60 hover:text-white transition-colors"
           >
             Maybe Later
           </button>

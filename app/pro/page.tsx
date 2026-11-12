@@ -78,13 +78,13 @@ export default function ProPage() {
             <Check className="w-10 h-10 text-black" />
           </div>
           <h2 className="text-4xl font-black mb-4 uppercase">Request Received</h2>
-          <p className="text-white/40 mb-4 leading-relaxed">
+          <p className="text-white/60 mb-4 leading-relaxed">
             Thanks! Coach Paolo will reach out shortly to confirm a session time that works for you. A copy of your request is on its way to your email.
           </p>
-          <p className="text-white/30 text-sm mb-10">
+          <p className="text-white/50 text-sm mb-10">
             Payment is by e-transfer once your time is confirmed.
           </p>
-          <Link href="/" className="inline-block bg-white text-black font-bold px-8 py-4 rounded-2xl">
+          <Link href="/" className="inline-block bg-white text-black font-bold px-8 py-4 rounded-md">
             HOME
           </Link>
         </div>
@@ -115,7 +115,7 @@ export default function ProPage() {
             </div>
 
             <div className="relative z-10">
-              <Link href="/" className="inline-flex items-center gap-2 text-white/30 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
+              <Link href="/" className="inline-flex items-center gap-2 text-white/50 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
                 <ArrowLeft className="w-3 h-3" /> Back
               </Link>
 
@@ -125,10 +125,10 @@ export default function ProPage() {
               >
                 LTS <span className="text-white">PRO</span>
               </h1>
-              <p className="text-white/40 text-lg leading-relaxed max-w-xl mb-2">
+              <p className="text-white/60 text-lg leading-relaxed max-w-xl mb-2">
                 Our premium <strong className="text-white font-bold">private training</strong> experience — individualized development in a focused environment.
               </p>
-              <p className="flex items-center gap-1.5 text-white/40 text-sm mb-8">
+              <p className="flex items-center gap-1.5 text-white/60 text-sm mb-8">
                 <MapPin className="w-3.5 h-3.5 shrink-0" />
                 The Hoop — 11111 Twigg Pl #1061, Richmond, BC
               </p>
@@ -136,13 +136,13 @@ export default function ProPage() {
               <a
                 href="#book"
                 onClick={() => trackEvent("button_click", "/pro", "pro_book_scroll")}
-                className="inline-flex items-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
+                className="inline-flex items-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-md hover:bg-white/90 transition-all active:scale-95"
               >
                 Book a Session
                 <ArrowRight className="w-4 h-4" />
               </a>
 
-              <div className="flex items-center gap-3 mt-6 text-xs font-bold uppercase tracking-wider text-white/30">
+              <div className="flex items-center gap-3 mt-6 text-xs font-bold uppercase tracking-wider text-white/50">
                 <span>200+ Athletes Trained</span>
                 <span className="text-white/10">·</span>
                 <span>5+ Years Running</span>
@@ -152,23 +152,23 @@ export default function ProPage() {
 
           {/* Training Format */}
           <div className="mb-14">
-            <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Training Format</p>
+            <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-4">Training Format</p>
             <div className="grid grid-cols-2 gap-3 mb-6">
-              <div className="bg-[#111] border border-white/5 rounded-2xl p-5 text-center">
+              <div className="bg-[#111] border border-white/5 rounded-md p-5 text-center">
                 <p className="text-3xl font-black mb-1">1 : 1</p>
-                <p className="text-xs text-white/30 uppercase tracking-widest font-bold">Private &middot; 60 min &middot; $85</p>
+                <p className="text-xs text-white/50 uppercase tracking-widest font-bold">Private &middot; 60 min &middot; $85</p>
               </div>
-              <div className="bg-[#111] border border-white/5 rounded-2xl p-5 text-center">
+              <div className="bg-[#111] border border-white/5 rounded-md p-5 text-center">
                 <p className="text-3xl font-black mb-1">Up to 6</p>
-                <p className="text-xs text-white/30 uppercase tracking-widest font-bold">Semi-Private &middot; 60 or 90 min &middot; $65 / $85</p>
+                <p className="text-xs text-white/50 uppercase tracking-widest font-bold">Semi-Private &middot; 60 or 90 min &middot; $65 / $85</p>
               </div>
             </div>
-            <p className="text-white/40 text-sm mb-4">
+            <p className="text-white/60 text-sm mb-4">
               Each session is customized to the athlete&rsquo;s position, skill level, and goals with an emphasis on:
             </p>
             <div className="flex flex-wrap gap-2">
               {SKILLS.map((s) => (
-                <span key={s} className="bg-white/5 border border-white/10 text-white/60 text-xs font-bold uppercase tracking-wide px-3 py-1.5 rounded-full">
+                <span key={s} className="bg-white/5 border border-white/10 text-white/60 text-xs font-bold uppercase tracking-wide px-3 py-1.5 rounded-sm">
                   {s}
                 </span>
               ))}
@@ -177,10 +177,10 @@ export default function ProPage() {
 
           {/* Scheduling */}
           <div className="mb-14">
-            <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Scheduling</p>
-            <div className="bg-[#111] border border-white/5 rounded-2xl p-5">
+            <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-4">Scheduling</p>
+            <div className="bg-[#111] border border-white/5 rounded-md p-5">
               <p className="font-black text-white uppercase tracking-wide mb-1">Book Your Time Online</p>
-              <p className="text-white/40 text-sm leading-relaxed">
+              <p className="text-white/60 text-sm leading-relaxed">
                 Choose a private or semi-private session, pick a day, and click into an open time slot. Your time is held as soon as you book.
               </p>
               <p className="text-white/60 text-sm leading-relaxed mt-3">
@@ -192,7 +192,7 @@ export default function ProPage() {
 
           {/* Pricing */}
           <div>
-            <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Pricing</p>
+            <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-4">Pricing</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
               {OPTIONS.map((o) => (
                 <div
@@ -210,7 +210,7 @@ export default function ProPage() {
             <a
               href="#book"
               onClick={() => trackEvent("button_click", "/pro", "pro_book_scroll")}
-              className="inline-flex items-center justify-center gap-2 w-full bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
+              className="inline-flex items-center justify-center gap-2 w-full bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-md hover:bg-white/90 transition-all active:scale-95"
             >
               Book a Session
               <ArrowRight className="w-4 h-4" />
@@ -219,7 +219,7 @@ export default function ProPage() {
         </div>
 
         {/* ── Right: Photo (desktop only — mobile uses it as the header background instead) ── */}
-        <div className="hidden lg:block relative rounded-3xl lg:rounded-l-none overflow-hidden lg:aspect-auto lg:h-[calc(100vh-11rem)]">
+        <div className="hidden lg:block relative rounded-md lg:rounded-l-none overflow-hidden lg:aspect-auto lg:h-[calc(100vh-11rem)]">
           <Image
             src="/images/pro-training-1on1.jpg"
             alt="1-on-1 private basketball training at LTS PRO"
@@ -238,9 +238,9 @@ export default function ProPage() {
       {/* ── Book a time slot ── */}
       <div id="book" className="max-w-3xl mx-auto mt-20 scroll-mt-28">
         <div className="text-center mb-8">
-          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Open Times</p>
+          <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2">Open Times</p>
           <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">Book a Session</h2>
-          <p className="text-white/40 text-sm max-w-md mx-auto">
+          <p className="text-white/60 text-sm max-w-md mx-auto">
             Choose private or semi-private, then click a day and time. PRO pass holders just need their email.
           </p>
         </div>
@@ -250,14 +250,14 @@ export default function ProPage() {
       {/* ── Request form (fallback when no time works) ── */}
       <div id="request" className="max-w-4xl mx-auto mt-24 scroll-mt-28">
         <div className="text-center mb-8">
-          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Need a Different Time?</p>
+          <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2">Need a Different Time?</p>
           <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">Request a Session</h2>
-          <p className="text-white/40 text-sm max-w-md mx-auto">
+          <p className="text-white/60 text-sm max-w-md mx-auto">
             Don&rsquo;t see a time that works? Tell us what does and Coach Paolo will confirm one. PRO pass holders can choose &ldquo;I Have a PRO Pass&rdquo; and just enter their email.
           </p>
         </div>
 
-        <div className="bg-[#111] p-6 sm:p-10 rounded-3xl border border-white/5">
+        <div className="bg-[#111] p-6 sm:p-10 rounded-md border border-white/5">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid grid-cols-2 gap-3">
               {[
@@ -419,7 +419,7 @@ export default function ProPage() {
             </div>
 
             {error && (
-              <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold p-4 rounded-xl text-center">
+              <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold p-4 rounded-sm text-center">
                 {error}
               </div>
             )}
@@ -427,34 +427,34 @@ export default function ProPage() {
             <button
               type="submit"
               disabled={(hasPass ? !email : !athleteName || !parentName || !email || !phone || !school || !grade) || !availability || loading}
-              className="w-full bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30 mt-2"
+              className="w-full bg-white text-black font-black py-5 rounded-md flex items-center justify-center gap-2 disabled:opacity-30 mt-2"
             >
               {loading ? "SENDING..." : "REQUEST A SESSION"}
               {!loading && <ArrowRight className="w-5 h-5" />}
             </button>
 
-            <p className="text-center text-xs text-white/20 pt-1">
+            <p className="text-center text-xs text-white/40 pt-1">
               {hasPass
                 ? "We’ll email you to confirm a time. Your session comes off your pass once it’s confirmed."
                 : "We’ll email you to confirm a time. Payment is by e-transfer once your session is confirmed."}
             </p>
-            <p className="text-center text-xs text-white/20">
+            <p className="text-center text-xs text-white/40">
               No-shows without 24 hours&rsquo; notice are still charged a session. See our{" "}
-              <Link href="/policies" className="underline hover:text-white/40">cancellation policy</Link>.
+              <Link href="/policies" className="underline hover:text-white/60">cancellation policy</Link>.
             </p>
           </form>
         </div>
 
         {/* Coach credibility + testimonial */}
-        <div className="mt-8 bg-[#111] border border-white/5 rounded-2xl p-5 sm:p-6">
+        <div className="mt-8 bg-[#111] border border-white/5 rounded-md p-5 sm:p-6">
           <div className="flex gap-0.5 mb-3 text-white">{"★★★★★"}</div>
           <p className="text-white/60 text-sm italic leading-relaxed mb-4">
             &ldquo;I met Coach Paolo through the basketball community. His training helped me improve in all aspects of the game. Coach Paolo showed care for every little detail and made sure to keep me right during my off season before college basketball.&rdquo;
           </p>
-          <p className="text-xs font-bold text-white/30 uppercase tracking-widest">
+          <p className="text-xs font-bold text-white/50 uppercase tracking-widest">
             Justin Pamintuan — Byrne Creek / Capilano University
           </p>
-          <p className="text-xs text-white/30 mt-3 pt-3 border-t border-white/5">
+          <p className="text-xs text-white/50 mt-3 pt-3 border-t border-white/5">
             LTS PRO sessions are led by <span className="text-white/60 font-bold">Paolo Labrador</span> — Douglas College Royals Asst. Coach · Magee Secondary Head Coach.
           </p>
         </div>

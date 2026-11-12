@@ -40,7 +40,7 @@ const NAV_LINKS: NavLink[] = [
   { href: "/admin", label: "Admin" },
 ];
 
-const DESKTOP_LINK_CLASS = `text-sm font-medium text-white/50
+const DESKTOP_LINK_CLASS = `text-sm font-medium text-white/70
                              hover:text-white transition-colors tracking-wide
                              relative after:absolute after:bottom-[-4px] after:left-0
                              after:w-0 after:h-[2px] after:bg-white
@@ -102,7 +102,7 @@ export default function Navbar() {
                   type="button"
                   onClick={() => setOpenDropdown(openDropdown === link.label ? null : link.label)}
                   aria-expanded={openDropdown === link.label}
-                  className="flex items-center gap-1 text-sm font-medium text-white/50
+                  className="flex items-center gap-1 text-sm font-medium text-white/70
                              hover:text-white transition-colors tracking-wide"
                 >
                   {link.label}
@@ -116,7 +116,7 @@ export default function Navbar() {
                     openDropdown === link.label ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-1"
                   }`}
                 >
-                  <div className="min-w-[160px] bg-[#0a0a0a]/95 nav-glass border border-white/10 rounded-xl p-1.5 shadow-2xl">
+                  <div className="min-w-[160px] bg-[#0a0a0a]/95 nav-glass border border-white/10 rounded-sm p-1.5">
                     {link.children.map((child) => (
                       <Link
                         key={child.href}
@@ -139,15 +139,15 @@ export default function Navbar() {
           )}
           <Link href={CTA.href}
                 className="bg-white text-black font-black text-sm
-                           px-6 py-3 rounded-xl active:scale-95 transition-all
-                           hover:bg-white/90 hover:scale-105">
+                           px-6 py-3 rounded-sm active:scale-95 transition-all
+                           hover:bg-white/90">
             {CTA.label}
           </Link>
         </nav>
 
         {/* ── モバイルハンバーガー ── */}
         <button
-          className="lg:hidden p-2 text-white/50 hover:text-white transition-colors relative z-50"
+          className="lg:hidden p-2 text-white/70 hover:text-white transition-colors relative z-50"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -165,12 +165,12 @@ export default function Navbar() {
           {NAV_LINKS.map((link) =>
             link.children ? (
               <div key={link.label} className="border-b border-white/5">
-                <p className="pt-4 pb-2 text-white/50 font-medium">{link.label}</p>
+                <p className="pt-4 pb-2 text-white/70 font-medium">{link.label}</p>
                 <div className="pb-3 pl-4 flex flex-col">
                   {link.children.map((child) => (
                     <Link key={child.href} href={child.href}
                           onClick={() => setMenuOpen(false)}
-                          className="py-2.5 text-white/40 hover:text-white font-medium transition-colors">
+                          className="py-2.5 text-white/60 hover:text-white font-medium transition-colors">
                       {child.label}
                     </Link>
                   ))}
@@ -179,7 +179,7 @@ export default function Navbar() {
             ) : (
               <Link key={link.href} href={link.href!}
                     onClick={() => setMenuOpen(false)}
-                    className="py-4 text-white/50 hover:text-white font-medium
+                    className="py-4 text-white/70 hover:text-white font-medium
                                transition-colors border-b border-white/5 last:border-0">
                 {link.label}
               </Link>
@@ -187,7 +187,7 @@ export default function Navbar() {
           )}
           <Link href={CTA.href}
                 onClick={() => setMenuOpen(false)}
-                className="mt-6 bg-white text-black font-black py-4 rounded-xl
+                className="mt-6 bg-white text-black font-black py-4 rounded-sm
                            text-center hover:bg-white/90">
             {CTA.label}
           </Link>

@@ -89,17 +89,17 @@ function BuyPassPageInner() {
             <Check className="w-10 h-10 text-black" />
           </div>
           <h2 className="text-4xl font-black mb-4 uppercase">Pass Registered</h2>
-          <p className="text-white/40 mb-4 leading-relaxed">
+          <p className="text-white/60 mb-4 leading-relaxed">
             Check your email for payment instructions. Once payment is received, your pass will be activated and you can start booking sessions.
           </p>
-          <p className="text-white/30 text-sm mb-10">
-            Use <strong className="text-white/50">/book</strong> to schedule your sessions — we'll automatically detect your pass.
+          <p className="text-white/50 text-sm mb-10">
+            Use <strong className="text-white/70">/book</strong> to schedule your sessions — we'll automatically detect your pass.
           </p>
           <div className="flex gap-3 justify-center">
-            <Link href="/book" className="bg-white text-black font-bold px-8 py-4 rounded-2xl">
+            <Link href="/book" className="bg-white text-black font-bold px-8 py-4 rounded-md">
               BOOK A SESSION
             </Link>
-            <Link href="/" className="bg-white/10 text-white font-bold px-8 py-4 rounded-2xl">
+            <Link href="/" className="bg-white/10 text-white font-bold px-8 py-4 rounded-md">
               HOME
             </Link>
           </div>
@@ -113,18 +113,18 @@ function BuyPassPageInner() {
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="mb-12 text-center">
-          <Link href="/" className="inline-flex items-center gap-2 text-white/30 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
+          <Link href="/" className="inline-flex items-center gap-2 text-white/50 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
             <ArrowLeft className="w-3 h-3" /> Back
           </Link>
           <h1 className="text-5xl font-black mb-3 uppercase tracking-tighter">
-            Buy a <span className="text-white/20">Pass</span>
+            Buy a <span className="text-white/40">Pass</span>
           </h1>
-          <p className="text-white/40 text-sm">Purchase a session pass and book training sessions anytime.</p>
+          <p className="text-white/60 text-sm">Purchase a session pass and book training sessions anytime.</p>
         </div>
 
         {step === 1 && (
           <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
-            <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Choose Your Pass</p>
+            <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-4">Choose Your Pass</p>
             {PASSES.map((p) => (
               <button
                 key={p.id}
@@ -160,13 +160,13 @@ function BuyPassPageInner() {
             <button
               type="button"
               onClick={() => setStep(2)}
-              className="w-full bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 mt-4"
+              className="w-full bg-white text-black font-black py-5 rounded-md flex items-center justify-center gap-2 mt-4"
             >
               CONTINUE — {pass.price}
               <ArrowRight className="w-5 h-5" />
             </button>
 
-            <p className="text-center text-xs text-white/20 pt-2">
+            <p className="text-center text-xs text-white/40 pt-2">
               After registration, you'll receive an e-transfer invoice via email.
             </p>
           </div>
@@ -177,92 +177,92 @@ function BuyPassPageInner() {
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="flex items-center gap-2 text-white/40 hover:text-white text-[10px] font-black uppercase mb-8 transition-all"
+              className="flex items-center gap-2 text-white/60 hover:text-white text-[10px] font-black uppercase mb-8 transition-all"
             >
               <ArrowLeft className="w-3 h-3" /> Back — {pass.name}
             </button>
 
-            <div className="bg-[#111] border border-white/5 rounded-2xl p-5 mb-8 flex items-center justify-between">
+            <div className="bg-[#111] border border-white/5 rounded-md p-5 mb-8 flex items-center justify-between">
               <div>
-                <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-1">Selected Pass</p>
+                <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-1">Selected Pass</p>
                 <p className="font-black text-lg uppercase">{pass.name}</p>
               </div>
               <p className="text-3xl font-black">{pass.price}</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
-              <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Your Information</p>
+              <p className="text-[10px] font-black text-white/50 uppercase tracking-widest">Your Information</p>
               <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Full Name</label>
+                <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2 block">Full Name</label>
                 <input
                   required
                   type="text"
                   placeholder="JORDAN SMITH"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-md px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                 />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">School</label>
+                  <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2 block">School</label>
                   <input
                     required
                     type="text"
                     placeholder="RICHMOND SECONDARY"
                     value={school}
                     onChange={(e) => setSchool(e.target.value)}
-                    className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                    className="w-full bg-[#0a0a0a] border border-white/5 rounded-md px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Grade</label>
+                  <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2 block">Grade</label>
                   <input
                     required
                     type="text"
                     placeholder="GRADE 10"
                     value={grade}
                     onChange={(e) => setGrade(e.target.value)}
-                    className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                    className="w-full bg-[#0a0a0a] border border-white/5 rounded-md px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                   />
                 </div>
               </div>
               <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Name</label>
+                <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2 block">Parent Name</label>
                 <input
                   required
                   type="text"
                   placeholder="MICHAEL SMITH"
                   value={parentName}
                   onChange={(e) => setParentName(e.target.value)}
-                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-md px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                 />
               </div>
               <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Parent Phone Number</label>
+                <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2 block">Parent Phone Number</label>
                 <input
                   required
                   type="tel"
                   placeholder="604-000-0000"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-md px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                 />
               </div>
               <div>
-                <label className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2 block">Email Address</label>
+                <label className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2 block">Email Address</label>
                 <input
                   required
                   type="email"
                   placeholder="JORDAN@EXAMPLE.COM"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-2xl px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
+                  className="w-full bg-[#0a0a0a] border border-white/5 rounded-md px-6 py-5 text-white font-bold outline-none focus:border-white/20 transition-colors"
                 />
               </div>
 
               {error && (
-                <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold p-4 rounded-xl text-center">
+                <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold p-4 rounded-sm text-center">
                   {error}
                 </div>
               )}
@@ -270,18 +270,18 @@ function BuyPassPageInner() {
               <button
                 type="submit"
                 disabled={!name || !parentName || !email || !phone || !school || !grade || loading}
-                className="w-full bg-white text-black font-black py-5 rounded-2xl flex items-center justify-center gap-2 disabled:opacity-30 mt-2"
+                className="w-full bg-white text-black font-black py-5 rounded-md flex items-center justify-center gap-2 disabled:opacity-30 mt-2"
               >
                 {loading ? "PROCESSING..." : `REGISTER — ${pass.price}`}
                 {!loading && <ArrowRight className="w-5 h-5" />}
               </button>
 
-              <p className="text-center text-xs text-white/20 pt-1">
+              <p className="text-center text-xs text-white/40 pt-1">
                 You'll receive an e-transfer invoice. Your pass activates after payment confirmation.
               </p>
-              <p className="text-center text-xs text-white/20">
+              <p className="text-center text-xs text-white/40">
                 No-shows without 24 hours&rsquo; notice are still charged a session. See our{" "}
-                <Link href="/policies" className="underline hover:text-white/40">cancellation policy</Link>.
+                <Link href="/policies" className="underline hover:text-white/60">cancellation policy</Link>.
               </p>
             </form>
           </div>

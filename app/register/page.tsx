@@ -54,7 +54,7 @@ export default function RegisterPage() {
           <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight mb-6 uppercase">
             CHOOSE YOUR <span className="text-white">PATH</span>
           </h1>
-          <p className="text-white/40 text-lg max-w-xl mx-auto">
+          <p className="text-white/60 text-lg max-w-xl mx-auto">
             Select a training pass to begin your development journey.
           </p>
         </div>
@@ -70,7 +70,7 @@ export default function RegisterPage() {
                   : "bg-[#111] text-white border-white/10 hover:border-white/20"}`}
             >
               {opt.highlight && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] font-black tracking-[0.2em] px-4 py-1.5 rounded-full uppercase">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] font-black tracking-[0.2em] px-4 py-1.5 rounded-sm uppercase">
                   Most Popular
                 </div>
               )}
@@ -107,7 +107,7 @@ export default function RegisterPage() {
         </div>
 
         <div className="mt-16 text-center reveal">
-          <p className="text-white/20 text-sm">
+          <p className="text-white/40 text-sm">
             All passes are valid for Micro Academy sessions. 
             Questions? <Link href="/contact" className="text-white underline">Contact us</Link>.
           </p>

@@ -203,8 +203,10 @@ function useReveal() {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// ページ本体
+// PAGE
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+const DISPLAY = { fontFamily: "var(--font-anton), Anton, sans-serif" } as const;
 
 export default function Home() {
   useReveal();
@@ -223,77 +225,58 @@ export default function Home() {
   );
 }
 
-// ── セクションラベル ──────────────────────────────────────────
-function SectionLabel({ text }: { text: string }) {
+// Section eyebrow: a short rule and small caps, not a pill
+function SectionLabel({ text, index }: { text: string; index?: string }) {
   return (
-    <span
-      className="inline-flex items-center gap-2
-                 text-xs font-semibold tracking-widest uppercase
-                 border border-white/20 text-white/70
-                 rounded-full px-3.5 py-1.5 mb-5"
-    >
-      <span className="w-1.5 h-1.5 rounded-full bg-white/50" />
+    <p className="flex items-center gap-3 text-xs font-semibold tracking-[0.25em] uppercase text-white/60 mb-5">
+      {index && <span className="text-white/35 tabular-nums">{index}</span>}
+      <span className="h-px w-8 bg-white/35" />
       {text}
-    </span>
+    </p>
   );
 }
 
-// ── ヒーロー ──────────────────────────────────────────────────
+// ── Hero ─────────────────────────────────────────────────────
 function HeroSection() {
   return (
-    <section className="relative min-h-[100svh] flex items-center overflow-hidden">
-      {/* 背景写真 */}
+    <section className="relative min-h-[100svh] flex items-end overflow-hidden">
       <Image
         src="/images/DSC00881.jpg"
         alt="Basketball training at LTS ELITE PREP"
         fill
         priority
-        className="object-cover opacity-30"
+        className="object-cover opacity-40"
         sizes="100vw"
       />
+      {/* readability scrim: heavier at the bottom-left where the type sits */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/25" />
 
-      {/* gradient overlay with warm tint */}
-      {/* gradient overlay with white tint */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-black/60 to-[#0a0a0a]" />
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 pt-32 pb-16 sm:pb-24">
+        <p className="opacity-0 animate-fade-up delay-100 flex items-center gap-3 text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-white/75 mb-6">
+          <span className="h-px w-10 bg-white/50" />
+          {HERO.badge}
+        </p>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20">
-        {/* Badge */}
-        <div className="opacity-0 animate-fade-up delay-100">
-          <SectionLabel text={HERO.badge} />
-        </div>
-
-        {/* Heading */}
         <h1
-          className="font-extrabold tracking-tight leading-[0.95] mb-8
-                     text-5xl sm:text-6xl md:text-7xl xl:text-8xl
-                     opacity-0 animate-fade-up delay-200"
+          className="mb-8 text-6xl sm:text-7xl md:text-8xl xl:text-[10rem]
+                     leading-[0.9] opacity-0 animate-fade-up delay-200"
         >
           {HERO.heading.map((line, i) => (
-            <span key={i} className="block text-white">
-              {i === 1 ? (
-                <em className="text-white/40 not-italic">{line}</em>
-              ) : (
-                line
-              )}
+            <span key={i} className={`block ${i === 1 ? "text-white/40" : "text-white"}`}>
+              {line}
             </span>
           ))}
         </h1>
 
-        {/* Subtext */}
-        <p
-          className="text-white/50 text-lg sm:text-xl max-w-xl leading-relaxed mb-10
-                     opacity-0 animate-fade-up delay-300"
-        >
+        <p className="text-white/70 text-lg sm:text-xl max-w-xl leading-relaxed mb-10 opacity-0 animate-fade-up delay-300">
           {HERO.subtext}
         </p>
 
-        {/* Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-up delay-500">
+        <div className="flex flex-col sm:flex-row gap-3 opacity-0 animate-fade-up delay-500">
           <Link
             href="/book"
-            className="group flex items-center justify-center gap-2
-                       btn-accent font-black text-lg
-                       px-10 py-5 rounded-2xl active:scale-95"
+            className="group flex items-center justify-center gap-2 btn-accent font-bold
+                       text-base tracking-wide px-9 py-4 rounded-sm"
           >
             {HERO.primaryBtn}
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -301,10 +284,9 @@ function HeroSection() {
 
           <Link
             href="/schedule"
-            className="flex items-center justify-center
-                       border border-white/15 hover:border-white/30
-                       hover:bg-white/5 text-white font-black text-lg
-                       px-10 py-5 rounded-2xl transition-all"
+            className="flex items-center justify-center border border-white/40
+                       hover:border-white hover:bg-white hover:text-black text-white font-bold
+                       text-base tracking-wide px-9 py-4 rounded-sm transition-colors"
           >
             {HERO.secondaryBtn}
           </Link>
@@ -314,20 +296,17 @@ function HeroSection() {
   );
 }
 
-// ── ティッカー ────────────────────────────────────────────────
+// ── Ticker ───────────────────────────────────────────────────
 function TickerSection() {
   return (
-    <div className="border-y border-white/5 bg-[#060606] py-4 overflow-hidden">
+    <div className="border-y border-white/10 bg-black py-4 overflow-hidden" aria-hidden="true">
       <div className="flex animate-marquee whitespace-nowrap">
         {[0, 1].map((i) => (
-          <span key={i} className="flex gap-16 mr-16">
+          <span key={i} className="flex gap-12 mr-12">
             {TICKER.map((item) => (
-              <span
-                key={item}
-                className="text-xs font-bold tracking-[0.25em] text-white/15"
-              >
+              <span key={item} className="text-xl tracking-[0.2em] text-white/55" style={DISPLAY}>
                 {item}
-                <span className="ml-16 text-[#ffffff]/20">●</span>
+                <span className="ml-12 text-white/25">/</span>
               </span>
             ))}
           </span>
@@ -340,23 +319,15 @@ function TickerSection() {
 // ── Stats ────────────────────────────────────────────────────
 function StatsSection() {
   return (
-    <section className="py-16 bg-[#0a0a0a] border-b border-white/5">
-      <div className="max-w-5xl mx-auto px-5 sm:px-8">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
-          {STATS.map(({ value, label, icon: Icon }) => (
-            <div key={label} className="reveal">
-              <div className="flex justify-center mb-3">
-                <div
-                  className="w-10 h-10 rounded-xl bg-[#ffffff]/10
-                              flex items-center justify-center"
-                >
-                  <Icon className="w-5 h-5 text-[#ffffff]" />
-                </div>
-              </div>
-              <p className="text-3xl sm:text-4xl font-extrabold text-white mb-1">
+    <section className="bg-black border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 border-l border-white/10">
+          {STATS.map(({ value, label }) => (
+            <div key={label} className="reveal border-r border-b lg:border-b-0 border-white/10 px-5 sm:px-8 py-10">
+              <p className="text-6xl sm:text-7xl leading-none text-white mb-3" style={DISPLAY}>
                 {value}
               </p>
-              <p className="text-xs font-semibold uppercase tracking-widest text-white/30">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
                 {label}
               </p>
             </div>
@@ -370,56 +341,47 @@ function StatsSection() {
 // ── Programs ─────────────────────────────────────────────────
 function ProgramsSection() {
   return (
-    <section id="programs" className="py-24 lg:py-32 bg-[#0a0a0a]">
+    <section id="programs" className="py-24 lg:py-32 bg-black">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="mb-14 reveal text-center">
-          <SectionLabel text="Programs" />
-          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
-            Find Your Level
-          </h2>
-          <p className="text-white/40 mt-3 max-w-lg mx-auto">
+        <div className="mb-14 reveal max-w-2xl">
+          <SectionLabel text="Programs" index="01" />
+          <h2 className="text-5xl sm:text-7xl mb-4">Find Your Level</h2>
+          <p className="text-white/65 text-lg">
             Programs built for where you are — and where you want to go.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 border border-white/15">
           {PROGRAMS.map((program, i) => (
             <div
               key={program.id}
               style={{ transitionDelay: `${i * 80}ms` }}
-              className={`reveal card relative rounded-2xl p-7 flex flex-col transition-all duration-500
-                          ${program.featured
-                  ? "md:scale-105 md:z-10 bg-white text-black shadow-2xl"
-                  : "bg-[#111] border border-white/5 text-white hover:border-white/20"
-                }`}
+              className={`reveal flex flex-col p-7 lg:p-9
+                          ${i > 0 ? "border-t md:border-t-0 md:border-l border-white/15" : ""}
+                          ${program.featured ? "bg-white text-black" : "bg-black text-white"}`}
             >
-              {/* Badge */}
-              <div className="mb-6">
-                <span
-                  className={`text-[10px] font-black tracking-[0.2em] uppercase px-3 py-1.5 rounded-full border
-                    ${program.featured 
-                      ? "bg-black text-white border-black" 
-                      : "bg-white/5 text-white/40 border-white/10"}`}
-                >
-                  {program.badge}
-                </span>
-              </div>
+              <p
+                className={`mb-8 flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] uppercase
+                  ${program.featured ? "text-black" : "text-white/70"}`}
+              >
+                <span className={`w-2 h-2 ${program.featured ? "bg-black" : "bg-white/70"}`} />
+                {program.badge}
+              </p>
 
-              <h3 className="text-3xl font-extrabold mb-1">{program.name}</h3>
-              <p className={`text-sm font-bold mb-4 uppercase tracking-wide ${program.featured ? 'text-black/40' : 'text-white/30'}`}>
+              <h3 className="text-4xl lg:text-5xl mb-2">{program.name}</h3>
+              <p className={`text-sm font-semibold mb-5 uppercase tracking-wider ${program.featured ? "text-black/60" : "text-white/55"}`}>
                 {program.tagline}
               </p>
-              <p className={`text-sm leading-relaxed mb-8 ${program.featured ? 'text-black/60' : 'text-white/50'}`}>
+              <p className={`text-[15px] leading-relaxed mb-8 ${program.featured ? "text-black/75" : "text-white/70"}`}>
                 {program.desc}
               </p>
 
-              <ul className="space-y-2.5 mb-8 flex-1">
+              <ul className="mb-10 flex-1">
                 {program.features.map((f) => (
                   <li
                     key={f}
-                    className={`flex items-center gap-2.5 text-sm ${program.featured ? 'text-black/80' : 'text-white/60'}`}
+                    className={`py-3 text-sm border-t ${program.featured ? "border-black/15 text-black/85" : "border-white/15 text-white/75"}`}
                   >
-                    <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${program.featured ? 'bg-black/20' : 'bg-white/20'}`} />
                     {f}
                   </li>
                 ))}
@@ -427,13 +389,14 @@ function ProgramsSection() {
 
               <Link
                 href={program.href}
-                className={`block text-center font-black py-4 rounded-xl
-                           text-sm transition-all ${program.featured
-                    ? "bg-black text-white hover:bg-black/90 shadow-xl"
-                    : "border border-white/10 hover:border-white/30 hover:bg-white/5 text-white"
-                  }`}
+                className={`group flex items-center justify-between font-bold text-sm tracking-wide
+                            px-5 py-4 rounded-sm transition-colors
+                            ${program.featured
+                              ? "bg-black text-white hover:bg-black/85"
+                              : "border border-white/40 text-white hover:bg-white hover:text-black"}`}
               >
                 {program.cta}
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           ))}
@@ -443,15 +406,15 @@ function ProgramsSection() {
   );
 }
 
+// ── PACT ─────────────────────────────────────────────────────
 function PactSection() {
   return (
-    <section className="py-24 lg:py-32 bg-[#060606] border-y border-white/5">
+    <section className="py-24 lg:py-32 bg-[#0b0b0b] border-y border-white/10">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left: Text */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-center">
           <div className="reveal">
-            <SectionLabel text="Our Philosophy" />
-            <div className="mb-6">
+            <SectionLabel text="Our Philosophy" index="02" />
+            <div className="mb-8">
               <Image
                 src="/logo/logo1.png"
                 alt="LTS ELITE PREP Logo"
@@ -460,42 +423,37 @@ function PactSection() {
                 className="h-12 w-auto object-contain brightness-0 invert"
               />
             </div>
-            <p className="text-white/50 text-lg leading-relaxed mb-4">
+            <p className="text-white/80 text-xl leading-relaxed mb-4">
               Every athlete at LTS ELITE PREP makes a personal commitment — a
               PACT to their own development.
             </p>
-            <p className="text-white/40 text-base leading-relaxed mb-8">
+            <p className="text-white/60 text-base leading-relaxed mb-9">
               It&rsquo;s not just about basketball. It&rsquo;s about discipline,
               growth, and becoming the best version of yourself — on and off the
               court.
             </p>
             <Link
               href="/book"
-              className="inline-flex items-center gap-2
-                         bg-white text-black font-bold px-6 py-3 rounded-xl text-sm
-                         group"
+              className="group inline-flex items-center gap-2 bg-white text-black font-bold
+                         px-7 py-3.5 rounded-sm text-sm tracking-wide hover:bg-white/90 transition-colors"
             >
               Make Your PACT
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
-          {/* Right: PACT cards */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 border-l border-t border-white/15">
             {PACT.map(({ letter, word, desc }, i) => (
               <div
                 key={letter}
                 style={{ transitionDelay: `${i * 60}ms` }}
-                className="reveal card card-warm bg-[#111] border border-white/7 rounded-2xl p-6"
+                className="reveal border-r border-b border-white/15 p-6 sm:p-8"
               >
-                <span
-                  className="text-5xl font-extrabold leading-none
-                             text-white"
-                >
+                <span className="block text-7xl sm:text-8xl leading-none text-white mb-4" style={DISPLAY}>
                   {letter}
                 </span>
-                <p className="font-extrabold text-lg mt-2 mb-1">{word}</p>
-                <p className="text-white/40 text-sm leading-relaxed">{desc}</p>
+                <p className="font-bold text-lg mb-1">{word}</p>
+                <p className="text-white/60 text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -508,26 +466,22 @@ function PactSection() {
 // ── Coaches ──────────────────────────────────────────────────
 function CoachesSection() {
   return (
-    <section className="py-24 lg:py-32 bg-[#0a0a0a]">
+    <section className="py-24 lg:py-32 bg-black">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="mb-14 reveal text-center">
-          <SectionLabel text="The Team" />
-          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
-            Coaches Who&rsquo;ve <span className="text-white">Been There</span>
+        <div className="mb-14 reveal max-w-2xl">
+          <SectionLabel text="The Team" index="03" />
+          <h2 className="text-5xl sm:text-7xl mb-4">
+            Coaches Who&rsquo;ve Been There
           </h2>
-          <p className="text-white/40 mt-3 max-w-lg mx-auto">
+          <p className="text-white/65 text-lg">
             Real players turned real coaches. They know what it takes.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10">
           {COACHES.map((coach, i) => (
-            <div
-              key={coach.name}
-              style={{ transitionDelay: `${i * 80}ms` }}
-              className="reveal card card-warm bg-[#0f0f0f] border border-white/10 rounded-2xl overflow-hidden"
-            >
-              <div className="relative aspect-[4/5] bg-[#111] flex items-center justify-center overflow-hidden">
+            <div key={coach.name} style={{ transitionDelay: `${i * 80}ms` }} className="reveal">
+              <div className="relative aspect-[4/5] bg-[#111] overflow-hidden">
                 {coach.photo ? (
                   <Image
                     src={coach.photo}
@@ -538,20 +492,20 @@ function CoachesSection() {
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-2xl font-extrabold text-white/10 uppercase">
+                    <span className="text-4xl text-white/15" style={DISPLAY}>
                       {coach.initial}
                     </span>
                   </div>
                 )}
               </div>
 
-              <div className="p-6">
-                <h3 className="font-extrabold text-xl">{coach.name}</h3>
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 mt-1 mb-4">
+              <div className="pt-4 border-t-2 border-white mt-4">
+                <h3 className="text-2xl mb-1">{coach.name}</h3>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/60">
                   {coach.role}
                 </p>
                 {coach.bio && (
-                  <p className="text-white/60 text-xs leading-relaxed line-clamp-3">
+                  <p className="text-white/70 text-sm leading-relaxed mt-3 line-clamp-4">
                     {coach.bio}
                   </p>
                 )}
@@ -567,41 +521,32 @@ function CoachesSection() {
 // ── Testimonials ─────────────────────────────────────────────
 function TestimonialsSection() {
   return (
-    <section className="py-24 bg-[#060606] border-t border-white/5">
+    <section className="py-24 lg:py-32 bg-[#0b0b0b] border-t border-white/10">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="mb-12 reveal text-center">
-          <SectionLabel text="What Players Say" />
-          <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
-            Straight From the Athletes
-          </h2>
+        <div className="mb-14 reveal max-w-2xl">
+          <SectionLabel text="What Players Say" index="04" />
+          <h2 className="text-5xl sm:text-7xl">Straight From the Athletes</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {TESTIMONIALS.map(({ quote, author, role, stars }, i) => (
-            <div
+        <div className="grid grid-cols-1 md:grid-cols-3 border-t border-white/15">
+          {TESTIMONIALS.map(({ quote, author, role }, i) => (
+            <figure
               key={author}
               style={{ transitionDelay: `${i * 80}ms` }}
-              className="reveal card card-warm bg-[#111] border border-white/7 rounded-2xl p-7"
+              className={`reveal flex flex-col py-8 md:py-10 md:px-8 first:md:pl-0 last:md:pr-0
+                          ${i > 0 ? "border-t md:border-t-0 md:border-l border-white/15" : ""}`}
             >
-              {/* Stars */}
-              <div className="flex gap-1 mb-4">
-                {Array.from({ length: stars }).map((_, j) => (
-                  <Star
-                    key={j}
-                    className="w-4 h-4 text-[#ffffff] fill-[#ffffff]"
-                  />
-                ))}
-              </div>
-
-              <p className="text-white/60 text-sm leading-relaxed mb-6">
-                &ldquo;{quote}&rdquo;
-              </p>
-
-              <div>
-                <p className="font-bold text-sm">{author}</p>
-                <p className="text-xs text-white/30 mt-0.5">{role}</p>
-              </div>
-            </div>
+              <span className="block text-7xl leading-[0.6] text-white/25 mb-4 h-8" style={DISPLAY} aria-hidden="true">
+                &ldquo;
+              </span>
+              <blockquote className="text-white/75 text-[15px] leading-relaxed mb-8 flex-1">
+                {quote}
+              </blockquote>
+              <figcaption>
+                <p className="font-bold text-base">{author}</p>
+                <p className="text-sm text-white/55 mt-0.5">{role}</p>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </div>
@@ -609,47 +554,41 @@ function TestimonialsSection() {
   );
 }
 
-// ── Instagram Feed ───────────────────────────────────────────
-
-
-// ── CTA Banner ───────────────────────────────────────────────
+// ── CTA ──────────────────────────────────────────────────────
 function CtaSection() {
   return (
-    <section className="py-32 bg-[#0a0a0a] relative overflow-hidden">
-      {/* Warm glow */}
-      <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2
-                   w-[800px] h-[400px] bg-[#ffffff]/5
-                   rounded-full blur-[120px] pointer-events-none"
-      />
+    <section className="py-24 lg:py-32 bg-black border-t border-white/10">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 reveal">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-12 items-end">
+          <div>
+            <SectionLabel text="Get Started" index="05" />
+            <h2 className="text-6xl sm:text-8xl lg:text-[9rem] leading-[0.9]">
+              Ready to
+              <br />
+              Level Up?
+            </h2>
+          </div>
 
-      <div className="relative max-w-4xl mx-auto px-5 text-center reveal">
-        <SectionLabel text="Get Started" />
+          <div>
+            <p className="text-white/70 text-lg mb-8 max-w-md">
+              Your first session is on us. Come out, meet the coaches, and see what
+              LTS is about. No commitment, no pressure.
+            </p>
 
-        <h2 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight mb-6">
-          Ready to
-          <br />
-          <span className="gradient-text">Level Up?</span>
-        </h2>
+            <Link
+              href="/book"
+              className="group inline-flex items-center gap-3 btn-accent font-bold text-lg tracking-wide
+                         px-10 py-5 rounded-sm"
+            >
+              TRAIN NOW
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
 
-        <p className="text-white/40 text-lg mb-10 max-w-xl mx-auto">
-          Your first session is on us. Come out, meet the coaches, and see what
-          LTS is about. No commitment, no pressure.
-        </p>
-
-        <Link
-          href="/book"
-          className="inline-flex items-center gap-3
-                     btn-accent font-black text-xl
-                     px-12 py-6 rounded-2xl active:scale-95 group"
-        >
-          TRAIN NOW
-          <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-        </Link>
-
-        <p className="text-white/20 text-sm mt-8 font-bold tracking-widest">
-          REGISTER FOR A PASS · PAY LATER
-        </p>
+            <p className="text-white/50 text-xs mt-6 font-semibold tracking-[0.2em]">
+              REGISTER FOR A PASS · PAY LATER
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );

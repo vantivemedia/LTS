@@ -61,13 +61,13 @@ export default function Phase2Page() {
       <div className="max-w-4xl mx-auto">
         {/* Hero */}
         <div className="mb-14">
-          <Link href="/" className="inline-flex items-center gap-2 text-white/30 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
+          <Link href="/" className="inline-flex items-center gap-2 text-white/50 hover:text-white text-xs font-bold uppercase mb-10 transition-all">
             <ArrowLeft className="w-3 h-3" /> Back
           </Link>
 
           <div className="lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:items-center">
             <div>
-              <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-3">
+              <p className="text-[10px] font-black text-white/50 uppercase tracking-[0.3em] mb-3">
                 Fall Academy
               </p>
               <h1
@@ -76,17 +76,17 @@ export default function Phase2Page() {
               >
                 Phase 2
               </h1>
-              <p className="text-white/50 text-sm font-bold uppercase tracking-widest mb-4">
+              <p className="text-white/70 text-sm font-bold uppercase tracking-widest mb-4">
                 October 9 – October 30, 2026
               </p>
-              <p className="text-white/30 text-xs font-black uppercase tracking-[0.2em] mb-6">
+              <p className="text-white/50 text-xs font-black uppercase tracking-[0.2em] mb-6">
                 Build / Load / Apply / Test
               </p>
-              <p className="text-white/40 text-lg leading-relaxed mb-2">
+              <p className="text-white/60 text-lg leading-relaxed mb-2">
                 10 training opportunities. 15 hours of development. The next chapter of Fall Academy training, building directly on
                 everything covered in Phase 1.
               </p>
-              <p className="flex items-center gap-1.5 text-white/40 text-sm mb-8">
+              <p className="flex items-center gap-1.5 text-white/60 text-sm mb-8">
                 <MapPin className="w-3.5 h-3.5 shrink-0" />
                 The Hoop — 11111 Twigg Pl #1061, Richmond, BC
               </p>
@@ -95,7 +95,7 @@ export default function Phase2Page() {
                 <Link
                   href="/book?program=phase-2"
                   onClick={() => trackEvent("button_click", "/phase-2", "phase2_book_session")}
-                  className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
+                  className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-md hover:bg-white/90 transition-all active:scale-95"
                 >
                   Book a Session
                   <ArrowRight className="w-4 h-4" />
@@ -103,14 +103,14 @@ export default function Phase2Page() {
                 <Link
                   href="/buy-pass?program=phase-2"
                   onClick={() => trackEvent("button_click", "/phase-2", "phase2_buy_pass")}
-                  className="inline-flex items-center justify-center gap-2 bg-[#111] border border-white/10 text-white font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-2xl hover:border-white/30 transition-all active:scale-95"
+                  className="inline-flex items-center justify-center gap-2 bg-[#111] border border-white/10 text-white font-black text-sm uppercase tracking-wide px-6 py-3.5 rounded-md hover:border-white/30 transition-all active:scale-95"
                 >
                   Buy a Package
                 </Link>
               </div>
             </div>
 
-            <div className="mt-10 lg:mt-0 relative rounded-3xl overflow-hidden aspect-[4/5] lg:aspect-[3/4] border border-white/5">
+            <div className="mt-10 lg:mt-0 relative rounded-md overflow-hidden aspect-[4/5] lg:aspect-[3/4] border border-white/5">
               <Image
                 src="/images/phase-2-training.jpg"
                 alt="LTS Elite Prep athletes lined up on the court at The Hoop"
@@ -126,17 +126,17 @@ export default function Phase2Page() {
 
         {/* Schedule */}
         <div className="mb-14">
-          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Phase 2 Schedule</p>
+          <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-4">Phase 2 Schedule</p>
           <div className="grid grid-cols-1 gap-6 sm:max-w-md">
             {Object.entries(SCHEDULE).map(([month, sessions]) => (
               <div key={month}>
-                <p className="text-xs font-black text-white/50 uppercase tracking-widest mb-3">{month}</p>
-                <div className="divide-y divide-white/5 bg-[#111] border border-white/5 rounded-2xl overflow-hidden">
+                <p className="text-xs font-black text-white/70 uppercase tracking-widest mb-3">{month}</p>
+                <div className="divide-y divide-white/5 bg-[#111] border border-white/5 rounded-md overflow-hidden">
                   {sessions.map((s) => (
                     <div key={s.date} className="px-4 py-3">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-white/40 text-xs font-black uppercase tracking-wide">{s.day}, {s.date}</span>
-                        <span className="text-white/30 text-xs font-bold">{s.time}</span>
+                        <span className="text-white/60 text-xs font-black uppercase tracking-wide">{s.day}, {s.date}</span>
+                        <span className="text-white/50 text-xs font-bold">{s.time}</span>
                       </div>
                       <p className="text-white font-bold text-base leading-snug">{s.focus}</p>
                     </div>
@@ -151,9 +151,9 @@ export default function Phase2Page() {
         </div>
 
         {/* Tuesdays */}
-        <div className="bg-[#111] border border-white/5 rounded-2xl p-6 mb-14">
-          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-2">Tuesdays</p>
-          <p className="text-white/50 text-sm leading-relaxed mb-4">
+        <div className="bg-[#111] border border-white/5 rounded-md p-6 mb-14">
+          <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2">Tuesdays</p>
+          <p className="text-white/70 text-sm leading-relaxed mb-4">
             There are no Fall Academy sessions on Tuesdays. Private and semi-private LTS PRO sessions are available on
             Tuesdays by request.
           </p>
@@ -169,7 +169,7 @@ export default function Phase2Page() {
 
         {/* Pricing */}
         <div className="mb-14">
-          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Pricing</p>
+          <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-4">Pricing</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {PRICING.map((p) => (
               <Link
@@ -179,7 +179,7 @@ export default function Phase2Page() {
                 className={`rounded-2xl p-6 relative transition-all active:scale-95 ${p.featured ? "bg-white text-black hover:bg-white/90" : "bg-[#111] border border-white/5 hover:border-white/20"}`}
               >
                 {p.featured && (
-                  <span className="absolute -top-3 right-4 bg-black text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest">
+                  <span className="absolute -top-3 right-4 bg-black text-white text-[9px] font-black px-3 py-1 rounded-sm uppercase tracking-widest">
                     🔥 Best Value
                   </span>
                 )}
@@ -195,17 +195,17 @@ export default function Phase2Page() {
 
         {/* The Training */}
         <div className="mb-14">
-          <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">The Training</p>
-          <p className="text-white/40 text-sm leading-relaxed mb-6 max-w-2xl">
+          <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-4">The Training</p>
+          <p className="text-white/60 text-sm leading-relaxed mb-6 max-w-2xl">
             Phase 2 progresses through the same four areas as Phase 1 — skill development, shooting, finishing,
             footwork, decision-making, live play and competitive application — at a more advanced level. Each
             session has its own focus, so athletes still benefit even if they can&rsquo;t attend every date.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {PHASES.map((p, i) => (
-              <div key={p.letter} className="bg-[#111] border border-white/5 rounded-2xl p-5 text-center relative">
+              <div key={p.letter} className="bg-[#111] border border-white/5 rounded-md p-5 text-center relative">
                 <span className="text-3xl font-black block mb-1">{p.letter}</span>
-                <span className="text-xs font-bold uppercase tracking-widest text-white/40">{p.word}</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-white/60">{p.word}</span>
                 {i < PHASES.length - 1 && (
                   <span className="hidden sm:block absolute top-1/2 -right-2.5 -translate-y-1/2 text-white/15 text-lg">→</span>
                 )}
@@ -214,22 +214,22 @@ export default function Phase2Page() {
           </div>
         </div>
 
-        <div className="bg-[#111] border border-white/5 rounded-2xl p-6 mb-14">
-          <p className="text-white/40 text-sm leading-relaxed">
+        <div className="bg-[#111] border border-white/5 rounded-md p-6 mb-14">
+          <p className="text-white/60 text-sm leading-relaxed">
             Phase 2 builds directly on everything covered in Phase 1. Spots will be limited.
           </p>
         </div>
 
         {/* CTA */}
         <div className="text-center">
-          <p className="text-white/30 text-sm mb-5">
+          <p className="text-white/50 text-sm mb-5">
             Spots are limited — book a session or grab a package to lock in your dates.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/book?program=phase-2"
               onClick={() => trackEvent("button_click", "/phase-2", "phase2_book_session")}
-              className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-8 py-4 rounded-2xl hover:bg-white/90 transition-all active:scale-95"
+              className="inline-flex items-center justify-center gap-2 bg-white text-black font-black text-sm uppercase tracking-wide px-8 py-4 rounded-md hover:bg-white/90 transition-all active:scale-95"
             >
               Book a Session
               <ArrowRight className="w-4 h-4" />
@@ -237,7 +237,7 @@ export default function Phase2Page() {
             <a
               href={MAILTO}
               onClick={() => trackEvent("button_click", "/phase-2", "phase2_reserve_email")}
-              className="inline-flex items-center justify-center gap-2 bg-[#111] border border-white/10 text-white font-black text-sm uppercase tracking-wide px-8 py-4 rounded-2xl hover:border-white/30 transition-all active:scale-95"
+              className="inline-flex items-center justify-center gap-2 bg-[#111] border border-white/10 text-white font-black text-sm uppercase tracking-wide px-8 py-4 rounded-md hover:border-white/30 transition-all active:scale-95"
             >
               <Mail className="w-4 h-4" />
               Email Coach Paolo
