@@ -65,7 +65,7 @@ const PROGRAMS = [
   },
   {
     id: "pro",
-    name: "LTS PRO",
+    name: "LTS 1:1",
     tagline: "Private Training",
     badge: "Book Online",
     desc: "Premium private (1-on-1) and semi-private (up to 6 athletes) training with Coach Paolo, customized to the athlete’s position, skill level, and goals. Pick an open time slot and book online.",

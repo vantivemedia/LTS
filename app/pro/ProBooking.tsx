@@ -126,12 +126,12 @@ export default function ProBooking() {
         </p>
         <p className="text-white/60 mb-5">{done.label} &middot; {done.sessionType}, {done.length} min &middot; The Hoop, Richmond</p>
         {done.hasPass ? (
-          <p className="text-white/70 text-sm">1 session taken from your LTS PRO pass{done.sessionsLeft !== null ? ` (${done.sessionsLeft} left)` : ""}.</p>
+          <p className="text-white/70 text-sm">1 session taken from your LTS 1:1 pass{done.sessionsLeft !== null ? ` (${done.sessionsLeft} left)` : ""}.</p>
         ) : (
           <div className="bg-black border border-white/10 rounded-md p-5 text-sm text-left max-w-sm mx-auto">
             <p className="text-[10px] font-black uppercase tracking-widest text-white/60 mb-2">To confirm your time</p>
             <p className="text-white/80 leading-relaxed">
-              E-transfer <strong className="text-white">${done.price}</strong> to <strong className="text-white">info@ltseliteprep.ca</strong> within 48 hours. Note: &ldquo;{done.athlete} &mdash; LTS PRO&rdquo;.
+              E-transfer <strong className="text-white">${done.price}</strong> to <strong className="text-white">info@ltseliteprep.ca</strong> within 48 hours. Note: &ldquo;{done.athlete} &mdash; LTS 1:1&rdquo;.
             </p>
           </div>
         )}
@@ -237,7 +237,7 @@ export default function ProBooking() {
           <p className={LABEL}>4. Your info</p>
           <div className="grid grid-cols-2 gap-3">
             {[
-              { v: true, title: "I Have a PRO Pass", sub: "Just need your email" },
+              { v: true, title: "I Have a 1:1 Pass", sub: "Just need your email" },
               { v: false, title: "Single Session", sub: `$${price} · ${sessionType.toLowerCase()}` },
             ].map((o) => (
               <button

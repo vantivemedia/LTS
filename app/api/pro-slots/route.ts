@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { kindFromBooking, pacificNow, parseTimeLabel, toMinutes, type ProTaken, type ProWindow } from "@/lib/pro-slots";
 
-// Open LTS PRO availability for the booking page: Coach Paolo's windows plus which times are already
+// Open LTS 1:1 availability for the booking page: Coach Paolo's windows plus which times are already
 // booked. Only dates, times, session kind and counts are returned, never any booking details.
 export async function GET() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {

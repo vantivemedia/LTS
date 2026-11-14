@@ -54,7 +54,7 @@ export default function ProPage() {
       if (!res.ok) {
         const d = await res.json();
         if (d.code === "NO_PASS_FOUND") {
-          // No active PRO pass for that email — drop them into the full request form (email stays filled in).
+          // No active 1:1 pass for that email — drop them into the full request form (email stays filled in).
           setHasPass(false);
           setError(d.error);
           setLoading(false);
@@ -105,7 +105,7 @@ export default function ProPage() {
             <div className="absolute inset-0 lg:hidden">
               <Image
                 src="/images/pro-training-1on1.jpg"
-                alt="1-on-1 private basketball training at LTS PRO"
+                alt="1-on-1 private basketball training at LTS 1:1"
                 fill
                 className="object-cover"
                 sizes="100vw"
@@ -123,7 +123,7 @@ export default function ProPage() {
                 className="text-[4.125rem] sm:text-[4.95rem] mb-4 uppercase tracking-tighter leading-none"
                 style={{ fontFamily: '"Vanguard CF Heavy Oblique", sans-serif' }}
               >
-                LTS <span className="text-white">PRO</span>
+                LTS <span className="text-white">1:1</span>
               </h1>
               <p className="text-white/60 text-lg leading-relaxed max-w-xl mb-2">
                 Our premium <strong className="text-white font-bold">private training</strong> experience — individualized development in a focused environment.
@@ -222,7 +222,7 @@ export default function ProPage() {
         <div className="hidden lg:block relative rounded-md lg:rounded-l-none overflow-hidden lg:aspect-auto lg:h-[calc(100vh-11rem)]">
           <Image
             src="/images/pro-training-1on1.jpg"
-            alt="1-on-1 private basketball training at LTS PRO"
+            alt="1-on-1 private basketball training at LTS 1:1"
             fill
             className="object-cover"
             sizes="(max-width: 1024px) 100vw, 50vw"
@@ -241,7 +241,7 @@ export default function ProPage() {
           <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2">Open Times</p>
           <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">Book a Session</h2>
           <p className="text-white/60 text-sm max-w-md mx-auto">
-            Choose private or semi-private, then click a day and time. PRO pass holders just need their email.
+            Choose private or semi-private, then click a day and time. 1:1 pass holders just need their email.
           </p>
         </div>
         <ProBooking />
@@ -253,7 +253,7 @@ export default function ProPage() {
           <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2">Need a Different Time?</p>
           <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight mb-2">Request a Session</h2>
           <p className="text-white/60 text-sm max-w-md mx-auto">
-            Don&rsquo;t see a time that works? Tell us what does and Coach Paolo will confirm one. PRO pass holders can choose &ldquo;I Have a PRO Pass&rdquo; and just enter their email.
+            Don&rsquo;t see a time that works? Tell us what does and Coach Paolo will confirm one. 1:1 pass holders can choose &ldquo;I Have a 1:1 Pass&rdquo; and just enter their email.
           </p>
         </div>
 
@@ -261,7 +261,7 @@ export default function ProPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid grid-cols-2 gap-3">
               {[
-                { value: true, title: "I Have a PRO Pass", sub: "Just need your email" },
+                { value: true, title: "I Have a 1:1 Pass", sub: "Just need your email" },
                 { value: false, title: "New Request", sub: "Private $85 · Semi-private from $65" },
               ].map((o) => (
                 <button
@@ -455,7 +455,7 @@ export default function ProPage() {
             Justin Pamintuan — Byrne Creek / Capilano University
           </p>
           <p className="text-xs text-white/50 mt-3 pt-3 border-t border-white/5">
-            LTS PRO sessions are led by <span className="text-white/60 font-bold">Paolo Labrador</span> — Douglas College Royals Asst. Coach · Magee Secondary Head Coach.
+            LTS 1:1 sessions are led by <span className="text-white/60 font-bold">Paolo Labrador</span> — Douglas College Royals Asst. Coach · Magee Secondary Head Coach.
           </p>
         </div>
 

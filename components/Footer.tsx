@@ -23,7 +23,7 @@ const CONTACT = {
 const FOOTER_LINKS = [
   { href: "/", label: "Home" },
   { href: "/programs", label: "Programs" },
-  { href: "/pro", label: "LTS PRO" },
+  { href: "/pro", label: "LTS 1:1" },
   { href: "/about", label: "About" },
   { href: "/book", label: "TRAIN NOW" },
   { href: "/schedule", label: "Schedule" },

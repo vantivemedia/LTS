@@ -96,7 +96,7 @@ export async function POST(request: Request) {
       pass = (passes || []).find((p) => p.sessions_used < p.sessions_total) || null;
       if (!pass) {
         return NextResponse.json(
-          { error: "We couldn't find an active LTS PRO pass for that email. Please fill in the rest of your info to book a single session.", code: "NO_PASS_FOUND" },
+          { error: "We couldn't find an active LTS 1:1 pass for that email. Please fill in the rest of your info to book a single session.", code: "NO_PASS_FOUND" },
           { status: 404 }
         );
       }
@@ -148,7 +148,7 @@ export async function POST(request: Request) {
         .from("pass_holders")
         .update(used >= pass.sessions_total ? { sessions_used: used, status: "expired" } : { sessions_used: used })
         .eq("id", pass.id);
-      if (passError) console.error("PRO pass deduction error (booking saved):", passError);
+      if (passError) console.error("1:1 pass deduction error (booking saved):", passError);
     }
 
     await supabase.from("analytics_events").insert({
@@ -168,12 +168,12 @@ export async function POST(request: Request) {
         const when = `${longDate(date)} · ${formatTime(start)} – ${formatTime(end)}`;
 
         const paymentBlock = hasPass
-          ? `<p>1 session has been taken from your LTS PRO pass${sessionsLeft !== null ? ` (${sessionsLeft} left)` : ""}.</p>`
+          ? `<p>1 session has been taken from your LTS 1:1 pass${sessionsLeft !== null ? ` (${sessionsLeft} left)` : ""}.</p>`
           : `<div style="background:#000;border-radius:12px;padding:20px;margin:24px 0;">
                <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.4);margin:0 0 12px;">Payment Instructions</p>
                <p style="color:#fff;margin:6px 0;font-size:14px;"><strong style="color:rgba(255,255,255,0.5);">E-transfer to:</strong> info@ltseliteprep.ca</p>
                <p style="color:#fff;margin:6px 0;font-size:14px;"><strong style="color:rgba(255,255,255,0.5);">Amount:</strong> $${price}.00</p>
-               <p style="color:#fff;margin:6px 0;font-size:14px;"><strong style="color:rgba(255,255,255,0.5);">Notes:</strong> ${a} — LTS PRO</p>
+               <p style="color:#fff;margin:6px 0;font-size:14px;"><strong style="color:rgba(255,255,255,0.5);">Notes:</strong> ${a} — LTS 1:1</p>
              </div>
              <p style="color:#d93025;font-weight:700;font-size:13px;">Payment must be received within 48 hours (and before your session) to hold your time.</p>`;
 
@@ -181,11 +181,11 @@ export async function POST(request: Request) {
           resend.emails.send({
             from: "LTS ELITE PREP <info@ltseliteprep.ca>",
             to: email,
-            subject: `Your LTS PRO session is booked: ${longDate(date)}`,
+            subject: `Your LTS 1:1 session is booked: ${longDate(date)}`,
             html: `
               <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
                 <p>Hi ${p},</p>
-                <p><strong>${a}</strong> is booked for an LTS PRO ${sessionType.toLowerCase()} session${capacity > 1 ? ` (small group, up to ${capacity} athletes)` : ""}.</p>
+                <p><strong>${a}</strong> is booked for an LTS 1:1 ${sessionType.toLowerCase()} session${capacity > 1 ? ` (small group, up to ${capacity} athletes)` : ""}.</p>
                 <div style="margin:24px 0;padding:20px;background:#f9f9f9;border-radius:12px;border:1px solid #eee;">
                   <p style="margin:6px 0;"><strong>When:</strong> ${when}</p>
                   <p style="margin:6px 0;"><strong>Session:</strong> ${sessionType}, ${length} minutes</p>
@@ -201,9 +201,9 @@ export async function POST(request: Request) {
           resend.emails.send({
             from: "LTS System <info@ltseliteprep.ca>",
             to: "paolo@ltseliteprep.ca",
-            subject: `🏀 NEW LTS PRO BOOKING: ${athleteName} · ${when}`,
+            subject: `🏀 NEW LTS 1:1 BOOKING: ${athleteName} · ${when}`,
             html: `
-              <h2>New LTS PRO Booking</h2>
+              <h2>New LTS 1:1 Booking</h2>
               <p><strong>${a}</strong>${grade ? ` (Grade ${escapeHtml(grade)}, ${escapeHtml(school)})` : ""}</p>
               <p><strong>When:</strong> ${when} · ${sessionType} (${length} min)${capacity > 1 ? ` · ${info.booked + 1} of ${capacity} spots filled` : ""}</p>
               <p><strong>Parent:</strong> ${p} · ${escapeHtml(email)}${phone ? ` · ${escapeHtml(phone)}` : ""}</p>
