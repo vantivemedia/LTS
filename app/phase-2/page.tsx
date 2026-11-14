@@ -154,7 +154,7 @@ export default function Phase2Page() {
         <div className="bg-[#111] border border-white/5 rounded-md p-6 mb-14">
           <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-2">Tuesdays</p>
           <p className="text-white/70 text-sm leading-relaxed mb-4">
-            There are no Fall Academy sessions on Tuesdays. Private and semi-private LTS 1:1 sessions are available on
+            There are no Fall Academy sessions on Tuesdays. Private and semi-private LTS PRO sessions are available on
             Tuesdays by request.
           </p>
           <Link
@@ -162,7 +162,7 @@ export default function Phase2Page() {
             onClick={() => trackEvent("button_click", "/phase-2", "phase2_tuesday_pro")}
             className="inline-flex items-center gap-2 text-white font-black text-xs uppercase tracking-wide hover:text-white/70 transition-colors"
           >
-            Request an LTS 1:1 session
+            Request an LTS PRO session
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>

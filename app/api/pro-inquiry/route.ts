@@ -16,7 +16,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // LTS 1:1 has no fixed schedule — every session is requested and confirmed by Coach Paolo.
+    // LTS PRO has no fixed schedule — every session is requested and confirmed by Coach Paolo.
     const lengthLabel =
       sessionLength === "semi-90" ? "Semi-private, 90 minutes ($85)"
       : sessionLength === "semi-60" ? "Semi-private, 60 minutes ($65)"
@@ -39,7 +39,7 @@ export async function POST(request: Request) {
       if (!pass) {
         return NextResponse.json(
           {
-            error: "We couldn't find an active LTS 1:1 pass for that email. Please fill in the rest of your info to send a regular request.",
+            error: "We couldn't find an active LTS PRO pass for that email. Please fill in the rest of your info to send a regular request.",
             code: "NO_PASS_FOUND",
           },
           { status: 404 }
@@ -108,13 +108,13 @@ ${messageBody}` : messageBody,
         await resend.emails.send({
           from: "LTS ELITE PREP <info@ltseliteprep.ca>",
           to: email,
-          subject: "We received your LTS 1:1 session request",
+          subject: "We received your LTS PRO session request",
           html: `
             <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#000;line-height:1.6;">
               <p>Hi ${parentName},</p>
-              <p>Thanks for your interest in <strong>LTS 1:1</strong> — private training for ${athleteName}.</p>
+              <p>Thanks for your interest in <strong>LTS PRO</strong> — private training for ${athleteName}.</p>
               <div style="margin:20px 0;padding:15px;background:#f5f5f5;border-radius:10px;font-size:14px;color:#444;white-space:pre-line;">${messageBody}</div>
-              <p>Coach Paolo will follow up with you shortly to confirm a session time that works.${hasPass ? " Your session will be taken from your LTS 1:1 pass once the time is confirmed." : " Payment is by e-transfer to info@ltseliteprep.ca once your time is confirmed."}</p>
+              <p>Coach Paolo will follow up with you shortly to confirm a session time that works.${hasPass ? " Your session will be taken from your LTS PRO pass once the time is confirmed." : " Payment is by e-transfer to info@ltseliteprep.ca once your time is confirmed."}</p>
               <p style="margin-top:32px;">Best regards,<br/><strong>Paolo</strong><br/>LTS ELITE PREP Team</p>
             </div>
           `,
@@ -123,9 +123,9 @@ ${messageBody}` : messageBody,
         await resend.emails.send({
           from: "LTS System <info@ltseliteprep.ca>",
           to: "paolo@ltseliteprep.ca",
-          subject: `🏀 NEW LTS 1:1 REQUEST: ${athleteName}`,
+          subject: `🏀 NEW LTS PRO REQUEST: ${athleteName}`,
           html: `
-            <h2 style="font-family:sans-serif;">New LTS 1:1 Session Request</h2>
+            <h2 style="font-family:sans-serif;">New LTS PRO Session Request</h2>
             <p style="font-family:sans-serif;"><strong>Parent/Guardian:</strong> ${parentName}</p>
             <p style="font-family:sans-serif;"><strong>Email:</strong> ${email}</p>
             <p style="font-family:sans-serif;"><strong>Phone:</strong> ${phone || "—"}</p>

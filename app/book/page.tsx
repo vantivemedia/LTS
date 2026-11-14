@@ -311,14 +311,14 @@ function BookPageInner() {
               <ArrowRight className="w-5 h-5 text-white/50 group-hover:text-white transition-colors" />
             </Link>
 
-            {/* LTS 1:1 — book a time slot */}
+            {/* LTS PRO — book a time slot */}
             <Link
               href="/pro"
               className="w-full text-left p-6 rounded-md border bg-[#111] border-white/5 hover:border-white/20 transition-all group flex items-center justify-between"
             >
               <div>
-                <h3 className="font-black text-xl uppercase text-white mb-1">LTS 1:1 — Book a Session</h3>
-                <p className="text-sm text-white/60">Private training · click into an open time · 1:1 pass holders book here too</p>
+                <h3 className="font-black text-xl uppercase text-white mb-1">LTS PRO — Book a Session</h3>
+                <p className="text-sm text-white/60">Private training · click into an open time · PRO pass holders book here too</p>
               </div>
               <ArrowRight className="w-5 h-5 text-white/50 group-hover:text-white transition-colors" />
             </Link>
@@ -338,7 +338,7 @@ function BookPageInner() {
               <ArrowLeft className="w-3 h-3" /> Back
             </button>
             <h1 className="text-4xl font-black mb-2 uppercase tracking-tighter">
-              {programType === "pro" ? "LTS 1:1" : programType === "fall-academy" ? "Fall Academy" : programType === "phase-2" ? "Fall Academy — Phase 2" : "Choose Session"}
+              {programType === "pro" ? "LTS PRO" : programType === "fall-academy" ? "Fall Academy" : programType === "phase-2" ? "Fall Academy — Phase 2" : "Choose Session"}
             </h1>
             <p className="text-white/60 text-sm">Select a date and session from the schedule below.</p>
           </div>

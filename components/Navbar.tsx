@@ -33,7 +33,7 @@ const NAV_LINKS: NavLink[] = [
       { href: "/phase-2", label: "Phase 2" },
     ],
   },
-  { href: "/pro", label: "LTS 1:1" },
+  { href: "/pro", label: "LTS PRO" },
   { href: "/competitive-edge", label: "Workshop" },
   { href: "/college-contact", label: "College" },
   { href: "/policies", label: "Policies" },

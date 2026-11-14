@@ -77,7 +77,7 @@ const PROGRAMS = [
   },
   {
     id: "pro",
-    name: "LTS 1:1",
+    name: "LTS PRO",
     tagline: "Private Training",
     emoji: "🏀",
     ages: "All Ages",

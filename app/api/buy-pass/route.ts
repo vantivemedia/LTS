@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     }
 
     if (program === "pro" && pass_type !== "pass-5") {
-      return NextResponse.json({ error: "LTS 1:1 only offers the 5-Session Package" }, { status: 400 });
+      return NextResponse.json({ error: "LTS PRO only offers the 5-Session Package" }, { status: 400 });
     }
 
     if (program === "academy" && (pass_type === "pass-13" || pass_type === "pass-15")) {
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
 
     const label =
       program === "pro"
-        ? "LTS 1:1 — 5-Session Pass"
+        ? "LTS PRO — 5-Session Pass"
         : program === "fall-academy"
         ? pass_type === "pass-5"
           ? "Fall Academy — 5-Session Pass"
