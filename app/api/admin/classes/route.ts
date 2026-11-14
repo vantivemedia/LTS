@@ -47,8 +47,8 @@ export async function POST(request: Request) {
     start_time,
     end_time,
     coach,
-    // LTS PRO sessions are always capped at 2 players, regardless of what's submitted.
-    capacity: resolvedProgram === "pro" ? 2 : parseInt(capacity),
+    // LTS PRO windows are always 1 (1:1 athlete-to-coach), regardless of what's submitted.
+    capacity: resolvedProgram === "pro" ? 1 : parseInt(capacity),
   });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

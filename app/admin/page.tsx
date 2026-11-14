@@ -721,7 +721,7 @@ function ScheduleTab() {
               value={program}
               onChange={e => {
                 setProgram(e.target.value);
-                if (e.target.value === "pro") setCapacity("2");
+                if (e.target.value === "pro") setCapacity("1");
               }}
               className="w-full bg-black border border-white/5 rounded-xl px-4 py-3 text-white outline-none focus:border-[#F97316]/50 transition-all"
             >
@@ -753,7 +753,7 @@ function ScheduleTab() {
             <input
               required
               type="number"
-              value={program === "pro" ? "2" : capacity}
+              value={program === "pro" ? "1" : capacity}
               onChange={(e) => setCapacity(e.target.value)}
               disabled={program === "pro"}
               className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#F97316]/50 focus:outline-none disabled:opacity-50"
