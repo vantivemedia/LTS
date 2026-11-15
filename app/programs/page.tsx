@@ -97,7 +97,7 @@ const PROGRAMS = [
       { icon: Calendar, text: "Book open time slots online" },
     ],
     details: [
-      "Private (1-on-1), 60 minutes — $85",
+      "Private (1-on-2), 60 minutes — $85",
       "Semi-private (up to 6 athletes), 60 minutes — $65",
       "Semi-private (up to 6 athletes), 90 minutes — $85",
       "Led by Coach Paolo Labrador",
