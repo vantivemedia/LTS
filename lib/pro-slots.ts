@@ -11,7 +11,7 @@
 export const PRO_STEP = 30;
 
 export const PRO_PRODUCTS = {
-  "private-60": { kind: "private", name: "Private", length: 60, price: 85, capacity: 1, blurb: "1-on-1 with Coach Paolo" },
+  "private-60": { kind: "private", name: "Private", length: 60, price: 85, capacity: 1, blurb: "1-on-2 with Coach Paolo" },
   "semi-60": { kind: "semi", name: "Semi-private", length: 60, price: 65, capacity: 6, blurb: "Small group, up to 6 athletes" },
   "semi-90": { kind: "semi", name: "Semi-private", length: 90, price: 85, capacity: 6, blurb: "Small group, up to 6 athletes" },
 } as const;

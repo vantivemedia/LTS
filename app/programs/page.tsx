@@ -83,7 +83,7 @@ const PROGRAMS = [
     ages: "All Ages",
     schedule: "Book online · Open time slots",
     location: "Richmond, BC",
-    groupSize: "Private 1:1 · Semi-private up to 6",
+    groupSize: "Private 1:2 · Semi-private up to 6",
     price: "Private $85 · Semi-private from $65",
     color: "from-orange-500/20 to-amber-500/10",
     borderColor: "border-orange-500/20",

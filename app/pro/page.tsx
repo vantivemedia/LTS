@@ -17,7 +17,7 @@ const SKILLS = [
 ];
 
 const OPTIONS = [
-  { id: "private-60", length: "Private · 60 Minutes", price: "$85", desc: "One athlete, one coach. Fully individualized 1-on-1 training." },
+  { id: "private-60", length: "Private · 60 Minutes", price: "$85", desc: "One coach for every 2 athletes max. Fully individualized 1-on-2 training." },
   { id: "semi-60", length: "Semi-Private · 60 Minutes", price: "$65", desc: "Train with a small group of up to 6 athletes. A focused one-hour session." },
   { id: "semi-90", length: "Semi-Private · 90 Minutes", price: "$85", desc: "Small group of up to 6 athletes. Extended session with more reps.", featured: true },
 ];
@@ -105,7 +105,7 @@ export default function ProPage() {
             <div className="absolute inset-0 lg:hidden">
               <Image
                 src="/images/pro-training-1on1.jpg"
-                alt="1-on-1 private basketball training at LTS PRO"
+                alt="1-on-2 private basketball training at LTS PRO"
                 fill
                 className="object-cover"
                 sizes="100vw"
@@ -155,7 +155,7 @@ export default function ProPage() {
             <p className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-4">Training Format</p>
             <div className="grid grid-cols-2 gap-3 mb-6">
               <div className="bg-[#111] border border-white/5 rounded-md p-5 text-center">
-                <p className="text-3xl font-black mb-1">1 : 1</p>
+                <p className="text-3xl font-black mb-1">1 : 2</p>
                 <p className="text-xs text-white/50 uppercase tracking-widest font-bold">Private &middot; 60 min &middot; $85</p>
               </div>
               <div className="bg-[#111] border border-white/5 rounded-md p-5 text-center">
@@ -222,7 +222,7 @@ export default function ProPage() {
         <div className="hidden lg:block relative rounded-md lg:rounded-l-none overflow-hidden lg:aspect-auto lg:h-[calc(100vh-11rem)]">
           <Image
             src="/images/pro-training-1on1.jpg"
-            alt="1-on-1 private basketball training at LTS PRO"
+            alt="1-on-2 private basketball training at LTS PRO"
             fill
             className="object-cover"
             sizes="(max-width: 1024px) 100vw, 50vw"

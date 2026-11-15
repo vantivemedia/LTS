@@ -68,7 +68,7 @@ const PROGRAMS = [
     name: "LTS PRO",
     tagline: "Private Training",
     badge: "Book Online",
-    desc: "Premium private (1-on-1) and semi-private (up to 6 athletes) training with Coach Paolo, customized to the athlete’s position, skill level, and goals. Pick an open time slot and book online.",
+    desc: "Premium private (1-on-2) and semi-private (up to 6 athletes) training with Coach Paolo, customized to the athlete’s position, skill level, and goals. Pick an open time slot and book online.",
     features: [
       "Individualized skill development",
       "Private (60 min) or semi-private (60 or 90 min)",
